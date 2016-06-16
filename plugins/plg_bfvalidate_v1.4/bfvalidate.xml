@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system" method="upgrade">
+	<name>BF Validate</name>
+	<author>http://www.tamlyncreative.com.au/software/</author>
+	<creationDate>November 2009</creationDate>
+	<copyright>Copyright (c) 2009 - Tamlyn Creative Pty Ltd</copyright>
+    	<license>GNU/GPL</license>
+	<authorEmail>tim@tamlyncreative.com.au</authorEmail>
+	<authorUrl>http://www.tamlyncreative.com.au/software/</authorUrl>
+	<version>1.4</version>
+	<description>BF Validate -- This plugin provides form validation. It adds radio and checkbox and drop down field validation functionality which Joomla! 1.5.x currently lacks. 
+	Don't forget to publish this plugin!</description>
+	
+	<files>
+		<filename plugin="bfvalidate">bfvalidate.php</filename>
+		<filename>bfvalidate.js</filename>
+	</files>
+	<params>
+	</params>
+</install>

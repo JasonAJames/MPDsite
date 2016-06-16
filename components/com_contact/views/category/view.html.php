@@ -1,119 +1,156 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_contact
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: view.html.php 18162 2010-07-16 07:00:47Z ian $
+ * @package		Joomla
+ * @subpackage	Contact
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
  */
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
-use Joomla\Registry\Registry;
+jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the Contacts component
- *
- * @since  1.5
+ * @package		Joomla
+ * @subpackage	Contacts
  */
-class ContactViewCategory extends JViewCategory
+class ContactViewCategory extends JView
 {
-	/**
-	 * @var    string  The name of the extension for the category
-	 * @since  3.2
-	 */
-	protected  $extension = 'com_contact';
-
-	/**
-	 * @var    string  Default title to use for page title
-	 * @since  3.2
-	 */
-	protected  $defaultPageTitle = 'COM_CONTACT_DEFAULT_PAGE_TITLE';
-
-	/**
-	 * @var    string  The name of the view to link individual items to
-	 * @since  3.2
-	 */
-	protected $viewName = 'contact';
-
-	/**
-	 * Run the standard Joomla plugins
-	 *
-	 * @var    bool
-	 * @since  3.5
-	 */
-	protected $runPlugins = true;
-
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 */
-	public function display($tpl = null)
+	function display($tpl = null)
 	{
-		parent::commonCategoryDisplay();
+		global $mainframe, $option;
 
-		// Prepare the data.
-		// Compute the contact slug.
-		foreach ($this->items as $item)
-		{
-			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry;
-			$temp->loadString($item->params);
-			$item->params = clone($this->params);
-			$item->params->merge($temp);
+		$user	  = &JFactory::getUser();
+		$uri 	  =& JFactory::getURI();
+		$model	  = &$this->getModel();
+		$document =& JFactory::getDocument();
 
-			if ($item->params->get('show_email', 0) == 1)
-			{
-				$item->email_to = trim($item->email_to);
+		$pparams = &$mainframe->getParams('com_contact');
 
-				if (!empty($item->email_to) && JMailHelper::isEmailAddress($item->email_to))
-				{
-					$item->email_to = JHtml::_('email.cloak', $item->email_to);
-				}
-				else
-				{
-					$item->email_to = '';
-				}
-			}
+		// Selected Request vars
+		$categoryId			= JRequest::getVar('catid',				0,				'', 'int');
+		$limitstart			= JRequest::getVar('limitstart',		0,				'', 'int');
+		$filter_order		= JRequest::getVar('filter_order',		'cd.ordering',	'', 'cmd');
+		$filter_order_Dir	= JRequest::getVar('filter_order_Dir',	'ASC',			'', 'word');
+
+		$pparams->def('display_num', $mainframe->getCfg('list_limit'));
+		$default_limit = $pparams->def('display_num', 20);
+
+		$limit = $mainframe->getUserStateFromRequest('com_contact.'.$this->getLayout().'.limit', 'limit', $default_limit, 'int');
+
+		// sanitize $orderBy
+		if (!in_array($filter_order, array('cd.ordering', 'cd.name', 'cd.con_position'))) {
+			$filter_order = 'cd.ordering';
 		}
 
-		return parent::display($tpl);
+		// query options
+		$options['aid'] 		= $user->get('aid', 0);
+		$options['category_id']	= $categoryId;
+		$options['limit']		= $limit;
+		$options['limitstart']	= $limitstart;
+		$options['order by']	= "$filter_order $filter_order_Dir, cd.ordering";
+
+		$categories	= $model->getCategories( $options );
+		$contacts	= $model->getContacts( $options );
+		$total 		= $model->getContactCount( $options );
+
+		//add alternate feed link
+		if($pparams->get('show_feed_link', 1) == 1)
+		{
+			$link	= '&format=feed&limitstart=';
+			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+			$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+		}
+
+		//prepare contacts
+		if($pparams->get('show_email', 0) == 1) {
+			jimport('joomla.mail.helper');
+		}
+
+		$k = 0;
+		for($i = 0; $i <  count( $contacts ); $i++)
+		{
+			$contact =& $contacts[$i];
+
+			$contact->link = JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->slug.'&catid='.$contact->catslug, false);
+			if ($pparams->get('show_email', 0) == 1) {
+				$contact->email_to = trim($contact->email_to);
+				if (!empty($contact->email_to) && JMailHelper::isEmailAddress($contact->email_to)) {
+					$contact->email_to = JHTML::_('email.cloak', $contact->email_to);
+				} else {
+					$contact->email_to = '';
+				}
+			}
+
+			$contact->odd	= $k;
+			$contact->count = $i;
+			$k = 1 - $k;
+		}
+
+		// find current category
+		// TODO: Move to model
+		$category = null;
+		foreach ($categories as $i => $_cat)
+		{
+			if ($_cat->id == $categoryId) {
+				$category = &$categories[$i];
+				break;
+			}
+		}
+		if ($category == null) {
+			$db = &JFactory::getDBO();
+			$category =& JTable::getInstance( 'category' );
+		}
+
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$pparams->set('page_title',	$category->title);
+			}
+		} else {
+			$pparams->set('page_title',	$category->title);
+		}
+		$document->setTitle( $pparams->get( 'page_title' ) );
+
+		// Prepare category description
+		$category->description = JHTML::_('content.prepare', $category->description);
+
+		// table ordering
+		$lists['order_Dir'] = $filter_order_Dir;
+		$lists['order'] = $filter_order;
+		$selected = '';
+
+		jimport('joomla.html.pagination');
+		$pagination = new JPagination($total, $limitstart, $limit);
+
+		$this->assignRef('items',		$contacts);
+		$this->assignRef('lists',		$lists);
+		$this->assignRef('pagination',	$pagination);
+		//$this->assignRef('data',		$data);
+		$this->assignRef('category',	$category);
+		$this->assignRef('params',		$pparams);
+
+		$this->assign('action',		str_replace('&', '&amp;', $uri->toString()));
+
+		parent::display($tpl);
 	}
 
-	/**
-	 * Prepares the document
-	 *
-	 * @return  void
-	 */
-	protected function prepareDocument()
+	function getItems()
 	{
-		parent::prepareDocument();
 
-		$menu = $this->menu;
-		$id = (int) @$menu->query['id'];
-
-		if ($menu && ($menu->query['option'] != $this->extension || $menu->query['view'] == $this->viewName || $id != $this->category->id))
-		{
-			$path = array(array('title' => $this->category->title, 'link' => ''));
-			$category = $this->category->getParent();
-
-			while (($menu->query['option'] != 'com_contact' || $menu->query['view'] == 'contact' || $id != $category->id) && $category->id > 1)
-			{
-				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id));
-				$category = $category->getParent();
-			}
-
-			$path = array_reverse($path);
-
-			foreach ($path as $item)
-			{
-				$this->pathway->addItem($item['title'], $item['link']);
-			}
-		}
-
-		parent::addFeed();
 	}
 }

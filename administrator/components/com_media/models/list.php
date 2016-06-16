@@ -1,42 +1,40 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_media
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: list.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @subpackage	Media
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
  */
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
+jimport('joomla.application.component.model');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
 /**
  * Media Component List Model
  *
- * @since  1.5
+ * @package		Joomla
+ * @subpackage	Media
+ * @since 1.5
  */
-class MediaModelList extends JModelLegacy
+class MediaModelList extends JModel
 {
-	/**
-	 * Method to get model state variables
-	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
-	 *
-	 * @return  object  The property where specified, the state object where omitted
-	 *
-	 * @since   1.5
-	 */
-	public function getState($property = null, $default = null)
+
+	function getState($property = null)
 	{
 		static $set;
 
-		if (!$set)
-		{
-			$input  = JFactory::getApplication()->input;
-			$folder = $input->get('folder', '', 'path');
+		if (!$set) {
+			$folder = JRequest::getVar( 'folder', '', '', 'path' );
 			$this->setState('folder', $folder);
 
 			$parent = str_replace("\\", "/", dirname($folder));
@@ -44,106 +42,78 @@ class MediaModelList extends JModelLegacy
 			$this->setState('parent', $parent);
 			$set = true;
 		}
-
-		return parent::getState($property, $default);
+		return parent::getState($property);
 	}
 
-	/**
-	 * Get the images on the current folder
-	 *
-	 * @return  array
-	 *
-	 * @since   1.5
-	 */
-	public function getImages()
+	function getImages()
 	{
 		$list = $this->getList();
-
 		return $list['images'];
 	}
 
-	/**
-	 * Get the folders on the current folder
-	 *
-	 * @return  array
-	 *
-	 * @since   1.5
-	 */
-	public function getFolders()
+	function getFolders()
 	{
 		$list = $this->getList();
-
 		return $list['folders'];
 	}
 
-	/**
-	 * Get the documents on the current folder
-	 *
-	 * @return  array
-	 *
-	 * @since   1.5
-	 */
-	public function getDocuments()
+	function getDocuments()
 	{
 		$list = $this->getList();
-
 		return $list['docs'];
 	}
 
 	/**
 	 * Build imagelist
 	 *
-	 * @return  array
-	 *
+	 * @param string $listFolder The image directory to display
 	 * @since 1.5
 	 */
-	public function getList()
+	function getList()
 	{
 		static $list;
 
 		// Only process the list once per request
-		if (is_array($list))
-		{
+		if (is_array($list)) {
 			return $list;
 		}
 
 		// Get current path from request
-		$current = (string) $this->getState('folder');
+		$current = $this->getState('folder');
 
-		$basePath  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
-
-		$images  = array ();
-		$folders = array ();
-		$docs    = array ();
-		$videos  = array ();
-
-		$fileList   = false;
-		$folderList = false;
-
-		if (file_exists($basePath))
-		{
-			// Get the list of files and folders from the given folder
-			$fileList   = JFolder::files($basePath);
-			$folderList = JFolder::folders($basePath);
+		// If undefined, set to empty
+		if ($current == 'undefined') {
+			$current = '';
 		}
 
+		// Initialize variables
+		if (strlen($current) > 0) {
+			$basePath = COM_MEDIA_BASE.DS.$current;
+		} else {
+			$basePath = COM_MEDIA_BASE;
+		}
+		$mediaBase = str_replace(DS, '/', COM_MEDIA_BASE.'/');
+
+		$images 	= array ();
+		$folders 	= array ();
+		$docs 		= array ();
+
+		// Get the list of files and folders from the given folder
+		$fileList 	= JFolder::files($basePath);
+		$folderList = JFolder::folders($basePath);
+
 		// Iterate over the files if they exist
-		if ($fileList !== false)
-		{
+		if ($fileList !== false) {
 			foreach ($fileList as $file)
 			{
-				if (is_file($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
-				{
-					$tmp = new JObject;
+				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
+					$tmp = new JObject();
 					$tmp->name = $file;
-					$tmp->title = $file;
-					$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
+					$tmp->path = str_replace(DS, '/', JPath::clean($basePath.DS.$file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
 					$ext = strtolower(JFile::getExt($file));
-
 					switch ($ext)
 					{
 						// Image
@@ -154,51 +124,47 @@ class MediaModelList extends JModelLegacy
 						case 'odg':
 						case 'bmp':
 						case 'jpeg':
-						case 'ico':
 							$info = @getimagesize($tmp->path);
-							$tmp->width  = @$info[0];
-							$tmp->height = @$info[1];
-							$tmp->type   = @$info[2];
-							$tmp->mime   = @$info['mime'];
+							$tmp->width		= @$info[0];
+							$tmp->height	= @$info[1];
+							$tmp->type		= @$info[2];
+							$tmp->mime		= @$info['mime'];
 
-							if (($info[0] > 60) || ($info[1] > 60))
-							{
+							$filesize		= MediaHelper::parseSize($tmp->size);
+
+							if (($info[0] > 60) || ($info[1] > 60)) {
 								$dimensions = MediaHelper::imageResize($info[0], $info[1], 60);
 								$tmp->width_60 = $dimensions[0];
 								$tmp->height_60 = $dimensions[1];
-							}
-							else
-							{
+							} else {
 								$tmp->width_60 = $tmp->width;
 								$tmp->height_60 = $tmp->height;
 							}
 
-							if (($info[0] > 16) || ($info[1] > 16))
-							{
+							if (($info[0] > 16) || ($info[1] > 16)) {
 								$dimensions = MediaHelper::imageResize($info[0], $info[1], 16);
 								$tmp->width_16 = $dimensions[0];
 								$tmp->height_16 = $dimensions[1];
-							}
-							else
-							{
+							} else {
 								$tmp->width_16 = $tmp->width;
 								$tmp->height_16 = $tmp->height;
 							}
-
 							$images[] = $tmp;
 							break;
-
-						// Video
-						case 'mp4':
-							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
-							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
-							$videos[] = $tmp;
-							break;
-
 						// Non-image document
 						default:
-							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
-							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
+							$iconfile_32 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-32".DS.$ext.".png";
+							if (file_exists($iconfile_32)) {
+								$tmp->icon_32 = "components/com_media/images/mime-icon-32/".$ext.".png";
+							} else {
+								$tmp->icon_32 = "components/com_media/images/con_info.png";
+							}
+							$iconfile_16 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-16".DS.$ext.".png";
+							if (file_exists($iconfile_16)) {
+								$tmp->icon_16 = "components/com_media/images/mime-icon-16/".$ext.".png";
+							} else {
+								$tmp->icon_16 = "components/com_media/images/con_info.png";
+							}
 							$docs[] = $tmp;
 							break;
 					}
@@ -207,13 +173,11 @@ class MediaModelList extends JModelLegacy
 		}
 
 		// Iterate over the folders if they exist
-		if ($folderList !== false)
-		{
-			foreach ($folderList as $folder)
-			{
-				$tmp = new JObject;
+		if ($folderList !== false) {
+			foreach ($folderList as $folder) {
+				$tmp = new JObject();
 				$tmp->name = basename($folder);
-				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
+				$tmp->path = str_replace(DS, '/', JPath::clean($basePath.DS.$folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 				$count = MediaHelper::countFiles($tmp->path);
 				$tmp->files = $count[0];
@@ -223,22 +187,8 @@ class MediaModelList extends JModelLegacy
 			}
 		}
 
-		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images, 'videos' => $videos);
+		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);
 
 		return $list;
-	}
-
-	/**
-	 * Get the videos on the current folder
-	 *
-	 * @return  array
-	 *
-	 * @since   3.5
-	 */
-	public function getVideos()
-	{
-		$list = $this->getList();
-
-		return $list['videos'];
 	}
 }

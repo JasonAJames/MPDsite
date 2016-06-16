@@ -1,43 +1,37 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_search
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: site.php 14401 2010-01-26 14:10:00Z louis $
+ * @package  Joomla
+ * @subpackage	Search
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and details.
  */
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
 /**
- * Mock JSite class used to fool the frontend search plugins because they route the results.
- *
- * @since  1.5
+ * False JSite class used to fool the frontend search plugins because they route the results
  */
 class JSite extends JObject
 {
 	/**
-	 * False method to fool the frontend search plugins.
-	 *
-	 * @return  JSite
-	 *
-	 * @since  1.5
+	 * False method to fool the frontend search plugins
 	 */
-	public function getMenu()
+	function getMenu()
 	{
 		$result = new JSite;
-
 		return $result;
 	}
 
 	/**
-	 * False method to fool the frontend search plugins.
-	 *
-	 * @return  array
-	 *
-	 * @since  1.5
+	 * False method to fool the frontend search plugins
 	 */
-	public function getItems()
+	function getItems()
 	{
 		return array();
 	}

@@ -1,1 +1,100 @@
-/*        GNU General Public License version 2 or later; see LICENSE.txt*/var JSwitcher=function(f,c,l){var b,k,i,g,m={onShow:function(){},onHide:function(){},cookieName:"switcher",togglerSelector:"a",elementSelector:"div.tab",elementPrefix:"page-"},a=function(p,o,n){b=jQuery.noConflict();b.extend(m,n);k=b(p).find(m.togglerSelector);i=b(o).find(m.elementSelector);if((k.length===0)||(k.length!==i.length)){return}d();k.each(function(){b(this).on("click",function(){h(b(this).attr("id"))})});var q=document.location.hash.substring(1);if(q){h(q)}else{if(k.length){h(k.first().attr("id"))}}},h=function(o){var p=b("#"+o),n=b("#"+m.elementPrefix+o);if(p.length===0||n.length===0||o===g){return this}if(g){e(b("#"+m.elementPrefix+g));b("#"+g).removeClass("active")}j(n);p.addClass("active");g=o;document.location.hash=g;b(window).scrollTop(0)},e=function(n){m.onShow(n);b(n).hide()},d=function(){i.hide();k.removeClass("active")},j=function(n){m.onHide(n);b(n).show()};a(f,c,l);return{display:h,hide:e,hideAll:d,show:j}};
+/**
+* @version		$Id: switcher.js 14401 2010-01-26 14:10:00Z louis $
+* @package		Joomla
+* @subpackage	Config
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+/**
+ * Switcher behavior for configuration component
+ *
+ * @package		Joomla.Extensions
+ * @subpackage	Config
+ * @since		1.5
+ */
+var JSwitcher = new Class({
+
+	toggler : null, //holds the active toggler
+	page    : null, //holds the active page
+
+	options : {
+		cookieName: 'switcher'
+	},
+
+	initialize: function(toggler, element, options)
+	{
+		this.setOptions(options);
+
+		var self = this;
+
+		togglers = $ES('a', toggler);
+		for (i=0; i < togglers.length; i++) {
+			togglers[i].addEvent( 'click', function() { self.switchTo(this); } );
+		}
+
+		//hide all
+		elements = element.getElements('div[id^=page-]');
+		for (i=0; i < elements.length; i++) {
+			this.hide(elements[i])
+		}
+
+		this.toggler = $E('a.active', toggler);
+		this.page    = $('page-'+ this.toggler.id);
+
+		this.show(this.page);
+		if (this.options.cookieName)
+		{
+			if((page = Cookie.get(this.options.cookieName))) {
+				this.switchTo($(page));
+			}
+		}
+	},
+
+	switchTo: function(toggler)
+	{
+		page = $chk(toggler) ? $('page-'+toggler.id) : null;
+		if(page && page != this.page)
+		{
+			//hide old element
+			if(this.page) {
+				this.hide(this.page);
+			}
+
+			//show new element
+			this.show(page);
+
+			toggler.addClass('active');
+			if (this.toggler) {
+				this.toggler.removeClass('active');
+			}
+			this.page    = page;
+			this.toggler = toggler;
+			Cookie.set(this.options.cookieName, toggler.id);
+		}
+	},
+
+	hide: function(element) {
+		element.setStyle('display', 'none');
+	},
+
+	show: function (element) {
+		element.setStyle('display', 'block');
+	}
+});
+
+JSwitcher.implement(new Options);
+
+document.switcher = null;
+window.addEvent('domready', function(){
+ 	toggler = $('submenu')
+  	element = $('config-document')
+  	if(element) {
+  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
+  	}
+});

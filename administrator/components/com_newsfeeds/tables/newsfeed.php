@@ -1,162 +1,79 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: newsfeed.php 14401 2010-01-26 14:10:00Z louis $
+* @package		Joomla
+* @subpackage	Newsfeeds
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
 /**
- * Newsfeed Table class.
- *
- * @since  1.6
- */
-class NewsfeedsTableNewsfeed extends JTable
+* @package		Joomla
+* @subpackage	Newsfeeds
+*/
+class TableNewsFeed extends JTable
 {
-	/**
-	 * Ensure the params, metadata and images are json encoded in the bind method
-	 *
-	 * @var    array
-	 * @since  3.3
-	 */
-	protected $_jsonEncode = array('params', 'metadata', 'images');
+	/** @var int Primary key */
+	var $id					= null;
+	/** @var int */
+	var $catid				= null;
+	/** @var string */
+	var $name				= null;
+	/** @var string */
+	var $alias				= null;
+	/** @var string */
+	var $link				= null;
+	/** @var string */
+	var $filename			= null;
+	/** @var int */
+	var $published			= null;
+	/** @var int */
+	var $numarticles			= null;
+	/** @var int */
+	var $cache_time			= null;
+	/** @var int */
+	var $checked_out			= 0;
+	/** @var time */
+	var $checked_out_time		= 0;
+	/** @var int */
+	var $ordering			= null;
+	/** @var int */
+	var $rtl					= 0;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   JDatabaseDriver  &$db  A database connector object
+	 * @param database A database connector object
 	 */
-	public function __construct(&$db)
-	{
-		parent::__construct('#__newsfeeds', 'id', $db);
-
-		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_newsfeeds.newsfeed'));
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_newsfeeds.newsfeed'));
+	function __construct( &$db ) {
+		parent::__construct( '#__newsfeeds', 'id', $db );
 	}
 
 	/**
-	 * Overloaded check method to ensure data integrity.
+	 * Overloaded check function
 	 *
-	 * @return  boolean  True on success.
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
 	 */
-	public function check()
+	function check()
 	{
-		// Check for valid name.
-		if (trim($this->name) == '')
-		{
-			$this->setError(JText::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
-			return false;
-		}
-
-		if (empty($this->alias))
-		{
+		if(empty($this->alias)) {
 			$this->alias = $this->name;
 		}
-
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
-
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
-		}
-
-		// Check the publish down date is not earlier than publish up.
-		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
-		{
-			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
-
-			return false;
-		}
-
-		// Clean up keywords -- eliminate extra spaces between phrases
-		// and cr (\r) and lf (\n) characters from string if not empty
-		if (!empty($this->metakey))
-		{
-			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", "<", ">");
-
-			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
-
-			// Create array using commas as delimiter
-			$keys = explode(',', $after_clean);
-			$clean_keys = array();
-
-			foreach ($keys as $key)
-			{
-				if (trim($key))
-				{
-					// Ignore blank keywords
-					$clean_keys[] = trim($key);
-				}
-			}
-
-			// Put array back together delimited by ", "
-			$this->metakey = implode(", ", $clean_keys);
-		}
-
-		// Clean up description -- eliminate quotes and <> brackets
-		if (!empty($this->metadesc))
-		{
-			// Only process if not empty
-			$bad_characters = array("\"", "<", ">");
-			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		if(trim(str_replace('-','',$this->alias)) == '') {
+			$datenow =& JFactory::getDate();
+			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 
 		return true;
-	}
-
-	/**
-	 * Overriden JTable::store to set modified data.
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.6
-	 */
-	public function store($updateNulls = false)
-	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
-
-		$this->modified = $date->toSql();
-
-		if ($this->id)
-		{
-			// Existing item
-			$this->modified_by = $user->get('id');
-		}
-		else
-		{
-			// New newsfeed. A feed created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date->toSql();
-			}
-
-			if (empty($this->created_by))
-			{
-				$this->created_by = $user->get('id');
-			}
-		}
-		// Verify that the alias is unique
-		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
-
-		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
-		{
-			$this->setError(JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
-
-			return false;
-		}
-
-		// Save links as punycode.
-		$this->link = JStringPunycode::urlToPunycode($this->link);
-
-		return parent::store($updateNulls);
 	}
 }

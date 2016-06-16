@@ -1,31 +1,38 @@
-<?php
-/**
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
+<?php if ( $this->params->get( 'show_page_title', 1 ) ) : ?>
+	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	</div>
+<?php endif; ?>
 
-defined('_JEXEC') or die;
-
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-JHtml::_('behavior.caption');
-
-JFactory::getDocument()->addScriptDeclaration("
-jQuery(function($) {
-	$('.categories-list').find('[id^=category-btn-]').each(function(index, btn) {
-		var btn = $(btn);
-		btn.on('click', function() {
-			btn.find('span').toggleClass('icon-plus');
-			btn.find('span').toggleClass('icon-minus');
-		});
-	});
-});");
-?>
-<div class="categories-list<?php echo $this->pageclass_sfx;?>">
+<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->escape($this->params->get( 'pageclass_sfx' )); ?>">
+<?php if ( ($this->params->get('image') != -1) || $this->params->get('show_comp_description') ) : ?>
+<tr>
+	<td valign="top" class="contentdescription<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 	<?php
-		echo JLayoutHelper::render('joomla.content.categories_default', $this);
-		echo $this->loadTemplate('items');
+		if ( isset($this->image) ) :  echo $this->image; endif;
+		echo $this->escape($this->params->get('comp_description'));
 	?>
-</div>
+	</td>
+</tr>
+<?php endif; ?>
+</table>
+<ul>
+<?php foreach ( $this->categories as $category ) : ?>
+	<li>
+		<a href="<?php echo $category->link ?>" class="category<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+			<?php echo $this->escape($category->title);?></a>
+		<?php if ( $this->params->get( 'show_cat_items' ) ) : ?>
+		&nbsp;
+		<span class="small">
+			(<?php echo $category->numlinks;?>)
+		</span>
+		<?php endif; ?>
+		<?php if ( $this->params->get( 'show_cat_description' ) && $category->description ) : ?>
+		<br />
+		<?php echo $category->description; ?>
+		<?php endif; ?>
+	</li>
+<?php endforeach; ?>
+</ul>

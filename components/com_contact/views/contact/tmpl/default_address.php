@@ -1,127 +1,123 @@
 <?php
-/**
- * @package     Joomla.Site
- * @subpackage  com_contact
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
-
-defined('_JEXEC') or die;
-
-/**
- * Marker_class: Class based on the selection of text, none, or icons
- * jicon-text, jicon-none, jicon-icon
- */
+/** $Id: default_address.php 12387 2009-06-30 01:17:44Z ian $ */
+defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
-<dl class="contact-address dl-horizontal" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-	<?php if (($this->params->get('address_check') > 0) &&
-		($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
-		<?php if ($this->params->get('address_check') > 0) : ?>
-			<dt>
-				<span class="<?php echo $this->params->get('marker_class'); ?>" >
-					<?php echo $this->params->get('marker_address'); ?>
-				</span>
-			</dt>
-		<?php endif; ?>
-
-		<?php if ($this->contact->address && $this->params->get('show_street_address')) : ?>
-			<dd>
-				<span class="contact-street" itemprop="streetAddress">
-					<?php echo nl2br($this->contact->address) . '<br />'; ?>
-				</span>
-			</dd>
-		<?php endif; ?>
-
-		<?php if ($this->contact->suburb && $this->params->get('show_suburb')) : ?>
-			<dd>
-				<span class="contact-suburb" itemprop="addressLocality">
-					<?php echo $this->contact->suburb . '<br />'; ?>
-				</span>
-			</dd>
-		<?php endif; ?>
-		<?php if ($this->contact->state && $this->params->get('show_state')) : ?>
-			<dd>
-				<span class="contact-state" itemprop="addressRegion">
-					<?php echo $this->contact->state . '<br />'; ?>
-				</span>
-			</dd>
-		<?php endif; ?>
-		<?php if ($this->contact->postcode && $this->params->get('show_postcode')) : ?>
-			<dd>
-				<span class="contact-postcode" itemprop="postalCode">
-					<?php echo $this->contact->postcode . '<br />'; ?>
-				</span>
-			</dd>
-		<?php endif; ?>
-		<?php if ($this->contact->country && $this->params->get('show_country')) : ?>
-		<dd>
-			<span class="contact-country" itemprop="addressCountry">
-				<?php echo $this->contact->country . '<br />'; ?>
-			</span>
-		</dd>
-		<?php endif; ?>
-	<?php endif; ?>
-
-<?php if ($this->contact->email_to && $this->params->get('show_email')) : ?>
-	<dt>
-		<span class="<?php echo $this->params->get('marker_class'); ?>" itemprop="email">
-			<?php echo nl2br($this->params->get('marker_email')); ?>
-		</span>
-	</dt>
-	<dd>
-		<span class="contact-emailto">
-			<?php echo $this->contact->email_to; ?>
-		</span>
-	</dd>
+<?php if ( ( $this->contact->params->get( 'address_check' ) > 0 ) &&  ( $this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode ) ) : ?>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<?php if ( $this->contact->params->get( 'address_check' ) > 0 ) : ?>
+<tr>
+	<td rowspan="6" valign="top" width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
+		<?php echo $this->contact->params->get( 'marker_address' ); ?>
+	</td>
+</tr>
 <?php endif; ?>
-
-<?php if ($this->contact->telephone && $this->params->get('show_telephone')) : ?>
-	<dt>
-		<span class="<?php echo $this->params->get('marker_class'); ?>" >
-			<?php echo $this->params->get('marker_telephone'); ?>
-		</span>
-	</dt>
-	<dd>
-		<span class="contact-telephone" itemprop="telephone">
-			<?php echo nl2br($this->contact->telephone); ?>
-		</span>
-	</dd>
+<?php if ( $this->contact->address && $this->contact->params->get( 'show_street_address' ) ) : ?>
+<tr>
+	<td valign="top">
+		<?php echo nl2br($this->escape($this->contact->address)); ?>
+	</td>
+</tr>
 <?php endif; ?>
-<?php if ($this->contact->fax && $this->params->get('show_fax')) : ?>
-	<dt>
-		<span class="<?php echo $this->params->get('marker_class'); ?>">
-			<?php echo $this->params->get('marker_fax'); ?>
-		</span>
-	</dt>
-	<dd>
-		<span class="contact-fax" itemprop="faxNumber">
-		<?php echo nl2br($this->contact->fax); ?>
-		</span>
-	</dd>
+<?php if ( $this->contact->suburb && $this->contact->params->get( 'show_suburb' ) ) : ?>
+<tr>
+	<td valign="top">
+		<?php echo $this->escape($this->contact->suburb); ?>
+	</td>
+</tr>
 <?php endif; ?>
-<?php if ($this->contact->mobile && $this->params->get('show_mobile')) :?>
-	<dt>
-		<span class="<?php echo $this->params->get('marker_class'); ?>" >
-			<?php echo $this->params->get('marker_mobile'); ?>
-		</span>
-	</dt>
-	<dd>
-		<span class="contact-mobile" itemprop="telephone">
-			<?php echo nl2br($this->contact->mobile); ?>
-		</span>
-	</dd>
+<?php if ( $this->contact->state && $this->contact->params->get( 'show_state' ) ) : ?>
+<tr>
+	<td valign="top">
+		<?php echo $this->escape($this->contact->state); ?>
+	</td>
+</tr>
 <?php endif; ?>
-<?php if ($this->contact->webpage && $this->params->get('show_webpage')) : ?>
-	<dt>
-		<span class="<?php echo $this->params->get('marker_class'); ?>" >
-		</span>
-	</dt>
-	<dd>
-		<span class="contact-webpage">
-			<a href="<?php echo $this->contact->webpage; ?>" target="_blank" itemprop="url">
-			<?php echo JStringPunycode::urlToUTF8($this->contact->webpage); ?></a>
-		</span>
-	</dd>
+<?php if ( $this->contact->postcode && $this->contact->params->get( 'show_postcode' ) ) : ?>
+<tr>
+	<td valign="top">
+		<?php echo $this->escape($this->contact->postcode); ?>
+	</td>
+</tr>
 <?php endif; ?>
-</dl>
+<?php if ( $this->contact->country && $this->contact->params->get( 'show_country' ) ) : ?>
+<tr>
+	<td valign="top">
+		<?php echo $this->escape($this->contact->country); ?>
+	</td>
+</tr>
+<?php endif; ?>
+</table>
+<br />
+<?php endif; ?>
+<?php if ( ($this->contact->email_to && $this->contact->params->get( 'show_email' )) || 
+			($this->contact->telephone && $this->contact->params->get( 'show_telephone' )) || 
+			($this->contact->fax && $this->contact->params->get( 'show_fax' )) || 
+			($this->contact->mobile && $this->contact->params->get( 'show_mobile' )) || 
+			($this->contact->webpage && $this->contact->params->get( 'show_webpage' )) ) : ?>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<?php if ( $this->contact->email_to && $this->contact->params->get( 'show_email' ) ) : ?>
+<tr>
+	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
+		<?php echo $this->contact->params->get( 'marker_email' ); ?>
+	</td>
+	<td>
+		<?php echo $this->contact->email_to; ?>
+	</td>
+</tr>
+<?php endif; ?>
+<?php if ( $this->contact->telephone && $this->contact->params->get( 'show_telephone' ) ) : ?>
+<tr>
+	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
+		<?php echo $this->contact->params->get( 'marker_telephone' ); ?>
+	</td>
+	<td>
+		<?php echo nl2br($this->escape($this->contact->telephone)); ?>
+	</td>
+</tr>
+<?php endif; ?>
+<?php if ( $this->contact->fax && $this->contact->params->get( 'show_fax' ) ) : ?>
+<tr>
+	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
+		<?php echo $this->contact->params->get( 'marker_fax' ); ?>
+	</td>
+	<td>
+		<?php echo nl2br($this->escape($this->contact->fax)); ?>
+	</td>
+</tr>
+<?php endif; ?>
+<?php if ( $this->contact->mobile && $this->contact->params->get( 'show_mobile' ) ) :?>
+<tr>
+	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
+	<?php echo $this->contact->params->get( 'marker_mobile' ); ?>
+	</td>
+	<td>
+		<?php echo nl2br($this->escape($this->contact->mobile)); ?>
+	</td>
+</tr>
+<?php endif; ?>
+<?php if ( $this->contact->webpage && $this->contact->params->get( 'show_webpage' )) : ?>
+<tr>
+	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
+	</td>
+	<td>
+		<a href="<?php echo $this->escape($this->contact->webpage); ?>" target="_blank">
+			<?php echo $this->escape($this->contact->webpage); ?></a>
+	</td>
+</tr>
+<?php endif; ?>
+</table>
+<?php endif; ?>
+<br />
+<?php if ( $this->contact->misc && $this->contact->params->get( 'show_misc' ) ) : ?>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" valign="top" >
+		<?php echo $this->contact->params->get( 'marker_misc' ); ?>
+	</td>
+	<td>
+		<?php echo nl2br($this->contact->misc); ?>
+	</td>
+</tr>
+</table>
+<br />
+<?php endif; ?>

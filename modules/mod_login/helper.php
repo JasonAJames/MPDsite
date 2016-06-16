@@ -1,71 +1,52 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  mod_login
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: helper.php 15198 2010-03-05 09:06:05Z ian $
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
-defined('_JEXEC') or die;
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
-/**
- * Helper for mod_login
- *
- * @package     Joomla.Site
- * @subpackage  mod_login
- *
- * @since       1.5
- */
-class ModLoginHelper
+class modLoginHelper
 {
-	/**
-	 * Retrieve the url where the user should be returned after logging in
-	 *
-	 * @param   \Joomla\Registry\Registry  $params  module parameters
-	 * @param   string                     $type    return type
-	 *
-	 * @return string
-	 */
-	public static function getReturnUrl($params, $type)
+	function getReturnURL($params, $type)
 	{
-		$app  = JFactory::getApplication();
-		$item = $app->getMenu()->getItem($params->get($type));
-
-		if ($item)
-		{
-			$url = 'index.php?Itemid=' . $item->id;
+		if($itemid =  $params->get($type))
+		{  
+			$menu =& JSite::getMenu();  
+			$item = $menu->getItem($itemid); //var_dump($menu);die;
+			if ($item)
+			{
+				$url = JRoute::_($item->link.'&Itemid='.$itemid, false);
+			}
+			else
+			{
+			// stay on the same page
+			$uri = JFactory::getURI();
+			$url = $uri->toString(array('path', 'query', 'fragment'));
+			}
+				
 		}
 		else
 		{
-			// Stay on the same page
-			$url = JUri::getInstance()->toString();
+			// stay on the same page
+			$uri = JFactory::getURI();
+			$url = $uri->toString(array('path', 'query', 'fragment'));
 		}
 
 		return base64_encode($url);
 	}
 
-	/**
-	 * Returns the current users type
-	 *
-	 * @return string
-	 */
-	public static function getType()
+	function getType()
 	{
-		$user = JFactory::getUser();
-
+		$user = & JFactory::getUser();
 		return (!$user->get('guest')) ? 'logout' : 'login';
-	}
-
-	/**
-	 * Get list of available two factor methods
-	 *
-	 * @return array
-	 */
-	public static function getTwoFactorMethods()
-	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
-
-		return UsersHelper::getTwoFactorMethods();
 	}
 }

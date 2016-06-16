@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5">
+     <name>Blueimp Ajax Chat Users Online Module</name>
+     <author>Andrea Nostro</author>
+     <creationDate>Feb 2009</creationDate>
+     <copyright>(C) 2009 Joomlavista.org All rights reserved.</copyright>
+     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+     <authorEmail>swedenfox@gmail.com</authorEmail>
+     <authorUrl>www.joomlavista.org</authorUrl>
+     <version>1.0.0</version>
+     <description>Blueimp Ajax Chat Users Online Module joomla 1.5 is a simple module that show user online and  open a link to the ajax chat
+it's very simple to install (like all joomla modules)
+it's very simple to set only 5 parametres
+Requirement :
+Blueimp Ajax chat script---> https://blueimp.net/ajax/
+Joomla 1.5.x
+Licenze Gnu Gpl v2</description>
+     <files>
+          <filename module="mod_blueimpajaxchat_useronline">mod_blueimpajaxchat_useronline.php</filename>
+	  <filename>images/chat.png</filename>
+     </files>
+     <params>
+          <param name="boldy" type="radio" default="0"
+               label="Bold" description="Determines whether greeting will be bold or not.">
+               <option value="0">No</option>
+               <option value="1">Yes</option>
+               </param>
+          <param name="urlchat" type="text" default="forum/chat/" label="chat url" description="Chat Url"></param>
+          <param name="message" type="text" default="Entra in chat" label="message" description="Message for entry on chat" >   </param>                
+          <param name="fontcoloradmin" type="text" default="#FF0000" label="font_color_admin" description="Font color of admin user" >  </param>
+          <param name="fontcoloruser" type="text" default="#00FF00" label="font_color_user" description="Font color of reg user" >       </param>   
+     </params>
+</install>
+

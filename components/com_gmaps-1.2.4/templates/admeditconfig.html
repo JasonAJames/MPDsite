@@ -1,0 +1,66 @@
+<mos:comment>
+@version 
+@package 		GMaps
+@subpackage 	Templates
+@copyright 	(C) 2006-2007 Chris Strieter
+@license 		http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+  <style>
+ label
+{
+width: 12em;
+float: left;
+text-align: left;
+margin-right: 0.5em;
+display: block
+}
+
+.submit input
+{
+margin-left: 4.5em;
+}  
+ fieldset
+{
+border: 1px solid #781351;
+width: 500px;
+}
+
+legend
+{
+color: #fff;
+background: #ffa20c;
+border: 1px solid #781351;
+padding: 2px 6px
+}
+
+</style>
+<mos:tmpl name="form">
+
+
+<div class="componentheading">Modify Component Configuration</div>  
+
+ <div id="modifyForm">
+ <br/>
+
+ <fieldset>
+ <legend>{INPUT_HEADER}</legend>
+ <form method="post" name="adminForm" action="index2.php">
+ <table>
+ <tr><td>Google API Key</a></td><td><input id="key" name="key"  value="{KEY}" size="95" >&nbsp;<a href="http://www.google.com/apis/maps/">Click here to obtain a Google API key</a></td></tr>
+ <tr><td>Maptype</td><td>{MAPTYPELIST}</td></tr> 
+ <tr><td>Zoom Level:</td><td>{ZOOMLIST}</td></tr>
+ <tr><td>Zoom Type:</td><td>{ZOOMTYPELIST}</td></tr> 
+ <tr><td>Map Height</td><td><input id="height" name="height"  value="{HEIGHT}" size="20" >&nbsp;<b>Please include the units (i.e. 400px or %)</b></td></tr>  
+ <tr><td>Map Width</td><td><input id="width" name="width"  value="{WIDTH}" size="20" >&nbsp;<b>Please include the units (i.e. 400px or %)</b></td></tr>
+ <tr><td>Default Icon:</td><td>{DEFAULTICONLIST}</td></tr>   
+ </table>
+    <input type="hidden" name="option" value="{OPTION}">
+    <input type="hidden" name="task" value="{TASK}">
+    <input type="hidden" name="boxchecked" value="0">
+
+</fieldset>
+</div>
+</form>
+</mos:tmpl>
+
+<!-- mycontent -->

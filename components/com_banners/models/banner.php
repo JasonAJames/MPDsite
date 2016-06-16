@@ -1,207 +1,201 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_banners
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: banner.php 14401 2010-01-26 14:10:00Z louis $
+ * @package  Joomla
+ * @subpackage	Banners
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
  */
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+jimport( 'joomla.application.component.model' );
+jimport( 'joomla.application.component.helper' );
 
 /**
- * Banner model for the Joomla Banners component.
- *
- * @since  1.5
+ * @package		Joomla
+ * @subpackage	Banners
  */
-class BannersModelBanner extends JModelLegacy
+class BannersModelBanner extends JModel
 {
 	/**
-	 * Cached item object
-	 *
-	 * @var    object
-	 * @since  1.6
+	 * Gets a list of banners
+	 * @param array An array of filters
+	 * @return array An array of banner objects
 	 */
-	protected $_item;
+	function getList( $filters )
+	{
+		$db			= &$this->getDBO();
+		$ordering	= @$filters['ordering'];
+		$tagSearch	= @$filters['tag_search'];
+		$randomise	= ($ordering == 'random');
+
+		$wheres = array();
+		$wheres[] = 'showBanner = 1';
+		$wheres[] = '(imptotal = 0 OR impmade < imptotal)';
+
+		if (@$filters['cid'])
+		{
+			$wheres[] = 'cid = ' . (int) $filters['cid'];
+		}
+		if (@$filters['catid'])
+		{
+			$wheres[] = 'catid = ' . (int) $filters['catid'];
+		}
+		if (is_array( $tagSearch ))
+		{
+			$temp = array();
+			$n = count( $tagSearch );
+			if ($n == 0)
+			{
+				// if tagsearch is an array, and empty, fail the query
+				$result = array();
+				return $result;
+			}
+			for ($i = 0; $i < $n; $i++)
+			{
+				$temp[] = "tags REGEXP '[[:<:]]".$db->getEscaped( $tagSearch[$i] ) . "[[:>:]]'";
+			}
+			if ($n)
+			{
+				$wheres[] = '(' . implode( ' OR ', $temp). ')';
+			}
+		}
+
+		$query = "SELECT *"
+			. ($randomise ? ', RAND() AS ordering' : '')
+			. ' FROM #__banner'
+			. ' WHERE ' . implode( ' AND ', $wheres )
+			. ' ORDER BY sticky DESC, ordering ';
+
+		$db->setQuery( $query, 0, $filters['limit'] );
+
+		$result = $db->loadObjectList();
+
+//		if($db->getErrorNum()) {
+//			JError::raiseError( 500, $db->stderr());
+//		}
+		return $result;
+	}
+
+	/**
+	 * Makes impressions on a list of banners
+	 */
+	function impress( $list )
+	{
+		$config =& JComponentHelper::getParams( 'com_banners' );
+		$db		= &$this->getDBO();
+		$n		= count( $list );
+
+		$trackImpressions = $config->get( 'track_impressions' );
+		$date =& JFactory::getDate();
+		$trackDate = $date->toFormat( '%Y-%m-%d' );
+
+		// TODO: Change loop single sql with where bid = x OR bid = y format
+		for ($i = 0; $i < $n; $i++) {
+			$item = &$list[$i];
+
+			$item->impmade++;
+			$expire = ($item->impmade >= $item->imptotal) && ($item->imptotal != 0);
+
+			$query = 'UPDATE #__banner'
+			. ' SET impmade = impmade + 1'
+			. ($expire ? ', showBanner=0' : '')
+			. ' WHERE bid = '.(int) $item->bid
+			;
+			$db->setQuery( $query );
+
+			if(!$db->query()) {
+				JError::raiseError( 500, $db->stderror());
+			}
+
+			if ($trackImpressions)
+			{
+				// TODO: Add impression tracking
+				/*
+				$query = 'UPDATE #__bannertrack SET' .
+					' track_type = 1,' .
+					' banner_id = ' . $item->bid;
+				*/
+				$query = 'INSERT INTO #__bannertrack ( track_type, banner_id, track_date )' .
+					' VALUES ( 1, '.(int) $item->bid.', '.$db->Quote($trackDate).' )'
+					;
+				$db->setQuery( $query );
+
+				if(!$db->query()) {
+					JError::raiseError( 500, $db->stderror() );
+				}
+			}
+		}
+	}
 
 	/**
 	 * Clicks the URL, incrementing the counter
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
 	 */
-	public function click()
+	function click( $id = 0 )
 	{
-		$id = $this->getState('banner.id');
+		$config =& JComponentHelper::getParams( 'com_banners' );
+		$db		= &$this->getDBO();
 
-		// Update click count
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->update('#__banners')
-			->set('clicks = (clicks + 1)')
-			->where('id = ' . (int) $id);
+		$trackClicks = $config->get( 'track_clicks' );
+		$date =& JFactory::getDate();
+		$trackDate = $date->toFormat( '%Y-%m-%d' );
 
-		$db->setQuery($query);
+		// update click count
+		$query = 'UPDATE #__banner' .
+			' SET clicks = ( clicks + 1 )' .
+			' WHERE bid = ' . (int)$id;
 
-		try
-		{
-			$db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseError(500, $e->getMessage());
+		$db->setQuery( $query );
+		if(!$db->query()) {
+			JError::raiseError( 500, $db->stderror());
 		}
 
-		$item = $this->getItem();
-
-		// Track clicks
-		$trackClicks = $item->track_clicks;
-
-		if ($trackClicks < 0 && $item->cid)
+		if ($trackClicks)
 		{
-			$trackClicks = $item->client_track_clicks;
+			$query = 'INSERT INTO #__bannertrack ( track_type, banner_id, track_date )' .
+				' VALUES ( 2, '.(int)$id.', '.$db->Quote($trackDate).' )'
+				;
+			$db->setQuery( $query );
+
+			if(!$db->query()) {
+				JError::raiseError( 500, $db->stderror() );
+			}
 		}
 
-		if ($trackClicks < 0)
-		{
-			$config = JComponentHelper::getParams('com_banners');
-			$trackClicks = $config->get('track_clicks');
-		}
-
-		if ($trackClicks > 0)
-		{
-			$trackDate = JFactory::getDate()->format('Y-m-d H');
-
-			$query->clear()
-				->select($db->quoteName('count'))
-				->from('#__banner_tracks')
-				->where('track_type=2')
-				->where('banner_id=' . (int) $id)
-				->where('track_date=' . $db->quote($trackDate));
-
-			$db->setQuery($query);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				JError::raiseError(500, $e->getMessage());
-			}
-
-			$count = $db->loadResult();
-
-			$query->clear();
-
-			if ($count)
-			{
-				// Update count
-				$query->update('#__banner_tracks')
-					->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
-					->where('track_type=2')
-					->where('banner_id=' . (int) $id)
-					->where('track_date=' . $db->quote($trackDate));
-			}
-			else
-			{
-				// Insert new count
-				$query->insert('#__banner_tracks')
-					->columns(
-						array(
-							$db->quoteName('count'), $db->quoteName('track_type'),
-							$db->quoteName('banner_id'), $db->quoteName('track_date')
-						)
-					)
-					->values('1, 2,' . (int) $id . ',' . $db->quote($trackDate));
-			}
-
-			$db->setQuery($query);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				JError::raiseError(500, $e->getMessage());
-			}
-		}
 	}
 
 	/**
-	 * Get the data for a banner.
-	 *
-	 * @return  object
-	 *
-	 * @since   1.6
+	 * Get the URL for a
 	 */
-	public function &getItem()
+	function getUrl( $id = 0 )
 	{
-		if (!isset($this->_item))
+		global $mainframe;
+
+		$db = &$this->getDBO();
+
+		// redirect to banner url
+		$query = 'SELECT clickurl, bid FROM #__banner' .
+			' WHERE bid = ' . (int) $id;
+
+		$db->setQuery( $query );
+		if(!$db->query())
 		{
-			$cache = JFactory::getCache('com_banners', '');
-
-			$id = $this->getState('banner.id');
-
-			$this->_item = $cache->get($id);
-
-			if ($this->_item === false)
-			{
-				// Redirect to banner url
-				$db = $this->getDbo();
-				$query = $db->getQuery(true)
-					->select(
-						'a.clickurl as clickurl,' .
-							'a.cid as cid,' .
-							'a.track_clicks as track_clicks'
-					)
-					->from('#__banners as a')
-					->where('a.id = ' . (int) $id)
-
-					->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
-					->select('cl.track_clicks as client_track_clicks');
-
-				$db->setQuery($query);
-
-				try
-				{
-					$db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					JError::raiseError(500, $e->getMessage());
-				}
-
-				$this->_item = $db->loadObject();
-				$cache->store($this->_item, $id);
-			}
+			JError::raiseError( 500, $db->stderr());
 		}
+		$url = $db->loadResult();
 
-		return $this->_item;
-	}
-
-	/**
-	 * Get the URL for a banner
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 */
-	public function getUrl()
-	{
-		$item = $this->getItem();
-		$url = $item->clickurl;
-
-		// Check for links
-		if (!preg_match('#http[s]?://|index[2]?\.php#', $url))
+		// check for links
+		if (!preg_match( '#http[s]?://|index[2]?\.php#', $url ))
 		{
 			$url = "http://$url";
 		}
-
 		return $url;
 	}
 }

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.5"
-	client="installation">
-	<name>Bosanski (BA)</name>
-	<version>3.5.0</version>
-	<creationDate>January 2016</creationDate>
-	<author>Bosnian Translation Team</author>
- 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<files>
-		<filename>bs-BA.ini</filename>
-	</files>
+<metafile version="1.5" client="installation">
+	<tag>bs-BA</tag>
+	<name>Bosnian(Bosnia and Herzegovina)</name>
+	<version>1.5.9</version>
+	<creationDate>June 2010</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>ana.jozic.agic@joomla.ba</authorEmail>
+	<authorUrl>www.joomla.ba</authorUrl>
+	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Bosanski jezik za web instalator</description>
 	<metadata>
-		<name>Bosanski (Bosnia)</name>
+		<name>Bosnian (Bosnia and Herzegovina)</name>
 		<tag>bs-BA</tag>
 		<rtl>0</rtl>
+		<locale>bs-BA.utf8</locale>
+		<winCodePage>iso-8859-2</winCodePage>
+		<backwardLang>bosanski</backwardLang>
 	</metadata>
-	<params />
 </metafile>

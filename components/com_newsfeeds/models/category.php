@@ -1,375 +1,215 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: category.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @subpackage	Content
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
  */
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
-use Joomla\Registry\Registry;
+jimport('joomla.application.component.model');
 
 /**
  * Newsfeeds Component Category Model
  *
- * @since  1.5
+ * @package		Joomla
+ * @subpackage	Newsfeeds
+ * @since 1.5
  */
-class NewsfeedsModelCategory extends JModelList
+class NewsfeedsModelCategory extends JModel
 {
 	/**
-	 * Category items data
+	 * Category id
+	 *
+	 * @var int
+	 */
+	var $_id = null;
+
+	/**
+	 * Category data array
 	 *
 	 * @var array
 	 */
-	protected $_item = null;
-
-	protected $_articles = null;
-
-	protected $_siblings = null;
-
-	protected $_children = null;
-
-	protected $_parent = null;
+	var $_data = null;
 
 	/**
-	 * The category that applies.
+	 * Category total
 	 *
-	 * @access    protected
-	 * @var        object
+	 * @var integer
 	 */
-	protected $_category = null;
+	var $_total = null;
 
 	/**
-	 * The list of other newfeed categories.
+	 * Category data
 	 *
-	 * @access    protected
-	 * @var        array
+	 * @var object
 	 */
-	protected $_categories = null;
+	var $_category = null;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @see     JController
-	 * @since   1.6
+	 * @since 1.5
 	 */
-	public function __construct($config = array())
+	function __construct()
 	{
-		if (empty($config['filter_fields']))
-		{
-			$config['filter_fields'] = array(
-				'id', 'a.id',
-				'name', 'a.name',
-				'numarticles', 'a.numarticles',
-				'link', 'a.link',
-				'ordering', 'a.ordering',
-			);
-		}
+		global $mainframe;
 
-		parent::__construct($config);
+		parent::__construct();
+
+		$config = JFactory::getConfig();
+
+		// Get the pagination request variables
+		$this->setState('limit', $mainframe->getUserStateFromRequest('com_newsfeeds.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
+		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
+
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$this->setId((int)$id);
+
 	}
 
 	/**
-	 * Method to get a list of items.
+	 * Method to set the category id
 	 *
-	 * @return  mixed  An array of objects on success, false on failure.
+	 * @access	public
+	 * @param	int	Category ID number
 	 */
-	public function getItems()
+	function setId($id)
 	{
-		// Invoke the parent getItems method to get the main list
-		$items = parent::getItems();
+		// Set category ID and wipe data
+		$this->_id			= $id;
+		$this->_category	= null;
+	}
 
-		// Convert the params field into an object, saving original in _params
-		foreach ($items as $item)
+	/**
+	 * Method to get newsfeed item data for the category
+	 *
+	 * @access public
+	 * @return array
+	 */
+	function getData()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
 		{
-			if (!isset($this->_params))
+			$query = $this->_buildQuery();
+
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+
+			$total = count($this->_data);
+			for($i = 0; $i < $total; $i++)
 			{
-				$params = new Registry;
-				$item->params = $params;
-				$params->loadString($item->params);
+				$item =& $this->_data[$i];
+				$item->slug = $item->id.'-'.$item->alias;
 			}
-
-			// Get the tags
-			$item->tags = new JHelperTags;
-			$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 		}
 
-		return $items;
+		return $this->_data;
 	}
 
 	/**
-	 * Method to build an SQL query to load the list data.
+	 * Method to get the total number of newsfeed items for the category
 	 *
-	 * @return  string    An SQL query
-	 *
-	 * @since   1.6
+	 * @access public
+	 * @return integer
 	 */
-	protected function getListQuery()
+	function getTotal()
 	{
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		// Select required fields from the categories.
-		$query->select($this->getState('list.select', 'a.*'))
-			->from($db->quoteName('#__newsfeeds') . ' AS a')
-			->where('a.access IN (' . $groups . ')');
-
-		// Filter by category.
-		if ($categoryId = $this->getState('category.id'))
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_total))
 		{
-			$query->where('a.catid = ' . (int) $categoryId)
-				->join('LEFT', '#__categories AS c ON c.id = a.catid')
-				->where('c.access IN (' . $groups . ')');
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
 		}
 
-		// Filter by state
-		$state = $this->getState('filter.published');
-
-		if (is_numeric($state))
-		{
-			$query->where('a.published = ' . (int) $state);
-		}
-		else
-		{
-			$query->where('(a.published IN (0,1,2))');
-		}
-
-		// Filter by start and end dates.
-		$nullDate = $db->quote($db->getNullDate());
-		$date = JFactory::getDate();
-		$nowDate = $db->quote($date->format($db->getDateFormat()));
-
-		if ($this->getState('filter.publish_date'))
-		{
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
-		}
-
-		// Filter by search in title
-		$search = $this->getState('list.filter');
-
-		if (!empty($search))
-		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%');
-			$query->where('(a.name LIKE ' . $search . ')');
-		}
-
-		// Filter by language
-		if ($this->getState('filter.language'))
-		{
-			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-		}
-
-		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
-
-		return $query;
+		return $this->_total;
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Method to get a pagination object of the newsfeeds items for the category
 	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @param   string  $ordering   An optional ordering field
-	 * @param   string  $direction  An optional direction [asc|desc]
-	 *
-	 * @return void
-	 *
-	 * @since   1.6
-	 *
-	 * @throws Exception
+	 * @access public
+	 * @return integer
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	function getPagination()
 	{
-		$app = JFactory::getApplication();
-		$params = JComponentHelper::getParams('com_newsfeeds');
-
-		// List state information
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->input->get('limitstart', 0, 'uint');
-		$this->setState('list.start', $limitstart);
-
-		// Optional filter text
-		$this->setState('list.filter', $app->input->getString('filter-search'));
-
-		$orderCol = $app->input->get('filter_order', 'ordering');
-
-		if (!in_array($orderCol, $this->filter_fields))
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_pagination))
 		{
-			$orderCol = 'ordering';
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
 		}
 
-		$this->setState('list.ordering', $orderCol);
-
-		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
-
-		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
-		{
-			$listOrder = 'ASC';
-		}
-
-		$this->setState('list.direction', $listOrder);
-
-		$id = $app->input->get('id', 0, 'int');
-		$this->setState('category.id', $id);
-
-		$user = JFactory::getUser();
-
-		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds')))
-		{
-			// Limit to published for people who can't edit or edit.state.
-			$this->setState('filter.published', 1);
-
-			// Filter by start and end dates.
-			$this->setState('filter.publish_date', true);
-		}
-
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
-
-		// Load the parameters.
-		$this->setState('params', $params);
+		return $this->_pagination;
 	}
 
 	/**
 	 * Method to get category data for the current category
 	 *
-	 * @return  object
-	 *
-	 * @since   1.5
+	 * @since 1.5
 	 */
-	public function getCategory()
+	function getCategory()
 	{
-		if (!is_object($this->_item))
+		// Load the Category data
+		if ($this->_loadCategory())
 		{
-			$app = JFactory::getApplication();
-			$menu = $app->getMenu();
-			$active = $menu->getActive();
-			$params = new Registry;
+			// Initialize some variables
+			$user = &JFactory::getUser();
 
-			if ($active)
-			{
-				$params->loadString($active->params);
+			// Make sure the category is published
+			if (!$this->_category->published) {
+				JError::raiseError(404, JText::_("Resource Not Found"));
+				return false;
 			}
-
-			$options = array();
-			$options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-			$categories = JCategories::getInstance('Newsfeeds', $options);
-			$this->_item = $categories->get($this->getState('category.id', 'root'));
-
-			if (is_object($this->_item))
-			{
-				$this->_children = $this->_item->getChildren();
-				$this->_parent = false;
-
-				if ($this->_item->getParent())
-				{
-					$this->_parent = $this->_item->getParent();
-				}
-
-				$this->_rightsibling = $this->_item->getSibling();
-				$this->_leftsibling = $this->_item->getSibling(false);
-			}
-			else
-			{
-				$this->_children = false;
-				$this->_parent = false;
+			// check whether category access level allows access
+			if ($this->_category->access > $user->get('aid', 0)) {
+				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+				return false;
 			}
 		}
-
-		return $this->_item;
+		return $this->_category;
 	}
 
 	/**
-	 * Get the parent category.
+	 * Method to load category data if it doesn't exist.
 	 *
-	 * @return  mixed  An array of categories or false if an error occurs.
+	 * @access	private
+	 * @return	boolean	True on success
 	 */
-	public function getParent()
+	function _loadCategory()
 	{
-		if (!is_object($this->_item))
+		if (empty($this->_category))
 		{
-			$this->getCategory();
+			// current category info
+			$query = 'SELECT c.*,' .
+				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug '.
+				' FROM #__categories AS c' .
+				' WHERE c.id = '. (int) $this->_id .
+				' AND c.section = "com_newsfeeds"';
+			$this->_db->setQuery($query, 0, 1);
+			$this->_category = $this->_db->loadObject();
 		}
-
-		return $this->_parent;
-	}
-
-	/**
-	 * Get the sibling (adjacent) categories.
-	 *
-	 * @return  mixed  An array of categories or false if an error occurs.
-	 */
-	public function &getLeftSibling()
-	{
-		if (!is_object($this->_item))
-		{
-			$this->getCategory();
-		}
-
-		return $this->_leftsibling;
-	}
-
-	/**
-	 * Get the sibling (adjacent) categories.
-	 *
-	 * @return  mixed  An array of categories or false if an error occurs.
-	 */
-	public function &getRightSibling()
-	{
-		if (!is_object($this->_item))
-		{
-			$this->getCategory();
-		}
-
-		return $this->_rightsibling;
-	}
-
-	/**
-	 * Get the child categories.
-	 *
-	 * @return  mixed  An array of categories or false if an error occurs.
-	 */
-	public function &getChildren()
-	{
-		if (!is_object($this->_item))
-		{
-			$this->getCategory();
-		}
-
-		return $this->_children;
-	}
-
-	/**
-	 * Increment the hit counter for the category.
-	 *
-	 * @param   int  $pk  Optional primary key of the category to increment.
-	 *
-	 * @return  boolean True if successful; false otherwise and internal error set.
-	 */
-	public function hit($pk = 0)
-	{
-		$input    = JFactory::getApplication()->input;
-		$hitcount = $input->getInt('hitcount', 1);
-
-		if ($hitcount)
-		{
-			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
-			$table = JTable::getInstance('Category', 'JTable');
-			$table->load($pk);
-			$table->hit($pk);
-		}
-
 		return true;
 	}
+
+	function _buildQuery()
+	{
+		// We need to get a list of all weblinks in the given category
+		$query = 'SELECT *' .
+			' FROM #__newsfeeds' .
+			' WHERE catid = '.(int) $this->_id.
+			' AND published = 1' .
+			' ORDER BY ordering';
+
+		return $query;
+	}
 }
+?>

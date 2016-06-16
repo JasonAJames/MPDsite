@@ -1,87 +1,67 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_mailto
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: view.html.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @subpackage	MailTo
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
  */
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
-/**
- * Class for Mail.
- * 
- * @since  1.5
- */
-class MailtoViewMailto extends JViewLegacy
+jimport('joomla.application.component.view');
+
+class MailtoViewMailto extends JView
 {
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 *
-	 * @since   1.5
-	 */
-	public function display($tpl = null)
+	function display($tpl = null)
 	{
 		$data = $this->getData();
-
-		if ($data === false)
-		{
+		if ($data === false) {
 			return false;
 		}
 
-		$this->set('data', $data);
+		$this->set('data'  , $data);
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
-	/**
-	 * Get the form data
-	 *
-	 * @return  object
-	 *
-	 * @since  1.5
-	 */
-	protected function &getData()
+	function &getData()
 	{
-		$user = JFactory::getUser();
-		$app  = JFactory::getApplication();
-		$data = new stdClass;
+		$user =& JFactory::getUser();
+		$data = new stdClass();
 
-		$input      = $app->input;
-		$method     = $input->getMethod();
-		$data->link = urldecode($input->$method->get('link', '', 'BASE64'));
+		$data->link = urldecode( JRequest::getVar( 'link', '', 'method', 'base64' ) );
 
-		if ($data->link == '')
-		{
-			JError::raiseError(403, JText::_('COM_MAILTO_LINK_IS_MISSING'));
-
-			return false;
+		if ($data->link == '') {
+			JError::raiseError( 403, 'Link is missing' );
+			$false = false;
+			return $false;
 		}
 
 		// Load with previous data, if it exists
-		$mailto  = $app->input->post->getString('mailto', '');
-		$sender  = $app->input->post->getString('sender', '');
-		$from    = $app->input->post->getString('from', '');
-		$subject = $app->input->post->getString('subject', '');
+		$mailto				= JRequest::getString('mailto', '', 'post');
+		$sender 			= JRequest::getString('sender', '', 'post');
+		$from 				= JRequest::getString('from', '', 'post');
+		$subject 			= JRequest::getString('subject', '', 'post');
 
-		if ($user->get('id') > 0)
-		{
-			$data->sender = $user->get('name');
-			$data->from   = $user->get('email');
+		if ($user->get('id') > 0) {
+			$data->sender	= $user->get('name');
+			$data->from		= $user->get('email');
 		}
 		else
 		{
-			$data->sender = $sender;
-			$data->from   = JStringPunycode::emailToPunycode($from);
+			$data->sender	= $sender;
+			$data->from		= $from;
 		}
 
-		$data->subject = $subject;
-		$data->mailto  = JStringPunycode::emailToPunycode($mailto);
+		$data->subject	= $subject;
+		$data->mailto	= $mailto;
 
 		return $data;
 	}

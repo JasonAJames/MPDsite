@@ -1,110 +1,87 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_search
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: controller.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @subpackage	Content
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
  */
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
+
+jimport('joomla.application.component.controller');
 
 /**
  * Search Component Controller
  *
- * @since  1.5
+ * @package		Joomla
+ * @subpackage	Search
+ * @since 1.5
  */
-class SearchController extends JControllerLegacy
+class SearchController extends JController
 {
 	/**
-	 * Method to display a view.
+	 * Method to show the search view
 	 *
-	 * @param   bool  $cachable   If true, the view output will be cached
-	 * @param   bool  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	 *
-	 * @return  JControllerLegacy This object to support chaining.
-	 *
-	 * @since   1.5
+	 * @access	public
+	 * @since	1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	function display()
 	{
-		// Force it to be the search view
-		$this->input->set('view', 'search');
-
-		return parent::display($cachable, $urlparams);
+		JRequest::setVar('view','search'); // force it to be the polls view
+		parent::display();
 	}
 
-	/**
-	 * Search
-	 *
-	 * @return void
-	 *
-	 * @throws Exception
-	 */
-	public function search()
+	function search()
 	{
-		// Slashes cause errors, <> get stripped anyway later on. # causes problems.
-		$badchars = array('#', '>', '<', '\\');
-		$searchword = trim(str_replace($badchars, '', $this->input->getString('searchword', null, 'post')));
-
-		// If searchword enclosed in double quotes, strip quotes and do exact match
-		if (substr($searchword, 0, 1) == '"' && substr($searchword, -1) == '"')
-		{
-			$post['searchword'] = substr($searchword, 1, -1);
-			$this->input->set('searchphrase', 'exact');
+		// slashes cause errors, <> get stripped anyway later on. # causes problems.
+		$badchars = array('#','>','<','\\'); 
+		$searchword = trim(str_replace($badchars, '', JRequest::getString('searchword', null, 'post')));
+		// if searchword enclosed in double quotes, strip quotes and do exact match
+		if (substr($searchword,0,1) == '"' && substr($searchword, -1) == '"') { 
+			$post['searchword'] = substr($searchword,1,-1);
+			JRequest::setVar('searchphrase', 'exact');
 		}
-		else
-		{
+		else {
 			$post['searchword'] = $searchword;
 		}
+		$post['ordering']	= JRequest::getWord('ordering', null, 'post');
+		$post['searchphrase']	= JRequest::getWord('searchphrase', 'all', 'post');
+		$post['limit']  = JRequest::getInt('limit', null, 'post');
+		if($post['limit'] === null) unset($post['limit']);
 
-		$post['ordering']     = $this->input->getWord('ordering', null, 'post');
-		$post['searchphrase'] = $this->input->getWord('searchphrase', 'all', 'post');
-		$post['limit']        = $this->input->getUInt('limit', null, 'post');
-
-		if ($post['limit'] === null)
-		{
-			unset($post['limit']);
-		}
-
-		$areas = $this->input->post->get('areas', null, 'array');
-
-		if ($areas)
-		{
-			foreach ($areas as $area)
+		$areas = JRequest::getVar('areas', null, 'post', 'array');
+		if ($areas) {
+			foreach($areas as $area)
 			{
-				$post['areas'][] = JFilterInput::getInstance()->clean($area, 'cmd');
+				$post['areas'][] = JFilterInput::clean($area, 'cmd');
 			}
 		}
+		
+		// set Itemid id for links from menu
+		$menu = &JSite::getMenu();
+		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
 
-		// The Itemid from the request, we will use this if it's a search page or if there is no search page available
-		$post['Itemid'] = $this->input->getInt('Itemid');
-
-		// Set Itemid id for links from menu
-		$app  = JFactory::getApplication();
-		$menu = $app->getMenu();
-		$item = $menu->getItem($post['Itemid']);
-
-		// The request Item is not a search page so we need to find one
-		if ($item->component != 'com_search' || $item->query['view'] != 'search')
-		{
-			// Get item based on component, not link. link is not reliable.
-			$item = $menu->getItems('component', 'com_search', true);
-
-			// If we found a search page, use that.
-			if (!empty($item))
-			{
-				$post['Itemid'] = $item->id;
-			}
-		}
-
+		if(isset($items[0])) {
+			$post['Itemid'] = $items[0]->id;
+		} else if (JRequest::getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
+			$post['Itemid'] = JRequest::getInt('Itemid');
+		} 
+		
 		unset($post['task']);
 		unset($post['submit']);
 
-		$uri = JUri::getInstance();
+		$uri = JURI::getInstance();
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
 
-		$this->setRedirect(JRoute::_('index.php' . $uri->toString(array('query', 'fragment')), false));
+
+		$this->setRedirect(JRoute::_('index.php'.$uri->toString(array('query', 'fragment')), false));
 	}
 }

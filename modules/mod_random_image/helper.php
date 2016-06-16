@@ -1,123 +1,90 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  mod_random_image
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: helper.php 14401 2010-01-26 14:10:00Z louis $
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
-defined('_JEXEC') or die;
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/**
- * Helper for mod_random_image
- *
- * @package     Joomla.Site
- * @subpackage  mod_random_image
- * @since       1.5
- */
-class ModRandomImageHelper
+
+class modRandomImageHelper
 {
-	/**
-	 * Retrieves a random image
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters object
-	 * @param   array                      $images   list of images
-	 *
-	 * @return  mixed
-	 */
-	public static function getRandomImage(&$params, $images)
+	function getRandomImage(&$params, $images)
 	{
-		$width  = $params->get('width');
-		$height = $params->get('height');
+		$width 		= $params->get( 'width' );
+		$height 	= $params->get( 'height' );
 
-		$i      = count($images);
-		$random = mt_rand(0, $i - 1);
-		$image  = $images[$random];
-		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
+		$i 				= count($images);
+		$random 		= mt_rand(0, $i - 1);
+		$image 			= $images[$random];
+		$size 			= getimagesize (JPATH_BASE.DS.$image->folder .DS. $image->name);
 
-		if ($width == '')
-		{
+
+		if ($width == '') {
 			$width = 100;
 		}
 
-		if ($size[0] < $width)
-		{
+		if ($size[0] < $width) {
 			$width = $size[0];
 		}
 
-		$coeff = $size[0] / $size[1];
-
-		if ($height == '')
-		{
-			$height = (int) ($width / $coeff);
-		}
-		else
-		{
-			$newheight = min($height, (int) ($width / $coeff));
-
-			if ($newheight < $height)
-			{
+		$coeff = $size[0]/$size[1];
+		if ($height == '') {
+			$height = (int) ($width/$coeff);
+		} else {
+			$newheight = min ($height, (int) ($width/$coeff));
+			if ($newheight < $height) {
 				$height = $newheight;
-			}
-			else
-			{
+			} else {
 				$width = $height * $coeff;
 			}
 		}
 
-		$image->width  = $width;
-		$image->height = $height;
-		$image->folder = str_replace('\\', '/', $image->folder);
+		$image->width 	= $width;
+		$image->height	= $height;
+		$image->folder	= str_replace( '\\', '/', $image->folder );
 
 		return $image;
 	}
 
-	/**
-	 * Retrieves images from a specific folder
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module params
-	 * @param   string                     $folder   folder to get the images from
-	 *
-	 * @return array
-	 */
-	public static function getImages(&$params, $folder)
+	function getImages(&$params, $folder)
 	{
-		$type   = $params->get('type', 'jpg');
-		$files  = array();
-		$images = array();
+		$type 		= $params->get( 'type', 'jpg' );
 
-		$dir = JPATH_BASE . '/' . $folder;
+		$files	= array();
+		$images	= array();
 
-		// Check if directory exists
+		$dir = JPATH_BASE.DS.$folder;
+
+		// check if directory exists
 		if (is_dir($dir))
 		{
-			if ($handle = opendir($dir))
-			{
-				while (false !== ($file = readdir($handle)))
-				{
-					if ($file != '.' && $file != '..' && $file != 'CVS' && $file != 'index.html')
-					{
+			if ($handle = opendir($dir)) {
+				while (false !== ($file = readdir($handle))) {
+					if ($file != '.' && $file != '..' && $file != 'CVS' && $file != 'index.html' ) {
 						$files[] = $file;
 					}
 				}
 			}
-
 			closedir($handle);
 
 			$i = 0;
-
 			foreach ($files as $img)
 			{
-				if (!is_dir($dir . '/' . $img))
+				if (!is_dir($dir .DS. $img))
 				{
-					if (preg_match('/' . $type . '/', $img))
-					{
-						$images[$i] = new stdClass;
-
-						$images[$i]->name   = $img;
-						$images[$i]->folder = $folder;
-						$i++;
+					if (preg_match("#$type#i", $img)) {
+						$images[$i]->name 	= $img;
+						$images[$i]->folder	= $folder;
+						++$i;
 					}
 				}
 			}
@@ -126,33 +93,24 @@ class ModRandomImageHelper
 		return $images;
 	}
 
-	/**
-	 * Get sanitized folder
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module params objects
-	 *
-	 * @return  mixed
-	 */
-	public static function getFolder(&$params)
+	function getFolder(&$params)
 	{
-		$folder   = $params->get('folder');
-		$LiveSite = JUri::base();
+		$folder 	= $params->get( 'folder' );
 
-		// If folder includes livesite info, remove
-		if (JString::strpos($folder, $LiveSite) === 0)
-		{
-			$folder = str_replace($LiveSite, '', $folder);
+		$LiveSite 	= JURI::base();
+
+		// if folder includes livesite info, remove
+		if ( JString::strpos($folder, $LiveSite) === 0 ) {
+			$folder = str_replace( $LiveSite, '', $folder );
 		}
-
-		// If folder includes absolute path, remove
-		if (JString::strpos($folder, JPATH_SITE) === 0)
-		{
-			$folder = str_replace(JPATH_BASE, '', $folder);
+		// if folder includes absolute path, remove
+		if ( JString::strpos($folder, JPATH_SITE) === 0 ) {
+			$folder= str_replace( JPATH_BASE, '', $folder );
 		}
-
-		$folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
-		$folder = str_replace('/', DIRECTORY_SEPARATOR, $folder);
+		$folder = str_replace('\\',DS,$folder);
+		$folder = str_replace('/',DS,$folder);
 
 		return $folder;
 	}
 }
+

@@ -1,1 +1,116 @@
-(function(e,t,n){var i=function(n,i){var s={},o=function(t,n){s.$elem=e(n);s.options=e.extend({},e.fn.ComboTransform.options,t);s.$input=e(n).find('input[type="text"]');s.$dropBtnDiv=e(n).find("div.btn-group");s.$dropBtn=s.$dropBtnDiv.find('[type="button"]');s.$dropDown=e(n).find("ul.dropdown-menu"),s.$dropDownOptions=s.$dropDown.find("li a");s.$dropDown.isEmpty=false;s.$dropBtn.isClicked=false;u();a()},u=function(){var e=s.$elem.width(),t=s.$dropBtnDiv.width(),n=e-3,r=-e+t,i=s.$dropDown.width();i<n?s.$dropDown.width(n+"px"):null;s.$dropDown.css("left",r+"px");s.$dropDown.css("max-height","150px");s.$dropDown.css("overflow-y","scroll");s.$dropDown.css("left",r+"px")},a=function(){s.$input.bind("focus",f);s.$input.bind("blur",l);if(s.options.updateList){s.$input.bind("keyup",p)}s.$dropDown.on("mouseenter",function(){d("clear");s.$input.unbind("blur",l)});s.$dropDown.on("mouseleave",function(e){s.$input.bind("blur",l)});s.$dropBtn.on("click",c);s.$dropDown.find("li").on("click",h);s.$dropDown.find("li a").on("mouseenter",function(){e(this).addClass("hover");s.$currHovered=e(this)});s.$dropDown.find("li a").on("mouseleave",function(){e(this).removeClass("hover")})},f=function(){if(!s.$dropDown.isEmpty){var e=s.$dropDown.height(),t=s.$input[0].clientHeight,n=s.$input.height(),r=-(n+e);s.$dropDown.css("top","100%");s.$elem.addClass("nav-hover");s.$dropBtnDiv.addClass("open");if(!v(s.$dropDown)){s.$dropDown.css("top",r+"px")}s.$input.bind("keypress keydown keyup",g)}},l=function(){s.$elem.removeClass("nav-hover");s.$dropBtnDiv.removeClass("open");if(s.$dropBtn.isClicked){s.$dropBtn.isClicked=false;s.$dropDown.isEmpty=true}d("clear");s.$input.unbind("keypress keydown keyup",g)},c=function(){var e=s.$dropDownOptions;e.show();s.$dropBtn.isClicked=s.$dropDown.isEmpty;s.$dropDown.isEmpty=false;s.$input.focus()},h=function(t){var n=e(t.target).text();s.$input.val(n);l();return false},p=function(t){var n=t&&(t.keycode||t.which);n=t.ctrlKey||t.altKey?-1:n;if(n>47&&n<59||n>62&&n<127||n==32||n==8){var r=s.$input.val().toLowerCase(),i=s.$dropDownOptions,o=0,u=false;i.each(function(){if(this.innerHTML.toLowerCase().indexOf(r)==0){e(this).show()}else{e(this).hide();if(e(this).hasClass("hover")){u=true}o++}});if(o==i.length){s.$dropDown.isEmpty=true;l()}else{s.$dropDown.isEmpty=false;if(u){d("clear")}f()}}else if(!s.$dropDown.isEmpty){if(n==38){d("prev")}else if(n==40){d("next")}else if(n==13&&s.$currHovered!=null){s.$input.val(s.$currHovered.html());l()}}},d=function(e){if(e=="next"||e=="prev"){var t=s.$dropDownOptions.filter(":visible"),n=t.filter(".hover"),r=t.index(n),i;if(e=="prev"){r=r==-1?t.length-1:r-1}else{r=r==t.length-1?0:r+1}if(n.length!=0){n.removeClass("hover")}i=t.eq(r);s.$currHovered=i;s.$currHovered.addClass("hover");m(s.$dropDown,s.$currHovered)}else if(e=="clear"){s.$currHovered!=null?s.$currHovered.removeClass("hover"):null;s.$currHovered=null}},v=function(e){var n=e[0].getBoundingClientRect();return n.top>=0&&n.left>=0&&n.bottom<=(window.innerHeight||t.documentElement.clientHeight)&&n.right<=(window.innerWidth||t.documentElement.clientWidth)},m=function(e,t){z=e[0].getBoundingClientRect();r=t[0].getBoundingClientRect();if(!(r.top>=z.top&&r.left>=z.left&&r.top+r.height<=z.top+z.height)){var n=r.top-z.top+e.scrollTop();e.scrollTop(n)}},g=function(e){if(e.keyCode==13){e.preventDefault()}};o(n,i)};e.fn.ComboTransform=function(e){return this.each(function(){i(e,this)})};e.fn.ComboTransform.options={updateList:true};e(function(){e("div.combobox").ComboTransform({updateList:true})})})(jQuery,document)
+/**
+* @version		$Id: modal.js 5263 2006-10-02 01:25:24Z webImagery $
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+/**
+ * JCombobox javascript behavior
+ *
+ * Used for transforming <input type="text" ... /> tags into combobox dropdowns with appropriate <noscript> tag following
+ * for dropdown list information
+ *
+ * @package		Joomla
+ * @since		1.5
+ * @version     1.0
+ */
+var JCombobox = function() { this.constructor.apply(this, arguments);}
+JCombobox.prototype = {
+
+	constructor: function()
+	{
+		var agt = navigator.userAgent.toLowerCase();
+		this.is_ie = (agt.indexOf("msie") != -1);
+		this.is_opera = (agt.indexOf("opera") != -1);
+		this.is_safari = (agt.indexOf("safari") != -1);
+
+		var boxes = document.getElements('.combobox');
+		for ( var i=0; i < boxes.length; i++) {
+			if (boxes[i].tagName == 'INPUT' && boxes[i].type == 'text') {
+				this.populate(boxes[i]);
+			}
+		}
+	},
+
+	populate: function(element)
+	{
+		var list = document.getElementById('combobox-'+element.id).getElementsByTagName('LI');
+		var select = document.createElement("select");
+		select.setAttribute('id','combobox-'+element.id+'-select');
+		for ( var i=0; i < list.length; i++) {
+			// Do population bit here
+			var o = document.createElement('option');
+			o.value = list[i].innerHTML;
+			o.innerHTML = list[i].innerHTML;
+			if (o.value == element.value) {
+				o.selected = selected;
+			}
+			select.appendChild(o);
+		}
+		select.inputbox = element.id;
+		select.onchange = function(){ var input = document.getElementById(this.inputbox); input.value = this.options[this.selectedIndex].value; }
+		element.parentNode.insertBefore(select, element);
+
+		var coords = this.getCoords(select);
+		var widthOffset = 20;
+		var heightOffset = 4;
+		if (this.is_ie) {
+			coords.x = coords.x + 2;
+			widthOffset = 22;
+			heightOffset = 5;
+		}
+		if (this.is_opera) {
+			widthOffset = 19;
+			heightOffset = 4;
+		}
+		if (this.is_safari) {
+			coords.y = coords.y - 2;
+			coords.x = coords.x + 2;
+			widthOffset = 18;
+			heightOffset = 0;
+		}
+
+		// Set text field properties based on the select box
+		element.style.position = 'absolute';
+		element.style.top = coords.y + 'px';
+		element.style.left = coords.x + 'px';
+		element.style.width = select.offsetWidth - widthOffset + 'px';
+		element.style.height = select.offsetHeight - heightOffset + 'px';
+		element.style.zIndex = 1000;
+
+		// Add iFrame for IE
+		if (this.is_ie) {
+			var iframe = document.createElement('iframe');
+			iframe.src = 'about:blank';
+			iframe.scrolling = 'no';
+			iframe.frameborder = '0';
+			iframe.style.position = 'absolute';
+			iframe.style.top = coords.y + 'px';
+			iframe.style.left = coords.x + 'px';
+			iframe.style.width = element.offsetWidth + 'px';
+			iframe.style.height = element.offsetHeight + 'px';
+			element.parentNode.insertBefore(iframe, element);
+		}
+	},
+
+	getCoords: function(el) {
+		var coords = { x: 0, y: 0 };
+		while (el) {
+			coords.x += el.offsetLeft;
+			coords.y += el.offsetTop;
+			el = el.offsetParent;
+		}
+		return coords;
+	}
+}
+
+document.combobox = null
+Window.onDomReady(function(){
+  var combobox = new JCombobox()
+  document.combobox = combobox
+});

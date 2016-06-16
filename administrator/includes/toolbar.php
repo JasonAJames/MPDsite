@@ -1,655 +1,505 @@
 <?php
 /**
- * @package    Joomla.Administrator
- *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: toolbar.php 15180 2010-03-04 22:58:32Z ian $
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
-JLoader::register('JSubMenuHelper', JPATH_BASE . '/includes/subtoolbar.php');
+jimport('joomla.html.toolbar');
 
 /**
- * Utility class for the button bar.
- *
- * @since  1.5
- */
-abstract class JToolbarHelper
+* Utility class for the button bar
+*
+* @package		Joomla
+*/
+class JToolBarHelper
 {
-	/**
-	 * Title cell.
-	 * For the title and toolbar to be rendered correctly,
-	 * this title fucntion must be called before the starttable function and the toolbars icons
-	 * this is due to the nature of how the css has been used to postion the title in respect to the toolbar.
-	 *
-	 * @param   string  $title  The title.
-	 * @param   string  $icon   The space-separated names of the image.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function title($title, $icon = 'generic.png')
-	{
-		$layout = new JLayoutFile('joomla.toolbar.title');
-		$html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
-		$app = JFactory::getApplication();
-		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . strip_tags($title));
+	/**
+	* Title cell
+	* For the title and toolbar to be rendered correctly,
+	* this title fucntion must be called before the starttable function and the toolbars icons
+	* this is due to the nature of how the css has been used to postion the title in respect to the toolbar
+	* @param string The title
+	* @param string The name of the image
+	* @since 1.5
+	*/
+	function title($title, $icon = 'generic.png')
+	{
+		global $mainframe;
+
+		//strip the extension
+		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
+
+		$html  = "<div class=\"header icon-48-$icon\">\n";
+		$html .= "$title\n";
+		$html .= "</div>\n";
+
+		$mainframe->set('JComponentTitle', $html);
 	}
 
 	/**
-	 * Writes a spacer cell.
-	 *
-	 * @param   string  $width  The width for the cell
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function spacer($width = '')
+	* Writes a spacer cell
+	* @param string The width for the cell
+	* @since 1.0
+	*/
+	function spacer($width = '')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a spacer.
-		$bar->appendButton('Separator', 'spacer', $width);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a spacer
+		$bar->appendButton( 'Separator', 'spacer', $width );
 	}
 
 	/**
-	 * Writes a divider between menu buttons
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function divider()
+	* Write a divider between menu buttons
+	* @since 1.0
+	*/
+	function divider()
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a divider.
-		$bar->appendButton('Separator', 'divider');
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a divider
+		$bar->appendButton( 'Separator', 'divider' );
 	}
 
 	/**
-	 * Writes a custom option and task button for the button bar.
-	 *
-	 * @param   string  $task        The task to perform (picked up by the switch($task) blocks.
-	 * @param   string  $icon        The image to display.
-	 * @param   string  $iconOver    The image to display when moused over.
-	 * @param   string  $alt         The alt text for the icon image.
-	 * @param   bool    $listSelect  True if required to check that a standard list item is checked.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
+	* Writes a custom option and task button for the button bar
+	* @param string The task to perform (picked up by the switch($task) blocks
+	* @param string The image to display
+	* @param string The image to display when moused over
+	* @param string The alt text for the icon image
+	* @param boolean True if required to check that a standard list item is checked
+	* @param boolean True if required to include callinh hideMainMenu()
+	* @since 1.0
+	*/
+	function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $x = false)
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = & JToolBar::getInstance('toolbar');
 
-		// Strip extension.
-		$icon = preg_replace('#\.[^.]*$#', '', $icon);
+		//strip extension
+		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
 
-		// Add a standard button.
-		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect);
+		// Add a standard button
+		$bar->appendButton( 'Standard', $icon, $alt, $task, $listSelect, $x );
 	}
 
 	/**
-	 * Writes a preview button for a given option (opens a popup window).
-	 *
-	 * @param   string  $url            The name of the popup file (excluding the file extension)
-	 * @param   bool    $updateEditors  Unused
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function preview($url = '', $updateEditors = false)
+	* Writes a custom option and task button for the button bar.
+	* Extended version of custom() calling hideMainMenu() before submitbutton().
+	* @param string The task to perform (picked up by the switch($task) blocks
+	* @param string The image to display
+	* @param string The image to display when moused over
+	* @param string The alt text for the icon image
+	* @param boolean True if required to check that a standard list item is checked
+	* @since 1.0
+		* (NOTE this is being deprecated)
+	*/
+	function customX($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = & JToolBar::getInstance('toolbar');
 
-		// Add a preview button.
-		$bar->appendButton('Popup', 'preview', 'Preview', $url . '&task=preview');
+		//strip extension
+		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
+
+		// Add a standard button
+		$bar->appendButton( 'Standard', $icon, $alt, $task, $listSelect, true );
 	}
 
 	/**
-	 * Writes a preview button for a given option (opens a popup window).
-	 *
-	 * @param   string  $ref        The name of the popup file (excluding the file extension for an xml file).
-	 * @param   bool    $com        Use the help file in the component directory.
-	 * @param   string  $override   Use this URL instead of any other
-	 * @param   string  $component  Name of component to get Help (null for current component)
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function help($ref, $com = false, $override = null, $component = null)
+	* Writes a preview button for a given option (opens a popup window)
+	* @param string The name of the popup file (excluding the file extension)
+	* @since 1.0
+	*/
+	function preview($url = '', $updateEditors = false)
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a help button.
-		$bar->appendButton('Help', $ref, $com, $override, $component);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a preview button
+		$bar->appendButton( 'Popup', 'preview', 'Preview', "$url&task=preview" );
 	}
 
 	/**
-	 * Writes a cancel button that will go back to the previous page without doing
-	 * any other operation.
-	 *
-	 * @param   string  $alt   Alternative text.
-	 * @param   string  $href  URL of the href attribute.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function back($alt = 'JTOOLBAR_BACK', $href = 'javascript:history.back();')
+	* Writes a preview button for a given option (opens a popup window)
+	* @param string The name of the popup file (excluding the file extension for an xml file)
+	* @param boolean Use the help file in the component directory
+	* @since 1.0
+	*/
+	function help($ref, $com = false)
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a back button.
-		$bar->appendButton('Link', 'back', $alt, $href);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a help button
+		$bar->appendButton( 'Help', $ref, $com );
 	}
 
 	/**
-	 * Creates a button to redirect to a link
-	 *
-	 * @param   string  $url   The link url
-	 * @param   string  $text  Button text
-	 * @param   string  $name  Name to be used as apart of the id
-	 *
-	 * @return  void
-	 *
-	 * @since   3.5
-	 */
-	public static function link($url, $text, $name = 'link')
+	* Writes a cancel button that will go back to the previous page without doing
+	* any other operation
+	* @since 1.0
+	*/
+	function back($alt = 'Back', $href = 'javascript:history.back();')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		$bar->appendButton('Link', $name, $text, $url);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a back button
+		$bar->appendButton( 'Link', 'back', $alt, $href );
 	}
 
 	/**
-	 * Writes a media_manager button.
-	 *
-	 * @param   string  $directory  The sub-directory to upload the media to.
-	 * @param   string  $alt        An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function media_manager($directory = '', $alt = 'JTOOLBAR_UPLOAD')
+	* Writes a media_manager button
+	* @param string The sub-drectory to upload the media to
+	* @since 1.0
+	*/
+	function media_manager($folder = '', $alt = 'Upload')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add an upload button.
-		$bar->appendButton('Popup', 'upload', $alt, 'index.php?option=com_media&tmpl=component&task=popupUpload&folder=' . $directory, 800, 520);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an upload button
+		$bar->appendButton( 'Popup', 'upload', $alt, "index.php?option=com_media&tmpl=component&task=popupUpload&folder=$folder", 640, 520 );
 	}
 
 	/**
-	 * Writes a common 'default' button for a record.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function makeDefault($task = 'default', $alt = 'JTOOLBAR_DEFAULT')
+	* Writes the common 'new' icon for the button bar
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function addNew($task = 'add', $alt = 'New')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a default button.
-		$bar->appendButton('Standard', 'default', $alt, $task, true);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a new button
+		$bar->appendButton( 'Standard', 'new', $alt, $task, false, false );
 	}
 
 	/**
-	 * Writes a common 'assign' button for a record.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function assign($task = 'assign', $alt = 'JTOOLBAR_ASSIGN')
+	* Writes the common 'new' icon for the button bar.
+	* Extended version of addNew() calling hideMainMenu() before submitbutton().
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function addNewX($task = 'add', $alt = 'New')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add an assign button.
-		$bar->appendButton('Standard', 'assign', $alt, $task, true);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a new button (hide menu)
+		$bar->appendButton( 'Standard', 'new', $alt, $task, false, true );
 	}
 
 	/**
-	 * Writes the common 'new' icon for the button bar.
-	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $check  True if required to check that a standard list item is checked.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function addNew($task = 'add', $alt = 'JTOOLBAR_NEW', $check = false)
+	* Writes a common 'publish' button
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function publish($task = 'publish', $alt = 'Publish')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a new button.
-		$bar->appendButton('Standard', 'new', $alt, $task, $check);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a publish button
+		//$bar->appendButton( 'Publish', false, $alt, $task );
+		$bar->appendButton( 'Standard', 'publish', $alt, $task, false, false );
 	}
 
 	/**
-	 * Writes a common 'publish' button.
-	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $check  True if required to check that a standard list item is checked.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function publish($task = 'publish', $alt = 'JTOOLBAR_PUBLISH', $check = false)
+	* Writes a common 'publish' button for a list of records
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function publishList($task = 'publish', $alt = 'Publish')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a publish button.
-		$bar->appendButton('Standard', 'publish', $alt, $task, $check);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a publish button (list)
+		$bar->appendButton( 'Standard', 'publish', $alt, $task, true, false );
 	}
 
 	/**
-	 * Writes a common 'publish' button for a list of records.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function publishList($task = 'publish', $alt = 'JTOOLBAR_PUBLISH')
+	* Writes a common 'default' button for a record
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function makeDefault($task = 'default', $alt = 'Default')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a publish button (list).
-		$bar->appendButton('Standard', 'publish', $alt, $task, true);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a default button
+		$bar->appendButton( 'Standard', 'default', $alt, $task, true, false );
 	}
 
 	/**
-	 * Writes a common 'unpublish' button.
-	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $check  True if required to check that a standard list item is checked.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function unpublish($task = 'unpublish', $alt = 'JTOOLBAR_UNPUBLISH', $check = false)
+	* Writes a common 'assign' button for a record
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function assign($task = 'assign', $alt = 'Assign')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an assign button
+		$bar->appendButton( 'Standard', 'assign', $alt, $task, true, false );
+	}
 
+	/**
+	* Writes a common 'unpublish' button
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function unpublish($task = 'unpublish', $alt = 'Unpublish')
+	{
+		$bar = & JToolBar::getInstance('toolbar');
 		// Add an unpublish button
-		$bar->appendButton('Standard', 'unpublish', $alt, $task, $check);
+		$bar->appendButton( 'Standard', 'unpublish', $alt, $task, false, false );
 	}
 
 	/**
-	 * Writes a common 'unpublish' button for a list of records.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function unpublishList($task = 'unpublish', $alt = 'JTOOLBAR_UNPUBLISH')
+	* Writes a common 'unpublish' button for a list of records
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function unpublishList($task = 'unpublish', $alt = 'Unpublish')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an unpublish button (list)
 
-		// Add an unpublish button (list).
-		$bar->appendButton('Standard', 'unpublish', $alt, $task, true);
+		$bar->appendButton( 'Standard', 'unpublish', $alt, $task, true, false );
 	}
 
 	/**
-	 * Writes a common 'archive' button for a list of records.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function archiveList($task = 'archive', $alt = 'JTOOLBAR_ARCHIVE')
+	* Writes a common 'archive' button for a list of records
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function archiveList($task = 'archive', $alt = 'Archive')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add an archive button.
-		$bar->appendButton('Standard', 'archive', $alt, $task, true);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an archive button
+		$bar->appendButton( 'Standard', 'archive', $alt, $task, true, false );
 	}
 
 	/**
-	 * Writes an unarchive button for a list of records.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function unarchiveList($task = 'unarchive', $alt = 'JTOOLBAR_UNARCHIVE')
+	* Writes an unarchive button for a list of records
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function unarchiveList($task = 'unarchive', $alt = 'Unarchive')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add an unarchive button (list).
-		$bar->appendButton('Standard', 'unarchive', $alt, $task, true);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an unarchive button (list)
+		$bar->appendButton( 'Standard', 'unarchive', $alt, $task, true, false );
 	}
 
 	/**
-	 * Writes a common 'edit' button for a list of records.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function editList($task = 'edit', $alt = 'JTOOLBAR_EDIT')
+	* Writes a common 'edit' button for a list of records
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function editList($task = 'edit', $alt = 'Edit')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add an edit button.
-		$bar->appendButton('Standard', 'edit', $alt, $task, true);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an edit button
+		$bar->appendButton( 'Standard', 'edit', $alt, $task, true, false );
 	}
 
 	/**
-	 * Writes a common 'edit' button for a template html.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function editHtml($task = 'edit_source', $alt = 'JTOOLBAR_EDIT_HTML')
+	* Writes a common 'edit' button for a list of records.
+	* Extended version of editList() calling hideMainMenu() before submitbutton().
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function editListX($task = 'edit', $alt = 'Edit')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add an edit html button.
-		$bar->appendButton('Standard', 'edithtml', $alt, $task, true);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an edit button (hide)
+		$bar->appendButton( 'Standard', 'edit', $alt, $task, true, true );
 	}
 
 	/**
-	 * Writes a common 'edit' button for a template css.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function editCss($task = 'edit_css', $alt = 'JTOOLBAR_EDIT_CSS')
+	* Writes a common 'edit' button for a template html
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function editHtml($task = 'edit_source', $alt = 'Edit HTML')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add an edit css button (hide).
-		$bar->appendButton('Standard', 'editcss', $alt, $task, true);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an edit html button
+		$bar->appendButton( 'Standard', 'edithtml', $alt, $task, true, false );
 	}
 
 	/**
-	 * Writes a common 'delete' button for a list of records.
-	 *
-	 * @param   string  $msg   Postscript for the 'are you sure' message.
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function deleteList($msg = '', $task = 'remove', $alt = 'JTOOLBAR_DELETE')
+	* Writes a common 'edit' button for a template html.
+	* Extended version of editHtml() calling hideMainMenu() before submitbutton().
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function editHtmlX($task = 'edit_source', $alt = 'Edit HTML')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an edit html button (hide)
+		$bar->appendButton( 'Standard', 'edithtml', $alt, $task, true, true );
+	}
 
-		// Add a delete button.
-		if ($msg)
-		{
-			$bar->appendButton('Confirm', $msg, 'delete', $alt, $task, true);
+	/**
+	* Writes a common 'edit' button for a template css
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function editCss($task = 'edit_css', $alt = 'Edit CSS')
+	{
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an edit css button (hide)
+		$bar->appendButton( 'Standard', 'editcss', $alt, $task, true, false );
+	}
+
+	/**
+	* Writes a common 'edit' button for a template css.
+	* Extended version of editCss() calling hideMainMenu() before submitbutton().
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function editCssX($task = 'edit_css', $alt = 'Edit CSS')
+	{
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add an edit css button (hide)
+		$bar->appendButton( 'Standard', 'editcss', $alt, $task, true, true );
+	}
+
+	/**
+	* Writes a common 'delete' button for a list of records
+	* @param string  Postscript for the 'are you sure' message
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function deleteList($msg = '', $task = 'remove', $alt = 'Delete')
+	{
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a delete button
+		if ($msg) {
+			$bar->appendButton( 'Confirm', $msg, 'delete', $alt, $task, true, false );
+		} else {
+			$bar->appendButton( 'Standard', 'delete', $alt, $task, true, false );
 		}
-		else
-		{
-			$bar->appendButton('Standard', 'delete', $alt, $task, true);
+	}
+
+	/**
+	* Writes a common 'delete' button for a list of records.
+	* Extended version of deleteList() calling hideMainMenu() before submitbutton().
+	* @param string  Postscript for the 'are you sure' message
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function deleteListX($msg = '', $task = 'remove', $alt = 'Delete')
+	{
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a delete button (hide)
+		if ($msg) {
+			$bar->appendButton( 'Confirm', $msg, 'delete', $alt, $task, true, true );
+		} else {
+			$bar->appendButton( 'Standard', 'delete', $alt, $task, true, true );
 		}
 	}
 
 	/**
-	 * Writes a common 'trash' button for a list of records.
-	 *
-	 * @param   string  $task   An override for the task.
-	 * @param   string  $alt    An override for the alt text.
-	 * @param   bool    $check  True to allow lists.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function trash($task = 'remove', $alt = 'JTOOLBAR_TRASH', $check = true)
+	* Write a trash button that will move items to Trash Manager
+	* @since 1.0
+	*/
+	function trash($task = 'remove', $alt = 'Trash', $check = true)
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a trash button.
-		$bar->appendButton('Standard', 'trash', $alt, $task, $check, false);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a trash button
+		$bar->appendButton( 'Standard', 'trash', $alt, $task, $check, false );
 	}
 
 	/**
-	 * Writes a save button for a given option.
-	 * Apply operation leads to a save action only (does not leave edit mode).
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function apply($task = 'apply', $alt = 'JTOOLBAR_APPLY')
+	* Writes a save button for a given option
+	* Apply operation leads to a save action only (does not leave edit mode)
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function apply($task = 'apply', $alt = 'Apply')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
+		$bar = & JToolBar::getInstance('toolbar');
 		// Add an apply button
-		$bar->appendButton('Standard', 'apply', $alt, $task, false);
+		$bar->appendButton( 'Standard', 'apply', $alt, $task, false, false );
 	}
 
 	/**
-	 * Writes a save button for a given option.
-	 * Save operation leads to a save and then close action.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE')
+	* Writes a save button for a given option
+	* Save operation leads to a save and then close action
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function save($task = 'save', $alt = 'Save')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a save button.
-		$bar->appendButton('Standard', 'save', $alt, $task, false);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a save button
+		$bar->appendButton( 'Standard', 'save', $alt, $task, false, false );
 	}
 
 	/**
-	 * Writes a save and create new button for a given option.
-	 * Save and create operation leads to a save and then add action.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW')
+	* Writes a cancel button and invokes a cancel operation (eg a checkin)
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function cancel($task = 'cancel', $alt = 'Cancel')
 	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-new', $alt, $task, false);
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a cancel button
+		$bar->appendButton( 'Standard', 'cancel', $alt, $task, false, false );
 	}
 
 	/**
-	 * Writes a save as copy button for a given option.
-	 * Save as copy operation leads to a save after clearing the key,
-	 * then returns user to edit mode with new key.
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY')
+	* Writes a configuration button and invokes a cancel operation (eg a checkin)
+	* @param	string	The name of the component, eg, com_content
+	* @param	int		The height of the popup
+	* @param	int		The width of the popup
+	* @param	string	The name of the button
+	* @param	string	An alternative path for the configuation xml relative to JPATH_SITE
+	* @since 1.0
+	*/
+	function preferences($component, $height='150', $width='570', $alt = 'Preferences', $path = '')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$user =& JFactory::getUser();
+		if ($user->get('gid') != 25) {
+			return;
+		}
 
-		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-copy', $alt, $task, false);
-	}
-
-	/**
-	 * Writes a checkin button for a given option.
-	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $check  True if required to check that a standard list item is checked.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.7
-	 */
-	public static function checkin($task = 'checkin', $alt = 'JTOOLBAR_CHECKIN', $check = true)
-	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a save and create new button.
-		$bar->appendButton('Standard', 'checkin', $alt, $task, $check);
-	}
-
-	/**
-	 * Writes a cancel button and invokes a cancel operation (eg a checkin).
-	 *
-	 * @param   string  $task  An override for the task.
-	 * @param   string  $alt   An override for the alt text.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function cancel($task = 'cancel', $alt = 'JTOOLBAR_CANCEL')
-	{
-		$bar = JToolbar::getInstance('toolbar');
-
-		// Add a cancel button.
-		$bar->appendButton('Standard', 'cancel', $alt, $task, false);
-	}
-
-	/**
-	 * Writes a configuration button and invokes a cancel operation (eg a checkin).
-	 *
-	 * @param   string   $component  The name of the component, eg, com_content.
-	 * @param   integer  $height     The height of the popup. [UNUSED]
-	 * @param   integer  $width      The width of the popup. [UNUSED]
-	 * @param   string   $alt        The name of the button.
-	 * @param   string   $path       An alternative path for the configuation xml relative to JPATH_SITE.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function preferences($component, $height = '550', $width = '875', $alt = 'JToolbar_Options', $path = '')
-	{
-		$component = urlencode($component);
-		$path = urlencode($path);
-		$bar = JToolbar::getInstance('toolbar');
-
-		$uri = (string) JUri::getInstance();
-		$return = urlencode(base64_encode($uri));
-
-		// Add a button linking to config for component.
-		$bar->appendButton(
-			'Link',
-			'options',
-			$alt,
-			'index.php?option=com_config&amp;view=component&amp;component=' . $component . '&amp;path=' . $path . '&amp;return=' . $return
-		);
-	}
-
-	/**
-	 * Writes a version history
-	 *
-	 * @param   string   $typeAlias  The component and type, for example 'com_content.article'
-	 * @param   integer  $itemId     The id of the item, for example the article id.
-	 * @param   integer  $height     The height of the popup.
-	 * @param   integer  $width      The width of the popup.
-	 * @param   string   $alt        The name of the button.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
-	{
-		$lang = JFactory::getLanguage();
-		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
-		$contentTypeTable = JTable::getInstance('Contenttype');
-		$typeId           = $contentTypeTable->getTypeId($typeAlias);
-
-		// Options array for JLayout
-		$options              = array();
-		$options['title']     = JText::_($alt);
-		$options['height']    = $height;
-		$options['width']     = $width;
-		$options['itemId']    = $itemId;
-		$options['typeId']    = $typeId;
-		$options['typeAlias'] = $typeAlias;
-
-		$bar    = JToolbar::getInstance('toolbar');
-		$layout = new JLayoutFile('joomla.toolbar.versions');
-		$bar->appendButton('Custom', $layout->render($options), 'versions');
-	}
-
-	/**
-	 * Displays a modal button
-	 *
-	 * @param   string  $targetModalId  ID of the target modal box
-	 * @param   string  $icon           Icon class to show on modal button
-	 * @param   string  $alt            Title for the modal button
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public static function modal($targetModalId, $icon, $alt)
-	{
-		$title = JText::_($alt);
-		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
-			<span class='" . $icon . "' title='" . $title . "'></span> " . $title . "</button>";
-
-		$bar = JToolbar::getInstance('toolbar');
-		$bar->appendButton('Custom', $dhtml, $alt);
+		$component	= urlencode( $component );
+		$path		= urlencode( $path );
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a configuration button
+		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_config&amp;controller=component&amp;component='.$component.'&amp;path='.$path, $width, $height );
 	}
 }
+
+/**
+* Utility class for the submenu
+*
+* @package		Joomla
+*/
+class JSubMenuHelper
+{
+	function addEntry($name, $link = '', $active = false)
+	{
+		$menu = &JToolBar::getInstance('submenu');
+		$menu->appendButton($name, $link, $active);
+	}
+}
+?>

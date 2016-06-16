@@ -1,13 +1,18 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  Template.system
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: modules.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
  */
 
-defined('_JEXEC') or die;
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
 /*
  * none (output raw module content)
@@ -18,42 +23,14 @@ function modChrome_none($module, &$params, &$attribs)
 }
 
 /*
- * html5 (chosen html5 tag and font header tags)
- */
-function modChrome_html5($module, &$params, &$attribs)
-{
-	$moduleTag      = $params->get('module_tag', 'div');
-	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
-	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
-	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
-
-	// Temporarily store header class in variable
-	$headerClass    = $params->get('header_class');
-	$headerClass    = !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
-
-	if (!empty ($module->content)) : ?>
-		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass; ?>">
-
-		<?php if ((bool) $module->showtitle) :?>
-			<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
-		<?php endif; ?>
-
-			<?php echo $module->content; ?>
-
-		</<?php echo $moduleTag; ?>>
-
-	<?php endif;
-}
-
-/*
  * Module chrome that wraps the module in a table
  */
 function modChrome_table($module, &$params, &$attribs)
 { ?>
-	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-	<?php if ((bool) $module->showtitle) : ?>
+	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
+	<?php if ($module->showtitle != 0) : ?>
 		<tr>
-			<th>
+			<th valign="top">
 				<?php echo $module->title; ?>
 			</th>
 		</tr>
@@ -72,9 +49,9 @@ function modChrome_table($module, &$params, &$attribs)
  */
 function modChrome_horz($module, &$params, &$attribs)
 { ?>
-	<table cellspacing="1" cellpadding="0" width="100%">
+	<table cellspacing="1" cellpadding="0" border="0" width="100%">
 		<tr>
-			<td>
+			<td valign="top">
 				<?php modChrome_table($module, $params, $attribs); ?>
 			</td>
 		</tr>
@@ -83,27 +60,17 @@ function modChrome_horz($module, &$params, &$attribs)
 }
 
 /*
- * xhtml (divs and font header tags)
- * With the new advanced parameter it does the same as the html5 chrome
+ * xhtml (divs and font headder tags)
  */
 function modChrome_xhtml($module, &$params, &$attribs)
 {
-	$moduleTag      = $params->get('module_tag', 'div');
-	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
-	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
-	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
-
-	// Temporarily store header class in variable
-	$headerClass    = $params->get('header_class');
-	$headerClass    = ($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
-
 	if (!empty ($module->content)) : ?>
-		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass; ?>">
-			<?php if ((bool) $module->showtitle) : ?>
-				<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
-			<?php endif; ?>
+		<div class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
+		<?php if ($module->showtitle != 0) : ?>
+			<h3><?php echo $module->title; ?></h3>
+		<?php endif; ?>
 			<?php echo $module->content; ?>
-		</<?php echo $moduleTag; ?>>
+		</div>
 	<?php endif;
 }
 
@@ -112,11 +79,11 @@ function modChrome_xhtml($module, &$params, &$attribs)
  */
 function modChrome_rounded($module, &$params, &$attribs)
 { ?>
-		<div class="module<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
+		<div class="module<?php echo $params->get('moduleclass_sfx'); ?>">
 			<div>
 				<div>
 					<div>
-						<?php if ((bool) $module->showtitle) : ?>
+						<?php if ($module->showtitle != 0) : ?>
 							<h3><?php echo $module->title; ?></h3>
 						<?php endif; ?>
 					<?php echo $module->content; ?>
@@ -132,21 +99,18 @@ function modChrome_rounded($module, &$params, &$attribs)
  */
 function modChrome_outline($module, &$params, &$attribs)
 {
-	static $css = false;
-	if (!$css)
-	{
-		$css = true;
-		$doc = JFactory::getDocument();
+	$doc =& JFactory::getDocument();
+	$css  = ".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
+	$css .= ".mod-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";
+	$doc->addStyleDeclaration($css);
 
-		$doc->addStyleDeclaration(".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;}");
-		$doc->addStyleDeclaration(".mod-preview-wrapper { background-color:#eee; border: 1px dotted black; color:#700;}");
-	}
 	?>
 	<div class="mod-preview">
-		<div class="mod-preview-info"><?php echo 'Position: ' . $module->position . ' [ Style: ' . $module->style . ']'; ?></div>
+		<div class="mod-preview-info"><?php echo $module->position."[".$module->style."]"; ?></div>
 		<div class="mod-preview-wrapper">
 			<?php echo $module->content; ?>
 		</div>
 	</div>
 	<?php
 }
+?>

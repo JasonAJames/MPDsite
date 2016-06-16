@@ -1,86 +1,73 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: view.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @subpackage	Menus
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
  */
 
-defined('_JEXEC') or die;
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jimport('joomla.application.component.view');
 
 /**
  * Extension Manager Default View
  *
- * @since  1.5
+ * @package		Joomla
+ * @subpackage	Installer
+ * @since		1.5
  */
-class InstallerViewDefault extends JViewLegacy
+class InstallerViewDefault extends JView
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  Configuration array
-	 *
-	 * @since   1.5
-	 */
-	public function __construct($config = null)
+	function __construct($config = null)
 	{
-		$app = JFactory::getApplication();
 		parent::__construct($config);
-		$this->_addPath('template', $this->_basePath . '/views/default/tmpl');
-		$this->_addPath('template', JPATH_THEMES . '/' . $app->getTemplate() . '/html/com_installer/default');
+		$this->_addPath('template', $this->_basePath.DS.'views'.DS.'default'.DS.'tmpl');
 	}
 
-	/**
-	 * Display the view.
-	 *
-	 * @param   string  $tpl  Template
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function display($tpl = null)
+	function display($tpl=null)
 	{
-		// Get data from the model.
-		$state = $this->get('State');
+		/*
+		 * Set toolbar items for the page
+		 */
+		JToolBarHelper::title( JText::_( 'Extension Manager'), 'install.png' );
 
-		// Are there messages to display?
-		$showMessage = false;
+		// Document
+		$document = & JFactory::getDocument();
+		$document->setTitle(JText::_('Extension Manager').' : '.JText::_( $this->getName() ));
 
-		if (is_object($state))
+		// Get data from the model
+		$state		= &$this->get('State');
+
+		// Are there messages to display ?
+		$showMessage	= false;
+		if ( is_object($state) )
 		{
-			$message1    = $state->get('message');
-			$message2    = $state->get('extension_message');
-			$showMessage = ($message1 || $message2);
+			$message1		= $state->get('message');
+			$message2		= $state->get('extension.message');
+			$showMessage	= ( $message1 || $message2 );
 		}
 
-		$this->showMessage = $showMessage;
-		$this->state       = &$state;
+		$this->assign('showMessage',	$showMessage);
+		$this->assignRef('state',		$state);
 
-		$this->addToolbar();
+		JHTML::_('behavior.tooltip');
 		parent::display($tpl);
 	}
 
 	/**
-	 * Add the page title and toolbar.
+	 * Should be overloaded by extending view
 	 *
-	 * @return  void
-	 *
-	 * @since   1.6
+	 * @param	int $index
 	 */
-	protected function addToolbar()
+	function loadItem($index=0)
 	{
-		$canDo = JHelperContent::getActions('com_installer');
-		JToolbarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle install');
-
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			JToolbarHelper::preferences('com_installer');
-			JToolbarHelper::divider();
-		}
-
-		// Render side bar.
-		$this->sidebar = JHtmlSidebar::render();
 	}
 }

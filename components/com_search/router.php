@@ -1,116 +1,41 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_search
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: router.php 16385 2010-04-23 10:44:15Z ian $
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
  */
-
-defined('_JEXEC') or die;
 
 /**
- * Routing class from com_search
- *
- * @since  3.3
+ * @param	array
+ * @return	array
  */
-class SearchRouter extends JComponentRouterBase
+function SearchBuildRoute( &$query )
 {
-	/**
-	 * Build the route for the com_search component
-	 *
-	 * @param   array  &$query  An array of URL arguments
-	 *
-	 * @return  array  The URL arguments to use to assemble the subsequent URL.
-	 *
-	 * @since   3.3
-	 */
-	public function build(&$query)
-	{
-		$segments = array();
+	$segments = array();
 
-		if (isset($query['view']))
-		{
-			unset($query['view']);
-		}
-
-		// Fix up search for URL
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
-		{
-			// Urlencode twice because it is decoded once after redirect
-			$segments[$i] = urlencode(urlencode(stripcslashes($segments[$i])));
-		}
-
-		return $segments;
+	if (isset($query['view'])) {
+		unset($query['view']);
 	}
-
-	/**
-	 * Parse the segments of a URL.
-	 *
-	 * @param   array  &$segments  The segments of the URL to parse.
-	 *
-	 * @return  array  The URL attributes to be used by the application.
-	 *
-	 * @since   3.3
-	 */
-	public function parse(&$segments)
-	{
-		$vars = array();
-
-		// Fix up search for URL
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
-		{
-			// Urldecode twice because it is encoded twice
-			$segments[$i] = urldecode(urldecode(stripcslashes($segments[$i])));
-		}
-
-		$searchword         = array_shift($segments);
-		$vars['searchword'] = $searchword;
-		$vars['view']       = 'search';
-
-		return $vars;
-	}
-}
-
-
-/**
- * searchBuildRoute
- *
- * These functions are proxies for the new router interface
- * for old SEF extensions.
- *
- * @param   array  &$query  An array of URL arguments
- *
- * @return array
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function searchBuildRoute(&$query)
-{
-	$router = new SearchRouter;
-
-	return $router->build($query);
+	return $segments;
 }
 
 /**
- * searchParseRoute
- *
- * These functions are proxies for the new router interface
- * for old SEF extensions.
- *
- * @param   array  $segments  The segments of the URL to parse.
- *
- * @return array
- *
- * @deprecated  4.0  Use Class based routers instead
+ * @param	array
+ * @return	array
  */
-function searchParseRoute($segments)
+function SearchParseRoute( $segments )
 {
-	$router = new SearchRouter;
+	$vars = array();
 
-	return $router->parse($segments);
+	$searchword	= array_shift($segments);
+	$vars['searchword'] = $searchword;
+	$vars['view'] = 'search';
+
+	return $vars;
 }

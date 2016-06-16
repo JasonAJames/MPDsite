@@ -1,89 +1,40 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_wrapper
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: router.php 9764 2007-12-30 07:48:11Z ircmaxell $
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
  */
-
-defined('_JEXEC') or die;
 
 /**
- * Routing class from com_wrapper
- *
- * @since  3.3
+ * @param	array
+ * @return	array
  */
-class WrapperRouter extends JComponentRouterBase
+function WrapperBuildRoute( &$query )
 {
-	/**
-	 * Build the route for the com_wrapper component
-	 *
-	 * @param   array  &$query  An array of URL arguments
-	 *
-	 * @return  array  The URL arguments to use to assemble the subsequent URL.
-	 *
-	 * @since   3.3
-	 */
-	public function build(&$query)
-	{
-		if (isset($query['view']))
-		{
-			unset($query['view']);
-		}
+	$segments = array();
 
-		return array();
+	if (isset($query['view'])) {
+		unset($query['view']);
 	}
 
-	/**
-	 * Parse the segments of a URL.
-	 *
-	 * @param   array  &$segments  The segments of the URL to parse.
-	 *
-	 * @return  array  The URL attributes to be used by the application.
-	 *
-	 * @since   3.3
-	 */
-	public function parse(&$segments)
-	{
-		return array('view' => 'wrapper');
-	}
+	return $segments;
 }
 
 /**
- * Wrapper router functions
- *
- * These functions are proxys for the new router interface
- * for old SEF extensions.
- *
- * @param   array  &$query  An array of URL arguments
- *
- * @return  array  The URL arguments to use to assemble the subsequent URL.
- *
- * @deprecated  4.0  Use Class based routers instead
+ * @param	array
+ * @return	array
  */
-function wrapperBuildRoute(&$query)
+function WrapperParseRoute( $segments )
 {
-	$router = new WrapperRouter;
+	$vars = array();
 
-	return $router->build($query);
-}
+	$vars['view'] = 'wrapper';
 
-/**
- * Wrapper router functions
- *
- * These functions are proxys for the new router interface
- * for old SEF extensions.
- *
- * @param   array  $segments  The segments of the URL to parse.
- *
- * @return  array  The URL attributes to be used by the application.
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function wrapperParseRoute($segments)
-{
-	$router = new WrapperRouter;
-
-	return $router->parse($segments);
+	return $vars;
 }

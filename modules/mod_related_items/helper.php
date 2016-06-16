@@ -1,199 +1,124 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  mod_related_items
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: helper.php 15200 2010-03-05 09:12:56Z ian $
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
-defined('_JEXEC') or die;
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
 
-/**
- * Helper for mod_related_items
- *
- * @package     Joomla.Site
- * @subpackage  mod_related_items
- * @since       1.5
- */
-abstract class ModRelatedItemsHelper
+class modRelatedItemsHelper
 {
-	/**
-	 * Get a list of related articles
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters
-	 *
-	 * @return  array
-	 */
-	public static function getList(&$params)
+	function getList($params)
 	{
-		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$date = JFactory::getDate();
-		$maximum = (int) $params->get('maximum', 5);
+		global $mainframe;
 
-		// Get an instance of the generic articles model
-		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models');
-		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$db					=& JFactory::getDBO();
+		$user =& JFactory::getUser();
 
-		if ($articles === false)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		$option				= JRequest::getCmd('option');
+		$view				= JRequest::getCmd('view');
 
-			return array();
-		}
+		$temp				= JRequest::getString('id');
+		$temp				= explode(':', $temp);
+		$id					= $temp[0];
 
-		// Set application parameters in model
-		$appParams = $app->getParams();
-		$articles->setState('params', $appParams);
+		$aid = $user->get('aid', 0);
 
-		$option = $app->input->get('option');
-		$view = $app->input->get('view');
-
-		$temp = $app->input->getString('id');
-		$temp = explode(':', $temp);
-		$id = $temp[0];
-
-		$nullDate = $db->getNullDate();
-		$now = $date->toSql();
-		$related = array();
-		$query = $db->getQuery(true);
-
+		$showDate			= $params->get('showDate', 0);
+		$conf =& JFactory::getConfig();
+		
 		if ($option == 'com_content' && $view == 'article' && $id)
 		{
-			// Select the meta keywords from the item
-			$query->select('metakey')
-				->from('#__content')
-				->where('id = ' . (int) $id);
-			$db->setQuery($query);
-
-			try
-			{
-				$metakey = trim($db->loadResult());
+			if ($params->get('cache_items', 0)==1 && $conf->getValue( 'config.caching' )) {
+				$cache =& JFactory::getCache('mod_related_items', 'callback');
+				$cache->setLifeTime( $params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) * 60 ) );
+				$cache->setCacheValidation(true);
+				$related = $cache->get(array('modRelatedItemsHelper', 'getRelatedItemsById'), array($id, $aid, $showDate));
+			} else {
+				$related = modRelatedItemsHelper::getRelatedItemsById($id, $aid, $showDate);
 			}
-			catch (RuntimeException $e)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		} else {
+			$related = array();
+		}
 
-				return array();
-			}
+		return $related;
+	}
 
-			// Explode the meta keys on a comma
+	function getRelatedItemsById($id, $aid, $showDate) {
+		$db =& JFactory::getDBO();
+		$user =& JFactory::getUser();
+		$date =& JFactory::getDate();
+
+		$related = array();
+
+		$nullDate = $db->getNullDate();
+		$now  = $date->toMySQL();
+
+		// select the meta keywords from the item
+		$query = 'SELECT metakey' .
+				' FROM #__content' .
+				' WHERE id = '.(int) $id;
+		$db->setQuery($query);
+
+		if ($metakey = trim($db->loadResult()))
+		{
+			// explode the meta keys on a comma
 			$keys = explode(',', $metakey);
-			$likes = array();
+			$likes = array ();
 
-			// Assemble any non-blank word(s)
+			// assemble any non-blank word(s)
 			foreach ($keys as $key)
 			{
 				$key = trim($key);
-
-				if ($key)
-				{
-					$likes[] = $db->escape($key);
+				if ($key) {
+					$likes[] = ',' . $db->getEscaped($key) . ','; // surround with commas so first and last items have surrounding commas
 				}
 			}
 
 			if (count($likes))
 			{
-				// Select other items based on the metakey field 'like' the keys found
-				$query->clear()
-					->select('a.id')
-					->select('a.title')
-					->select('DATE(a.created) as created')
-					->select('a.catid')
-					->select('a.language')
-					->select('cc.access AS cat_access')
-					->select('cc.published AS cat_state');
-
-				// Sqlsrv changes
-				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias', '!=', '0');
-				$case_when .= ' THEN ';
-				$a_id = $query->castAsChar('a.id');
-				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-				$case_when .= ' ELSE ';
-				$case_when .= $a_id . ' END as slug';
-				$query->select($case_when);
-
-				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('cc.alias', '!=', '0');
-				$case_when .= ' THEN ';
-				$c_id = $query->castAsChar('cc.id');
-				$case_when .= $query->concatenate(array($c_id, 'cc.alias'), ':');
-				$case_when .= ' ELSE ';
-				$case_when .= $c_id . ' END as catslug';
-				$query->select($case_when)
-					->from('#__content AS a')
-					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
-					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-					->where('a.id != ' . (int) $id)
-					->where('a.state = 1')
-					->where('a.access IN (' . $groups . ')');
-
-				$wheres = array();
-
-				foreach ($likes as $keyword)
-				{
-					$wheres[] = 'a.metakey LIKE ' . $db->quote('%' . $keyword . '%');
-				}
-
-				$query->where('(' . implode(' OR ', $wheres) . ')')
-					->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
-					->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
-
-				// Filter by language
-				if (JLanguageMultilang::isEnabled())
-				{
-					$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-				}
-
-				$db->setQuery($query, 0, $maximum);
-
-				try
-				{
-					$temp = $db->loadObjectList();
-				}
-				catch (RuntimeException $e)
-				{
-					JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
-					return array();
-				}
+				// select other items based on the metakey field 'like' the keys found
+				$query = 'SELECT a.id, a.title, DATE_FORMAT(a.created, "%Y-%m-%d") AS created, a.sectionid, a.catid, cc.access AS cat_access, s.access AS sec_access, cc.published AS cat_state, s.published AS sec_state,' .
+						' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
+						' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug'.
+						' FROM #__content AS a' .
+						' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' .
+						' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
+						' LEFT JOIN #__sections AS s ON s.id = a.sectionid' .
+						' WHERE a.id != '.(int) $id .
+						' AND a.state = 1' .
+						' AND a.access <= ' .(int) $user->get('aid', 0) .
+						' AND ( CONCAT(",", REPLACE(a.metakey,", ",","),",") LIKE "%'.implode('%" OR CONCAT(",", REPLACE(a.metakey,", ",","),",") LIKE "%', $likes).'%" )' . //remove single space after commas in keywords
+						' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )' .
+						' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )';
+				$db->setQuery($query);
+				$temp = $db->loadObjectList();
 
 				if (count($temp))
 				{
-					$articles_ids = array();
-
 					foreach ($temp as $row)
 					{
-						$articles_ids[] = $row->id;
+						if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('aid', 0) || $row->cat_access == '') && ($row->sec_access <= $user->get('aid', 0) || $row->sec_access == ''))
+						{
+							$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
+							$related[] = $row;
+						}
 					}
-
-					$articles->setState('filter.article_id', $articles_ids);
-					$articles->setState('filter.published', 1);
-					$related = $articles->getItems();
 				}
-
 				unset ($temp);
 			}
 		}
 
-		if (count($related))
-		{
-			// Prepare data for display using display options
-			foreach ($related as &$item)
-			{
-				$item->slug    = $item->id . ':' . $item->alias;
-				$item->catslug = $item->catid . ':' . $item->category_alias;
-
-				$item->route = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
-			}
-		}
-
 		return $related;
-	}
+	}	
 }

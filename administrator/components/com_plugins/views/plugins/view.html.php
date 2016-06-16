@@ -1,106 +1,147 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: view.html.php 18162 2010-07-16 07:00:47Z ian $
+* @package		Joomla
+* @subpackage	Config
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
-defined('_JEXEC') or die;
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jimport( 'joomla.application.component.view');
 
 /**
- * View class for a list of plugins.
+ * HTML View class for the Plugins component
  *
- * @since  1.5
+ * @static
+ * @package		Joomla
+ * @subpackage	Plugins
+ * @since 1.0
  */
-class PluginsViewPlugins extends JViewLegacy
+class PluginsViewPlugins extends JView
 {
-	protected $items;
-
-	protected $pagination;
-
-	protected $state;
-
-	/**
-	 * Display the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 */
-	public function display($tpl = null)
+	function display( $tpl = null )
 	{
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->filterForm = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		global $mainframe, $option;
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
+		$db =& JFactory::getDBO();
 
+		$client = JRequest::getWord( 'filter_client', 'site' );
+
+		$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order",		'filter_order',		'p.folder',	'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'',			'word' );
+		$filter_state		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state",		'filter_state',		'',			'word' );
+		$filter_type		= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type',		1,			'cmd' );
+		$search				= $mainframe->getUserStateFromRequest( "$option.$client.search",			'search',			'',			'string' );
+		if (strpos($search, '"') !== false) {
+			$search = str_replace(array('=', '<'), '', $search);
+		}
+		$search = JString::strtolower($search);
+
+		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+
+		$where = '';
+		if ($client == 'admin') {
+			$where[] = 'p.client_id = 1';
+			$client_id = 1;
+		} else {
+			$where[] = 'p.client_id = 0';
+			$client_id = 0;
+		}
+
+		// used by filter
+		if ( $filter_type != 1 ) {
+			$where[] = 'p.folder = '.$db->Quote($filter_type);
+		}
+		if ( $search ) {
+			$where[] = 'LOWER( p.name ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+		}
+		if ( $filter_state ) {
+			if ( $filter_state == 'P' ) {
+				$where[] = 'p.published = 1';
+			} else if ($filter_state == 'U' ) {
+				$where[] = 'p.published = 0';
+			}
+		}
+
+		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+
+		// sanitize $filter_order
+		if (!in_array($filter_order, array('p.name', 'p.published', 'p.ordering', 'groupname', 'p.folder', 'p.element', 'p.id'))) {
+			$filter_order = 'p.folder';
+		}
+
+		if ($filter_order == 'p.ordering') {
+			$orderby = ' ORDER BY p.folder, p.ordering '. $filter_order_Dir;
+		} else {
+			$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', p.ordering ASC';
+		}
+
+		// get the total number of records
+		$query = 'SELECT COUNT(*)'
+			. ' FROM #__plugins AS p'
+			. $where
+			;
+		$db->setQuery( $query );
+		$total = $db->loadResult();
+
+		jimport('joomla.html.pagination');
+		$pagination = new JPagination( $total, $limitstart, $limit );
+
+		$query = 'SELECT p.*, u.name AS editor, g.name AS groupname'
+			. ' FROM #__plugins AS p'
+			. ' LEFT JOIN #__users AS u ON u.id = p.checked_out'
+			. ' LEFT JOIN #__groups AS g ON g.id = p.access'
+			. $where
+			. ' GROUP BY p.id'
+			. $orderby
+			;
+		$db->setQuery( $query, $pagination->limitstart, $pagination->limit );
+		$rows = $db->loadObjectList();
+		if ($db->getErrorNum()) {
+			echo $db->stderr();
 			return false;
 		}
 
-		$this->addToolbar();
 
-		return parent::display($tpl);
-	}
+		// get list of Positions for dropdown filter
+		$query = 'SELECT folder AS value, folder AS text'
+			. ' FROM #__plugins'
+			. ' WHERE client_id = '.(int) $client_id
+			. ' GROUP BY folder'
+			. ' ORDER BY folder'
+			;
+		$types[] = JHTML::_('select.option',  1, '- '. JText::_( 'Select Type' ) .' -' );
+		$db->setQuery( $query );
+		$types 			= array_merge( $types, $db->loadObjectList() );
+		$lists['type']	= JHTML::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$canDo = JHelperContent::getActions('com_plugins');
+		// state filter
+		$lists['state']	= JHTML::_('grid.state',  $filter_state );
 
-		JToolbarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
 
-		if ($canDo->get('core.edit'))
-		{
-			JToolbarHelper::editList('plugin.edit');
-		}
+		// table ordering
+		$lists['order_Dir']	= $filter_order_Dir;
+		$lists['order']		= $filter_order;
 
-		if ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
-			JToolbarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
-			JToolbarHelper::checkin('plugins.checkin');
-		}
+		// search filter
+		$lists['search']= $search;
 
-		if ($canDo->get('core.admin'))
-		{
-			JToolbarHelper::preferences('com_plugins');
-		}
+		$this->assign('client',		$client);
 
-		JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
+		$this->assignRef('user',		JFactory::getUser());
+		$this->assignRef('lists',		$lists);
+		$this->assignRef('items',		$rows);
+		$this->assignRef('pagination',	$pagination);
 
-	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by.
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value.
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-				'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-				'enabled' => JText::_('JSTATUS'),
-				'name' => JText::_('JGLOBAL_TITLE'),
-				'folder' => JText::_('COM_PLUGINS_FOLDER_HEADING'),
-				'element' => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
-				'access' => JText::_('JGRID_HEADING_ACCESS'),
-				'extension_id' => JText::_('JGRID_HEADING_ID')
-		);
+		parent::display($tpl);
 	}
 }

@@ -1,323 +1,131 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: banner.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @subpackage	Banners
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
  */
 
-defined('_JEXEC') or die;
-
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
- * Banner table
- *
- * @since  1.5
+ * @package		Joomla
+ * @subpackage	Banners
  */
-class BannersTableBanner extends JTable
+class TableBanner extends JTable
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
-	 *
-	 * @since   1.5
-	 */
-	public function __construct(&$db)
+	/** @var int */
+	var $bid				= null;
+	/** @var int */
+	var $cid				= null;
+	/** @var string */
+	var $type				= '';
+	/** @var string */
+	var $name				= '';
+	/** @var string */
+	var $alias				= '';
+	/** @var int */
+	var $imptotal			= 0;
+	/** @var int */
+	var $impmade			= 0;
+	/** @var int */
+	var $clicks				= 0;
+	/** @var string */
+	var $imageurl			= '';
+	/** @var string */
+	var $clickurl			= '';
+	/** @var date */
+	var $date				= null;
+	/** @var int */
+	var $showBanner			= 0;
+	/** @var int */
+	var $checked_out		= 0;
+	/** @var date */
+	var $checked_out_time	= 0;
+	/** @var string */
+	var $editor				= '';
+	/** @var string */
+	var $custombannercode	= '';
+	/** @var int */
+	var $catid				= null;
+	/** @var string */
+	var $description		= null;
+	/** @var int */
+	var $sticky				= null;
+	/** @var int */
+	var $ordering			= null;
+	/** @var date */
+	var $publish_up			= null;
+	/** @var date */
+	var $publish_down		= null;
+	/** @var string */
+	var $tags				= null;
+	/** @var string */
+	var $params				= null;
+
+	function __construct( &$_db )
 	{
-		parent::__construct('#__banners', 'id', $db);
+		parent::__construct( '#__banner', 'bid', $_db );
 
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.banner'));
 
-		$this->created = JFactory::getDate()->toSql();
-		$this->setColumnAlias('published', 'state');
+		$now =& JFactory::getDate();
+		$this->set( 'date', $now->toMySQL() );
 	}
 
-	/**
-	 * Increase click count
-	 *
-	 * @return  void
-	 */
-	public function clicks()
+	function clicks()
 	{
-		$query = 'UPDATE #__banners'
-			. ' SET clicks = (clicks + 1)'
-			. ' WHERE id = ' . (int) $this->id;
-
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$query = 'UPDATE #__banner'
+		. ' SET clicks = ( clicks + 1 )'
+		. ' WHERE bid = ' . (int) $this->bid
+		;
+		$this->_db->setQuery( $query );
+		$this->_db->query();
 	}
 
 	/**
 	 * Overloaded check function
 	 *
-	 * @return  boolean
-	 *
-	 * @see     JTable::check
-	 * @since   1.5
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
 	 */
-	public function check()
+	function check()
 	{
-		// Set name
-		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
-
-		// Set alias
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
-
-		if (empty($this->alias))
-		{
-			$this->alias = JApplicationHelper::stringURLSafe($this->name);
-		}
-
-		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
-		{
-			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
-
+		// check for valid client id
+		if (is_null($this->cid) || $this->cid == 0) {
+			$this->setError(JText::_( 'BNR_CLIENT' ));
 			return false;
 		}
 
-		// Set ordering
-		if ($this->state < 0)
-		{
-			// Set ordering to 0 if state is archived or trashed
-			$this->ordering = 0;
-		}
-		elseif (empty($this->ordering))
-		{
-			// Set ordering to last if ordering was 0
-			$this->ordering = self::getNextOrder($this->_db->quoteName('catid') . '=' . $this->_db->quote($this->catid) . ' AND state>=0');
+		// check for valid name
+		if(trim($this->name) == '') {
+			$this->setError(JText::_( 'BNR_NAME' ));
+			return false;
 		}
 
-		if (empty($this->publish_up))
-		{
-			$this->publish_up = $this->getDbo()->getNullDate();
+		if(empty($this->alias)) {
+			$this->alias = $this->name;
 		}
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 
-		if (empty($this->publish_down))
-		{
-			$this->publish_down = $this->getDbo()->getNullDate();
+		/*if(trim($this->imageurl) == '') {
+			$this->setError(JText::_( 'BNR_IMAGE' ));
+			return false;
 		}
-
-		if (empty($this->modified))
-		{
-			$this->modified = $this->getDbo()->getNullDate();
-		}
+		if(trim($this->clickurl) == '' && trim($this->custombannercode) == '') {
+			$this->setError(JText::_( 'BNR_URL' ));
+			return false;
+		}*/
 
 		return true;
 	}
-
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param   mixed  $array   An associative array or object to bind to the JTable instance.
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   1.5
-	 */
-	public function bind($array, $ignore = array())
-	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
-
-			if ((int) $registry->get('width', 0) < 0)
-			{
-				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
-
-				return false;
-			}
-
-			if ((int) $registry->get('height', 0) < 0)
-			{
-				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
-
-				return false;
-			}
-
-			// Converts the width and height to an absolute numeric value:
-			$width  = abs((int) $registry->get('width', 0));
-			$height = abs((int) $registry->get('height', 0));
-
-			// Sets the width and height to an empty string if = 0
-			$registry->set('width', ($width ? $width : ''));
-			$registry->set('height', ($height ? $height : ''));
-
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['imptotal']))
-		{
-			$array['imptotal'] = abs((int) $array['imptotal']);
-		}
-
-		return parent::bind($array, $ignore);
-	}
-
-	/**
-	 * Method to store a row
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 */
-	public function store($updateNulls = false)
-	{
-		if (empty($this->id))
-		{
-			$purchase_type = $this->purchase_type;
-
-			if ($purchase_type < 0 && $this->cid)
-			{
-				/** @var BannersTableClient $client */
-				$client = JTable::getInstance('Client', 'BannersTable');
-				$client->load($this->cid);
-				$purchase_type = $client->purchase_type;
-			}
-
-			if ($purchase_type < 0)
-			{
-				$purchase_type = JComponentHelper::getParams('com_banners')->get('purchase_type');
-			}
-
-			switch ($purchase_type)
-			{
-				case 1:
-					$this->reset = $this->_db->getNullDate();
-					break;
-				case 2:
-					$date = JFactory::getDate('+1 year ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $date->toSql();
-					break;
-				case 3:
-					$date = JFactory::getDate('+1 month ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $date->toSql();
-					break;
-				case 4:
-					$date = JFactory::getDate('+7 day ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $date->toSql();
-					break;
-				case 5:
-					$date = JFactory::getDate('+1 day ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $date->toSql();
-					break;
-			}
-
-			// Store the row
-			parent::store($updateNulls);
-		}
-		else
-		{
-			// Get the old row
-			/** @var BannersTableBanner $oldrow */
-			$oldrow = JTable::getInstance('Banner', 'BannersTable');
-
-			if (!$oldrow->load($this->id) && $oldrow->getError())
-			{
-				$this->setError($oldrow->getError());
-			}
-
-			// Verify that the alias is unique
-			/** @var BannersTableBanner $table */
-			$table = JTable::getInstance('Banner', 'BannersTable');
-
-			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
-			{
-				$this->setError(JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
-
-				return false;
-			}
-
-			// Store the new row
-			parent::store($updateNulls);
-
-			// Need to reorder ?
-			if ($oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid))
-			{
-				// Reorder the oldrow
-				$this->reorder($this->_db->quoteName('catid') . '=' . $this->_db->quote($oldrow->catid) . ' AND state>=0');
-			}
-		}
-
-		return count($this->getErrors()) == 0;
-	}
-
-	/**
-	 * Method to set the sticky state for a row or list of rows in the database
-	 * table.  The method respects checked out rows by other users and will attempt
-	 * to checkin rows that it can after adjustments are made.
-	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
-	 * @param   integer  $state   The sticky state. eg. [0 = unsticked, 1 = sticked]
-	 * @param   integer  $userId  The user id of the user performing the operation.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.6
-	 */
-	public function stick($pks = null, $state = 1, $userId = 0)
-	{
-		$k = $this->_tbl_key;
-
-		// Sanitize input.
-		$pks    = ArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
-		$state  = (int) $state;
-
-		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
-			if ($this->$k)
-			{
-				$pks = array($this->$k);
-			}
-			// Nothing to set publishing state on, return false.
-			else
-			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
-
-				return false;
-			}
-		}
-
-		// Get an instance of the table
-		/** @var BannersTableBanner $table */
-		$table = JTable::getInstance('Banner', 'BannersTable');
-
-		// For all keys
-		foreach ($pks as $pk)
-		{
-			// Load the banner
-			if (!$table->load($pk))
-			{
-				$this->setError($table->getError());
-			}
-
-			// Verify checkout
-			if ($table->checked_out == 0 || $table->checked_out == $userId)
-			{
-				// Change the state
-				$table->sticky = $state;
-				$table->checked_out = 0;
-				$table->checked_out_time = $this->_db->getNullDate();
-
-				// Check the row
-				$table->check();
-
-				// Store the row
-				if (!$table->store())
-				{
-					$this->setError($table->getError());
-				}
-			}
-		}
-
-		return count($this->getErrors()) == 0;
-	}
 }
+?>

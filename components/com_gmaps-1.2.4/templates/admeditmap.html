@@ -1,0 +1,276 @@
+<mos:comment>
+
+@version 
+@package 		GMaps
+@subpackage 	Templates
+@copyright 		(C) 2006-2007 Chris Strieter
+@license 		http://www.gnu.org/copyleft/gpl.html GNU/GPL
+
+CHANGE HISTORY
+=================
+02/28/2007	cjs	Added SHOWMAPTYPE option
+03/01/2007	cjs	Added INDEXTITLE option and default center LAT / LONG
+03/04/2007	cjs Addes support for DRIVING DIRECTIONS option for all markers
+03/12/2007	cjs Added support to reorder tabs, define tab hdg text via config page
+				and the definition of a marker to auto-open
+04/20/2007	cjs	Added Input closing /
+				Changed "Enable Driving Directions to Enable Tabs"
+
+</mos:comment>
+
+<mos:tmpl name="form">
+
+
+<div align="center" class="centermain">
+	<div class="main">
+
+		<link id="luna-tab-style-sheet" type="text/css" rel="stylesheet" href="{JOOMLAROOT}/includes/js/tabs/tabpane.css" />
+		<script type="text/javascript" src="{JOOMLAROOT}/includes/js/tabs/tabpane_mini.js"></script>       
+        <div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
+        <script language="JavaScript" src="{JOOMLAROOT}/includes/js/overlib_mini.js" type="text/javascript"></script> 
+
+
+		
+	<table class="adminheading">
+		<tr>
+			<th>
+			Map Information:
+			<small>{FUNCTION}</small>
+			</th>
+		</tr>
+	</table>
+	
+<script language="javascript" type="text/javascript">
+	function submitbutton(pressbutton) {
+		var form = document.adminForm;
+	
+		if (pressbutton == 'cancelMap') {
+			submitform( pressbutton );
+			return;
+		}
+		// do field validation
+		if (form.id.value != 0) {
+			if (form.id.value == form.overlay1.value) {
+				alert(" You cannot define this map as an overlay to itself");
+				return;
+			}
+			if (form.id.value == form.overlay2.value) {
+				alert(" You cannot define this map as an overlay to itself");
+				return;
+			}
+			if (form.id.value == form.overlay3.value) {
+				alert(" You cannot define this map as an overlay to itself");
+				return;
+			}
+			if (form.id.value == form.overlay4.value) {
+				alert(" You cannot define this map as an overlay to itself");
+				return;
+			}
+			if (form.id.value == form.overlay5.value) {
+				alert(" You cannot define this map as an overlay to itself");
+				return;
+			}
+		}				
+		
+		if (form.tab1content.value == form.tab2content.value) {
+			alert( "Both tab content cannot be set to the same value" );
+			form.tab1content.focus();
+			return;
+		}				
+		if (form.title.value == "") {
+			alert( "Map must have a title" );
+			return;
+		} else {
+			submitform( pressbutton );
+		}
+	}
+</script>
+
+<table width="100%"		
+<tr>
+<td valign="top">
+       <form name="adminForm" action="index2.php">	
+
+        <div class="tab-page" id="configPane"><script type="text/javascript">
+	var tabPane1 = new WebFXTabPane( document.getElementById( "configPane" ), 0 )
+</script>
+<div class="tab-page" id="general-page"><h2 class="tab">General</h2><script type="text/javascript">
+  tabPane1.addTabPage( document.getElementById( "general-page" ) );</script>
+
+    	<table class="adminform" cellpadding="4" cellspacing="0" border="1" width="400px">
+   		<th colspan="5">
+   			Details
+   		</th>
+   		<tr>
+			<td width="20%">ID</td><TD>{DATA_ID}</TD>
+		<tr>
+		<tr>
+			<td width="20%">Title: </td>
+			<td width=""><input type="text" name="title" size="50" value="{DATA_TITLE}" /></td>
+		</tr>
+		<tr>
+			<td width="20%">Description: </td>
+			<td><textarea name="description" rows="3" cols="40">{DATA_DESCRIPTION}</textarea></td>
+		</tr>
+		<tr>
+			<td width="20%">Overlay Map 1: </td>
+			<td width="">{DATA_OVERLAY1}</td>
+		</tr>				
+		<tr>
+			<td width="20%">Overlay Map 2: </td>
+			<td width="">{DATA_OVERLAY2}</td>
+		</tr>
+		<tr>
+			<td width="20%">Overlay Map 3: </td>
+			<td width="">{DATA_OVERLAY3}</td>
+		</tr>
+		<tr>
+			<td width="20%">Overlay Map 4: </td>
+			<td width="">{DATA_OVERLAY4}</td>
+		</tr>
+		<tr>
+			<td width="20%">Overlay Map 5: </td>
+			<td width="">{DATA_OVERLAY5}</td>
+		</tr>
+	</table>
+	
+        </div>
+        <div class="tab-page" id="map-properties"><h2 class="tab">Properties</h2><script type="text/javascript">
+  tabPane1.addTabPage( document.getElementById( "map-properties" ) );</script>
+  <table class="adminform" cellpadding="4" cellspacing="0" border="1" width="400px">	
+		<tr> <th colspan="5">
+   			Properties
+   		</th></td></tr>	
+		<tr>
+			<td width="20%">Map Type: </td>
+			<td width="">{MAPTYPE}</td>
+		</tr>				
+		<tr>
+			<td width="20%">Show Map Type: </td>
+			<td width="">{SHOWMAPTYPE}</td>
+		</tr>		
+		<tr>
+			<td width="20%">Height: </td>
+			<td width=""><input type="text" name="height" size="15" value="{DATA_HEIGHT}"/></td>
+		</tr>	
+		<tr>
+			<td width="20%">Width: </td>
+			<td width=""><input type="text" name="width" size="15" value="{DATA_WIDTH}"/></td>
+		</tr>				
+		<tr>
+			<td width="20%">Zoom Level: </td>
+			<td width="">{ZOOMLEVEL}</td>
+		</tr>
+		<tr>
+			<td width="20%">Zoom Type: </td>
+			<td width="">{ZOOMTYPE}</td>
+		</tr>
+		<tr>
+			<td width="20%">Show Index: </td>
+			<td>{SHOWINDEX}</td>
+		</tr>
+		<tr>
+			<td width="20%">Index Format: </td>
+			<td>{INDEXFORMAT}</td>
+		</tr>
+		<tr>
+			<td width="20%">Index Title: </td>
+			<td width=""><input type="text" name="indextitle" size="50" value="{INDEXTITLE}"/></td>
+		</tr>
+		<tr>
+			<td width="20%">Default Center (Latitude): </td>
+			<td><input type="text" name="centerlatitude" size="20" value="{CENTERLATITUDE}"/></td>
+		</tr>		
+		<tr>
+			<td width="20%">Default Center (Longitude): </td>
+			<td><input type="text" name="centerlongitude" size="20" value="{CENTERLONGITUDE}"/></td>
+		</tr>									
+    </table>
+ </div>
+ <div class="tab-page" id="markers-page"><h2 class="tab">Markers</h2><script type="text/javascript">
+  tabPane1.addTabPage( document.getElementById( "markers-page" ) );</script>
+
+    	<table class="adminform" cellpadding="4" cellspacing="0" border="1" width="400px">
+   		<th colspan="5">
+   			Marker Parameters
+   		</th>
+   		<tr>
+			<td width="30%">Enable Tabs?</td><TD>{ENABLEDIRECTIONS}</TD>
+		<tr>
+   		<tr>
+			<td width="30%">Auto-Open Marker:</td><TD>{AUTOOPENMARKER}</TD>
+		<tr>		
+   		<th colspan="5">
+   			Marker Tab Options
+   		</th>		
+   		<tr>
+			<td width="30%">Tab 1 Content:</td><TD>{TAB1CONTENT}</TD>
+		<tr>
+   		<tr>
+			<td width="30%">Tab 1 Header:</td><TD><input name="tab1header" value="{TAB1HEADER}"/></TD>
+		<tr>		
+   		<tr>
+			<td width="30%">Tab 2 Content:</td><TD>{TAB2CONTENT}</TD>
+		<tr>				
+   		<tr>
+			<td width="30%">Tab 2 Header:</td><TD><input name="tab2header" value="{TAB2HEADER}"/></td>
+		<tr>		
+	</table>
+	
+ 	<input type="hidden" name="id" value="{DATA_ID}"/>    
+    <input type="hidden" name="option" value="{OPTION}"/>
+    <input type="hidden" name="task" value="{TASK}"/>
+    <input type="hidden" name="boxchecked" value="0"/>
+
+    </form>
+    
+</div>
+</div>
+</td>
+<td valign="top" width="500px">
+<br/>
+   <table class="adminform" cellpadding="4" cellspacing="0" border="0" width="50%">
+   		<th colspan="5">
+   			Map Markers
+   		</th>
+   		<tr>
+			<td width="100%"">
+<mos:tmpl name="ADD-MARKER-SECTION" type="condition" conditionVar="EDITING_MAP">
+<mos:sub condition="Y">				
+			    <form name="addMarker" action="index2.php">
+				    <table>
+				    	<tr><td>{MARKER_LIST} <input type="submit" value="Add Marker"/></td></tr>
+				    </table>
+					<input type="hidden" name="map_id" value="{DATA_ID}"/>    
+			    	<input type="hidden" name="option" value="{OPTION}"/>
+			    	<input type="hidden" name="task" value="addMarker"/>    
+		    	</form> 			    
+</mos:sub>	
+</mos:tmpl>				
+				<table width="100%">
+					<th>Name</th>
+					<th>Latitude</th>
+					<th>Longitude</th>
+					<th>Action</th>					
+<mos:tmpl name="marker-list">					
+					<tr>
+						<TD>{MARK_NAME}</TD>
+						<TD>{MARK_LATITUDE}</TD>						
+						<TD>{MARK_LONGITUDE}</TD>	
+						<TD>{MARK_ACTION}</TD>					
+					</tr>
+</mos:tmpl>				
+				</table>	
+			    
+		    </td>
+	    </tr>
+    </table>      
+ 
+		
+
+</td>
+</tr>
+</table>
+
+</mos:tmpl>
+

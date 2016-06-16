@@ -1,62 +1,60 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  mod_feed
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: helper.php 14401 2010-01-26 14:10:00Z louis $
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
-defined('_JEXEC') or die;
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
-/**
- * Helper for mod_feed
- *
- * @package     Joomla.Site
- * @subpackage  mod_feed
- * @since       1.5
- */
-class ModFeedHelper
+class modFeedHelper
 {
-	/**
-	 * Retrieve feed information
-	 *
-	 * @param   \Joomla\Registry\Registry  $params  module parameters
-	 *
-	 * @return  JFeedReader|string
-	 */
-	public static function getFeed($params)
+	function getFeed($params)
 	{
-		// Module params
-		$rssurl = $params->get('rssurl', '');
+		// module params
+		$rssurl	= $params->get('rssurl', '');
 
-		// Get RSS parsed object
-		try
-		{
-			$feed   = new JFeedFactory;
-			$rssDoc = $feed->getFeed($rssurl);
-		}
-		catch (InvalidArgumentException $e)
-		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-		}
-		catch (RunTimeException $e)
-		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-		}
-		catch (LogicException $e)
-		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+		//  get RSS parsed object
+		$options = array();
+		$options['rssUrl'] 		= $rssurl;
+		if ($params->get('cache')) {
+			$options['cache_time']  = $params->get('cache_time', 15) ;
+			$options['cache_time']	*= 60;
+		} else {
+			$options['cache_time'] = null;
 		}
 
-		if (empty($rssDoc))
+		$rssDoc =& JFactory::getXMLparser('RSS', $options);
+
+		$feed = new stdclass();
+
+		if ($rssDoc != false)
 		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			// channel header and link
+			$feed->title = $rssDoc->get_title();
+			$feed->link = $rssDoc->get_link();
+			$feed->description = $rssDoc->get_description();
+
+			// channel image if exists
+			$feed->image->url = $rssDoc->get_image_url();
+			$feed->image->title = $rssDoc->get_image_title();
+
+			// items
+			$items = $rssDoc->get_items();
+
+			// feed elements
+			$feed->items = array_slice($items, 0, $params->get('rssitems', 5));
+		} else {
+			$feed = false;
 		}
 
-		if ($rssDoc)
-		{
-			return $rssDoc;
-		}
+		return $feed;
 	}
 }

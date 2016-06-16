@@ -1,39 +1,36 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_content
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: content.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @subpackage	Content
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
  */
 
-defined('_JEXEC') or die;
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT . '/helpers/route.php';
-require_once JPATH_COMPONENT . '/helpers/query.php';
+// Require the com_content helper library
+require_once(JPATH_COMPONENT.DS.'controller.php');
+require_once(JPATH_COMPONENT.DS.'helpers'.DS.'query.php');
+require_once(JPATH_COMPONENT.DS.'helpers'.DS.'route.php');
 
-$input = JFactory::getApplication()->input;
-$user  = JFactory::getUser();
+// Component Helper
+jimport('joomla.application.component.helper');
 
-if ($input->get('view') === 'article' && $input->get('layout') === 'pagebreak')
-{
-	if (!$user->authorise('core.edit', 'com_content'))
-	{
-		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+// Create the controller
+$controller = new ContentController();
 
-		return;
-	}
-}
-elseif ($input->get('view') === 'articles' && $input->get('layout') === 'modal')
-{
-	if (!$user->authorise('core.edit', 'com_content'))
-	{
-		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+// Register Extra tasks
+$controller->registerTask( 'new'  , 	'edit' );
+$controller->registerTask( 'apply', 	'save' );
+$controller->registerTask( 'apply_new', 'save' );
 
-		return;
-	}
-}
-
-$controller = JControllerLegacy::getInstance('Content');
-$controller->execute($input->get('task'));
+// Perform the Request task
+$controller->execute(JRequest::getVar('task', null, 'default', 'cmd'));
 $controller->redirect();

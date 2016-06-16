@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: default.xml 8178 2007-07-23 05:39:47Z eddieajau $ -->
+<metadata>
+	<layout title="Standard Google Layout">
+		<message>
+			<![CDATA[GOOGLE_STANDARD_CDATA]]>
+		</message>
+	</layout>
+	<state>
+		<name>GOOGLE_STANDARD_NAME</name>
+		<description>GOOGLE_STANDARD_CDATA</description>
+		<url addpath="/administrator/components/com_google/elements">
+			<param name="id" type="standard" default="" label="GOOGLE_SELECT_CAT" description="GOOGLE_DESC_SELECT_CAT" />
+		</url>
+		<params>
+		</params>
+		<advanced>
+	 		<param name="cat_width" type="text" default="" label="GOOGLE_WIDTH" description="GOOGLE_DESC_WIDTH">
+	 		</param>
+			<param name="cat_height" type="text" default="" label="GOOGLE_HEIGHT" description="GOOGLE_DESC_HEIGHT">
+	 		</param>
+			<param name="cat_zoom" type="text" default="" label="GOOGLE_ZOOMLEVEL" description="GOOGLE_DESC_ZOOMLEVEL">
+	 		</param>
+			<param name="cat_setcenter" type="text" default="" label="GOOGLE_SETCENTER" description="GOOGLE_DESC_SETCENTER">
+	 		</param>
+		</advanced>
+	</state>
+	
+</metadata>

@@ -1,32 +1,36 @@
 <?php
 /**
- * @package    Joomla.Installation
- *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: index.php 14401 2010-01-26 14:10:00Z louis $
+* @package		Joomla
+* @subpackage	Installation
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software and parts of it may contain or be derived from the
+* GNU General Public License or other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+define( '_JEXEC', 1 );
+
+define( 'JPATH_BASE', dirname( __FILE__ ) );
+
+define( 'DS', DIRECTORY_SEPARATOR );
+
+require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
+require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
+
+// create the mainframe object
+$mainframe =& JFactory::getApplication('installation');
+
+// initialuse the application
+$mainframe->initialise();
+
+// render the application
+$mainframe->render();
+
+
 
 /**
- * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
+ * RETURN THE RESPONSE
  */
-define('JOOMLA_MINIMUM_PHP', '5.3.10');
-
-if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
-{
-	die('Your host needs to use PHP ' . JOOMLA_MINIMUM_PHP . ' or higher to run this version of Joomla!');
-}
-
-/**
- * Constant that is checked in included files to prevent direct access.
- * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
- */
-define('_JEXEC', 1);
-
-// Bootstrap the application
-require_once dirname(__FILE__) . '/application/bootstrap.php';
-
-// Get the application
-$app = JApplicationWeb::getInstance('InstallationApplicationWeb');
-
-// Execute the application
-$app->execute();
+echo JResponse::toString();

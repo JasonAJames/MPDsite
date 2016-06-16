@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * DioneSoft Company
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the DioneSoft EULA that is bundled with
+ * this package in the file GPL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@dionesoft.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.dionesoft.com/ for more information
+ * or send an email to sales@dionesoft.com
+ *
+ * @category   DioneSoft
+ * @package    Dione Simple Rating
+* @copyright Copyright (C) 2010 DioneSoft Company (http://www.dionesoft.com)
+* @license GNU/GPL http://www.gnu.org/copyleft/gpl.html
+*/
+-->
+
+ <!DOCTYPE install PUBLIC 
+  "-//Joomla! 1.5//DTD plugin 1.0//EN" "http://dev.joomla.org/xml/1.5/plugin-install.dtd">
+<install version="1.5" type="plugin" group="content">
+	<name>Dione Simple Rating</name>
+	<author>DioneSoft Company (http://www.dionesoft.com)</author>
+	<creationDate>May 2010</creationDate>
+	<copyright>Copyright (C) 2010 DioneSoft Company (http://www.dionesoft.com). All rights reserved.</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>joomladev@dionesoft.com</authorEmail>
+    <authorUrl>www.dionesoft.com</authorUrl>
+	<version>1.0.1</version>
+    <description>PLUGIN_DESCRIPTION</description>	
+	<files>
+		<filename plugin="dionesimplerating">dionesimplerating.php</filename>
+		
+		<filename plugin="dionesimplerating">/dionesimplerating/readme.html</filename>		
+		<filename plugin="dionesimplerating">/dionesimplerating/readme.txt</filename>
+		<filename plugin="dionesimplerating">/dionesimplerating/GPL.txt</filename>
+		<filename plugin="dionesimplerating">/dionesimplerating/logo_company.png</filename>
+		<filename plugin="dionesimplerating">/dionesimplerating/product_icon.png</filename>
+		
+		<filename plugin="dionesimplerating">/dionesimplerating/js/jquery.js</filename>
+		<filename plugin="dionesimplerating">/dionesimplerating/js/rating.js</filename>
+		
+		<filename plugin="dionesimplerating">/dionesimplerating/css/rating.css</filename>
+		
+		<filename plugin="dionesimplerating">/dionesimplerating/images/star.gif</filename>
+		<filename plugin="dionesimplerating">/dionesimplerating/images/delete.gif</filename>
+		
+		<filename plugin="dionesimplerating">/dionesimplerating/elements/heading.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_content_dionesimplerating.ini</language>
+	</languages>	
+	
+	<params addpath="/plugins/content/dionesimplerating/elements">
+		<param name="helpinfo" type="text" size="40" label="Help info" description="You can receive more detailed information having opened a file readme.html" default="plugins/content/dionesimplerating/readme.html."/>
+		
+		<param name="targeturl" type="text" size="40" label="Target URL" default="" description="Target URL address in which will be sent the information about any rating."/>
+		
+		<param name="curvalue" type="text" size="40" label="Current value of the rating" default="" description="Current value of the rating."/>
+		
+		<param name="maxvalue" type="text" size="40" label="Maximum value of the rating" default="" description="Maximum value of the rating."/>
+	</params>		
+</install>

@@ -1,227 +1,130 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_media
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: folder.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @subpackage	Media
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
  */
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
- * Folder Media Controller
+ * Weblinks Weblink Controller
  *
- * @since  1.5
+ * @package		Joomla
+ * @subpackage	Media
+ * @since 1.5
  */
-class MediaControllerFolder extends JControllerLegacy
+class MediaControllerFolder extends MediaController
 {
+
 	/**
 	 * Deletes paths from the current path
 	 *
-	 * @return  boolean
-	 *
-	 * @since   1.5
+	 * @param string $listFolder The image directory to delete a file from
+	 * @since 1.5
 	 */
-	public function delete()
+	function delete()
 	{
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		global $mainframe;
 
-		$user = JFactory::getUser();
-
-		// Get some data from the request
-		$tmpl   = $this->input->get('tmpl');
-		$paths  = $this->input->get('rm', array(), 'array');
-		$folder = $this->input->get('folder', '', 'path');
-
-		$redirect = 'index.php?option=com_media&folder=' . $folder;
-
-		if ($tmpl == 'component')
-		{
-			// We are inside the iframe
-			$redirect .= '&view=mediaList&tmpl=component';
-		}
-
-		$this->setRedirect($redirect);
-
-		// Just return if there's nothing to do
-		if (empty($paths))
-		{
-			$this->setMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
-
-			return true;
-		}
-
-		if (!$user->authorise('core.delete', 'com_media'))
-		{
-			// User is not authorised to delete
-			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
-
-			return false;
-		}
+		JRequest::checkToken('request') or jexit( 'Invalid Token' );
 
 		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
+		// Get some data from the request
+		$tmpl	= JRequest::getCmd( 'tmpl' );
+		$paths	= JRequest::getVar( 'rm', array(), '', 'array' );
+		$folder = JRequest::getVar( 'folder', '', '', 'path');
+
+		// Initialize variables
+		$msg = array();
 		$ret = true;
 
-		JPluginHelper::importPlugin('content');
-		$dispatcher = JEventDispatcher::getInstance();
-
-		if (count($paths))
-		{
+		if (count($paths)) {
 			foreach ($paths as $path)
 			{
-				if ($path !== JFile::makeSafe($path))
-				{
-					$dirname = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
-					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_WARNDIRNAME', substr($dirname, strlen(COM_MEDIA_BASE))));
+				if ($path !== JFile::makeSafe($path)) {
+					JError::raiseWarning(100, JText::_('Unable to delete:').htmlspecialchars($path, ENT_COMPAT, 'UTF-8').' '.JText::_('WARNDIRNAME'));
 					continue;
 				}
 
-				$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
-				$object_file = new JObject(array('filepath' => $fullPath));
-
-				if (is_file($object_file->filepath))
-				{
-					// Trigger the onContentBeforeDelete event.
-					$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.file', &$object_file));
-
-					if (in_array(false, $result, true))
-					{
-						// There are some errors in the plugins
-						$errors = $object_file->getErrors();
-						JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
-						continue;
-					}
-
-					$ret &= JFile::delete($object_file->filepath);
-
-					// Trigger the onContentAfterDelete event.
-					$dispatcher->trigger('onContentAfterDelete', array('com_media.file', &$object_file));
-					$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
-				}
-				elseif (is_dir($object_file->filepath))
-				{
-					$contents = JFolder::files($object_file->filepath, '.', true, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
-
-					if (empty($contents))
-					{
-						// Trigger the onContentBeforeDelete event.
-						$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.folder', &$object_file));
-
-						if (in_array(false, $result, true))
-						{
-							// There are some errors in the plugins
-							$errors = $object_file->getErrors();
-							JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
-							continue;
+				$fullPath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.$path);
+				if (is_file($fullPath)) {
+					$ret |= !JFile::delete($fullPath);
+				} else if (is_dir($fullPath)) {
+					$files = JFolder::files($fullPath, '.', true);
+					$canDelete = true;
+					foreach ($files as $file) {
+						if ($file != 'index.html') {
+							$canDelete = false;
 						}
-
-						$ret &= !JFolder::delete($object_file->filepath);
-
-						// Trigger the onContentAfterDelete event.
-						$dispatcher->trigger('onContentAfterDelete', array('com_media.folder', &$object_file));
-						$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 					}
-					else
-					{
-						// This makes no sense...
-						$folderPath = substr($object_file->filepath, strlen(COM_MEDIA_BASE));
-						JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', $folderPath));
+					if ($canDelete) {
+						$ret |= !JFolder::delete($fullPath);
+					} else {
+						JError::raiseWarning(100, JText::_('Unable to delete:').$fullPath.' '.JText::_('Not Empty!'));
 					}
 				}
 			}
 		}
-
-		return $ret;
+		if ($tmpl == 'component') {
+			// We are inside the iframe
+			$mainframe->redirect('index.php?option=com_media&view=mediaList&folder='.$folder.'&tmpl=component');
+		} else {
+			$mainframe->redirect('index.php?option=com_media&folder='.$folder);
+		}
 	}
 
 	/**
 	 * Create a folder
 	 *
-	 * @return  boolean
-	 *
-	 * @since   1.5
+	 * @param string $path Path of the folder to create
+	 * @since 1.5
 	 */
-	public function create()
+	function create()
 	{
+		global $mainframe;
+
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
-		$user  = JFactory::getUser();
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$folder      = $this->input->get('foldername', '');
-		$folderCheck = (string) $this->input->get('foldername', null, 'raw');
-		$parent      = $this->input->get('folderbase', '', 'path');
+		$folder			= JRequest::getCmd( 'foldername', '');
+		$folderCheck	= JRequest::getVar( 'foldername', null, '', 'string', JREQUEST_ALLOWRAW);
+		$parent			= JRequest::getVar( 'folderbase', '', '', 'path' );
 
-		$this->setRedirect('index.php?option=com_media&folder=' . $parent . '&tmpl=' . $this->input->get('tmpl', 'index'));
+		JRequest::setVar('folder', $parent);
 
-		if (strlen($folder) > 0)
-		{
-			if (!$user->authorise('core.create', 'com_media'))
-			{
-				// User is not authorised to create
-				JError::raiseWarning(403, JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'));
+		if (($folderCheck !== null) && ($folder !== $folderCheck)) {
+			$mainframe->redirect('index.php?option=com_media&folder='.$parent, JText::_('WARNDIRNAME'));
+		}
 
-				return false;
-			}
-
-			// Set FTP credentials, if given
-			JClientHelper::setCredentialsFromRequest('ftp');
-
-			$this->input->set('folder', $parent);
-
-			if (($folderCheck !== null) && ($folder !== $folderCheck))
-			{
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'), 'warning');
-
-				return false;
-			}
-
-			$path = JPath::clean(COM_MEDIA_BASE . '/' . $parent . '/' . $folder);
-
+		if (strlen($folder) > 0) {
+			$path = JPath::clean(COM_MEDIA_BASE.DS.$parent.DS.$folder);
 			if (!is_dir($path) && !is_file($path))
 			{
-				// Trigger the onContentBeforeSave event.
-				$object_file = new JObject(array('filepath' => $path));
-				JPluginHelper::importPlugin('content');
-				$dispatcher = JEventDispatcher::getInstance();
-				$result     = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file, true));
-
-				if (in_array(false, $result, true))
-				{
-					// There are some errors in the plugins
-					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
-
-					return false;
-				}
-
-				if (JFolder::create($object_file->filepath))
-				{
-					$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
-					JFile::write($object_file->filepath . "/index.html", $data);
-
-					// Trigger the onContentAfterSave event.
-					$dispatcher->trigger('onContentAfterSave', array('com_media.folder', &$object_file, true));
-					$this->setMessage(JText::sprintf('COM_MEDIA_CREATE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
-				}
+				jimport('joomla.filesystem.*');
+				JFolder::create($path);
+				JFile::write($path.DS."index.html", "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>");
 			}
-
-			$this->input->set('folder', ($parent) ? $parent . '/' . $folder : $folder);
+			JRequest::setVar('folder', ($parent) ? $parent.'/'.$folder : $folder);
 		}
-		else
-		{
-			// File name is of zero length (null).
-			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
-
-			return false;
-		}
-
-		return true;
+		$mainframe->redirect('index.php?option=com_media&folder='.$parent);
 	}
 }

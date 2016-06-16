@@ -1,240 +1,119 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: contact.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @subpackage	Contact
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
  */
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
-use Joomla\Registry\Registry;
 
 /**
- * Contact Table class.
- *
- * @since  1.0
+ * @package		Joomla
+ * @subpackage	Contact
  */
-class ContactTableContact extends JTable
+class TableContact extends JTable
 {
-	/**
-	 * Ensure the params and metadata in json encoded in the bind method
-	 *
-	 * @var    array
-	 * @since  3.3
-	 */
-	protected $_jsonEncode = array('params', 'metadata');
+	/** @var int Primary key */
+	var $id 					= null;
+	/** @var string */
+	var $name 				= null;
+	/** @var string */
+	var $alias				= null;
+	/** @var string */
+	var $con_position 		= null;
+	/** @var string */
+	var $address 			= null;
+	/** @var string */
+	var $suburb 				= null;
+	/** @var string */
+	var $state 				= null;
+	/** @var string */
+	var $country 			= null;
+	/** @var string */
+	var $postcode 			= null;
+	/** @var string */
+	var $telephone 			= null;
+	/** @var string */
+	var $fax 				= null;
+	/** @var string */
+	var $misc 				= null;
+	/** @var string */
+	var $image 				= null;
+	/** @var string */
+	var $imagepos 			= null;
+	/** @var string */
+	var $email_to 			= null;
+	/** @var int */
+	var $default_con 		= null;
+	/** @var int */
+	var $published 			= 0;
+	/** @var int */
+	var $checked_out 		= 0;
+	/** @var datetime */
+	var $checked_out_time 	= 0;
+	/** @var int */
+	var $ordering 			= null;
+	/** @var string */
+	var $params 				= null;
+	/** @var int A link to a registered user */
+	var $user_id 			= null;
+	/** @var int A link to a category */
+	var $catid 				= null;
+	/** @var int */
+	var $access 				= null;
+	/** @var string Mobile phone number(s) */
+	var $mobile 				= null;
+	/** @var string */
+	var $webpage 			= null;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
-	 *
-	 * @since   1.0
-	 */
-	public function __construct(&$db)
+	* @param database A database connector object
+	*/
+	function __construct(&$db)
 	{
-		parent::__construct('#__contact_details', 'id', $db);
-
-		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_contact.contact'));
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_contact.contact'));
-	}
-
-	/**
-	 * Stores a contact.
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   1.6
-	 */
-	public function store($updateNulls = false)
-	{
-		// Transform the params field
-		if (is_array($this->params))
-		{
-			$registry = new Registry;
-			$registry->loadArray($this->params);
-			$this->params = (string) $registry;
-		}
-
-		$date   = JFactory::getDate()->toSql();
-		$userId = JFactory::getUser()->id;
-
-		$this->modified = $date;
-
-		if ($this->id)
-		{
-			// Existing item
-			$this->modified_by = $userId;
-		}
-		else
-		{
-			// New contact. A contact created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date;
-			}
-
-			if (empty($this->created_by))
-			{
-				$this->created_by = $userId;
-			}
-		}
-
-		// Set publish_up to null date if not set
-		if (!$this->publish_up)
-		{
-			$this->publish_up = $this->_db->getNullDate();
-		}
-
-		// Set publish_down to null date if not set
-		if (!$this->publish_down)
-		{
-			$this->publish_down = $this->_db->getNullDate();
-		}
-
-		// Set xreference to empty string if not set
-		if (!$this->xreference)
-		{
-			$this->xreference = '';
-		}
-
-		// Store utf8 email as punycode
-		$this->email_to = JStringPunycode::emailToPunycode($this->email_to);
-
-		// Convert IDN urls to punycode
-		$this->webpage = JStringPunycode::urlToPunycode($this->webpage);
-
-		// Verify that the alias is unique
-		$table = JTable::getInstance('Contact', 'ContactTable');
-
-		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
-		{
-			$this->setError(JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
-
-			return false;
-		}
-
-		return parent::store($updateNulls);
+		parent::__construct( '#__contact_details', 'id', $db );
 	}
 
 	/**
 	 * Overloaded check function
 	 *
-	 * @return  boolean  True on success, false on failure
-	 *
-	 * @see     JTable::check
-	 * @since   1.5
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
 	 */
-	public function check()
+	function check()
 	{
-		$this->default_con = (int) $this->default_con;
+		$this->default_con = intval( $this->default_con );
 
-		if (JFilterInput::checkAttribute(array('href', $this->webpage)))
-		{
-			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
-
+		if (JFilterInput::checkAttribute(array ('href', $this->webpage))) {
+			$this->setError(JText::_('Please provide a valid URL'));
 			return false;
 		}
 
-		// Check for valid name
-		if (trim($this->name) == '')
-		{
-			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
-
-			return false;
+		// check for http on webpage
+		if (strlen($this->webpage) > 0 && (!(preg_match('#http://#i', $this->webpage) || (preg_match('#https://#i', $this->webpage)) || (preg_match('#ftp://#i', $this->webpage))))) {
+			$this->webpage = 'http://'.$this->webpage;
 		}
 
-		// Generate a valid alias
-		$this->generateAlias();
-
-		// Check for valid category
-		if (trim($this->catid) == '')
-		{
-			$this->setError(JText::_('COM_CONTACT_WARNING_CATEGORY'));
-
-			return false;
+		if(empty($this->alias)) {
+			$this->alias = $this->name;
 		}
-
-		// Sanity check for user_id
-		if (!($this->user_id))
-		{
-			$this->user_id = 0;
-		}
-
-		// Check the publish down date is not earlier than publish up.
-		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
-		{
-			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
-
-			return false;
-		}
-
-		/*
-		 * Clean up keywords -- eliminate extra spaces between phrases
-		 * and cr (\r) and lf (\n) characters from string.
-		 * Only process if not empty.
-		 */
-		if (!empty($this->metakey))
-		{
-			// Array of characters to remove.
-			$bad_characters = array("\n", "\r", "\"", "<", ">");
-
-			// Remove bad characters.
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
-
-			// Create array using commas as delimiter.
-			$keys = explode(',', $after_clean);
-			$clean_keys = array();
-
-			foreach ($keys as $key)
-			{
-				// Ignore blank keywords.
-				if (trim($key))
-				{
-					$clean_keys[] = trim($key);
-				}
-			}
-
-			// Put array back together delimited by ", "
-			$this->metakey = implode(", ", $clean_keys);
-		}
-
-		// Clean up description -- eliminate quotes and <> brackets
-		if (!empty($this->metadesc))
-		{
-			// Only process if not empty
-			$bad_characters = array("\"", "<", ">");
-			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		if(trim(str_replace('-','',$this->alias)) == '') {
+			$datenow =& JFactory::getDate();
+			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 
 		return true;
-	}
-
-	/**
-	 * Generate a valid alias from title / date.
-	 * Remains public to be able to check for duplicated alias before saving
-	 *
-	 * @return  string
-	 */
-	public function generateAlias()
-	{
-		if (empty($this->alias))
-		{
-			$this->alias = $this->name;
-		}
-
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
-
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
-		}
-
-		return $this->alias;
 	}
 }

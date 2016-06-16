@@ -1,96 +1,102 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* version $Id: view.html.php 14401 2010-01-26 14:10:00Z louis $
+* @package		Joomla
+* @subpackage	Newsfeeds
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+*
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
-use Joomla\Registry\Registry;
+jimport( 'joomla.application.component.view');
 
 /**
  * HTML View class for the Newsfeeds component
  *
- * @since  1.0
+ * @static
+ * @package		Joomla
+ * @subpackage	Newsfeeds
+ * @since 1.0
  */
-class NewsfeedsViewCategory extends JViewCategory
+class NewsfeedsViewCategory extends JView
 {
-	/**
-	 * @var    string  Default title to use for page title
-	 * @since  3.2
-	 */
-	protected $defaultPageTitle = 'COM_NEWSFEEDS_DEFAULT_PAGE_TITLE';
-
-	/**
-	 * @var    string  The name of the extension for the category
-	 * @since  3.2
-	 */
-	protected $extension = 'com_newsfeeds';
-
-	/**
-	 * @var    string  The name of the view to link individual items to
-	 * @since  3.2
-	 */
-	protected $viewName = 'newsfeed';
-
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 */
-	public function display($tpl = null)
+	function display($tpl = null)
 	{
-		$this->commonCategoryDisplay();
+		global $mainframe;
 
-		// Prepare the data.
-		// Compute the newsfeed slug.
-		foreach ($this->items as $item)
-		{
-			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry;
-			$temp->loadString($item->params);
-			$item->params = clone $this->params;
-			$item->params->merge($temp);
+		$pathway 	= & $mainframe->getPathway();
+		$document	= & JFactory::getDocument();
+
+		// Get the parameters of the active menu item
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+		$params	= &$mainframe->getParams();
+
+		$category	= $this->get('category');
+		$items		= $this->get('data');
+		$total		= $this->get('total');
+		$pagination	= &$this->get('pagination');
+
+		// Set page title
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	$category->title);
+			}
+		} else {
+			$params->set('page_title',	$category->title);
 		}
 
-		return parent::display($tpl);
-	}
+		$document->setTitle( $params->get( 'page_title' ) );
 
-	/**
-	 * Prepares the document
-	 *
-	 * @return  void
-	 */
-	protected function prepareDocument()
-	{
-		parent::prepareDocument();
+		//set breadcrumbs
+		$pathway->addItem($category->title, '');
 
-		$id = (int) @$menu->query['id'];
+		// Prepare category description
+		$category->description = JHTML::_('content.prepare', $category->description);
 
-		$menu = $this->menu;
-
-		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $this->category->id))
+		$k = 0;
+		for($i = 0; $i <  count($items); $i++)
 		{
-			$path = array(array('title' => $this->category->title, 'link' => ''));
-			$category = $this->category->getParent();
+			$item =& $items[$i];
 
-			while (($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $category->id) && $category->id > 1)
-			{
-				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id));
-				$category = $category->getParent();
-			}
+			$item->link = JRoute::_('index.php?view=newsfeed&catid='.$category->slug.'&id='. $item->slug );
 
-			$path = array_reverse($path);
-
-			foreach ($path as $item)
-			{
-				$this->pathway->addItem($item['title'], $item['link']);
-			}
+			$item->odd		= $k;
+			$item->count	= $i;
+			$k = 1 - $k;
 		}
+
+		// Define image tag attributes
+		if (!empty ($category->image))
+		{
+			$attribs['align'] = $category->image_position;
+			$attribs['hspace'] = 6;
+
+			// Use the static HTML library to build the image tag
+			$image = JHTML::_('image', 'images/stories/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
+		}
+
+		$this->assignRef('image',		$image);
+		$this->assignRef('params',		$params);
+		$this->assignRef('items',		$items);
+		$this->assignRef('category',	$category);
+		$this->assignRef('pagination',	$pagination);
+
+		parent::display($tpl);
 	}
 }
+?>

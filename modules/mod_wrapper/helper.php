@@ -1,33 +1,22 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  mod_wrapper
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: helper.php 14401 2010-01-26 14:10:00Z louis $
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
-defined('_JEXEC') or die;
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
-/**
- * Helper for mod_wrapper
- *
- * @package     Joomla.Site
- * @subpackage  mod_wrapper
- * @since       1.5
- */
-class ModWrapperHelper
+class modWrapperHelper
 {
-	/**
-	 * Gets the parameters for the wrapper
-	 *
-	 * @param   mixed  &$params  The parameters set in the administrator section
-	 *
-	 * @return  mixed  &params  The modified parameters
-	 *
-	 * @since   1.5
-	 */
-	public static function getParams(&$params)
+	function getParams(&$params)
 	{
 		$params->def('url', '');
 		$params->def('scrolling', 'auto');
@@ -41,30 +30,29 @@ class ModWrapperHelper
 
 		if ($params->get('add'))
 		{
-			// Adds 'http://' if none is set
-			if (substr($url, 0, 1) == '/')
-			{
-				// Relative url in component. use server http_host.
-				$url = 'http://' . $_SERVER['HTTP_HOST'] . $url;
+			// adds 'http://' if none is set
+			if (substr($url, 0, 1) == '/') {
+				// relative url in component. use server http_host.
+				$url = 'http://'.$_SERVER['HTTP_HOST'].$url;
 			}
-			elseif (!strstr($url, 'http') && !strstr($url, 'https'))
-			{
-				$url = 'http://' . $url;
+			elseif (!strstr($url, 'http') && !strstr($url, 'https')) {
+				$url = 'http://'.$url;
+			}
+			else {
+				$url = $url;
 			}
 		}
 
-		// Auto height control
-		if ($params->def('height_auto'))
-		{
+		// auto height control
+		if ($params->def('height_auto')) {
 			$load = 'onload="iFrameHeight()"';
 		}
-		else
-		{
+		else {
 			$load = '';
 		}
 
-		$params->set('load', $load);
-		$params->set('url', $url);
+		$params->set( 'load', $load );
+		$params->set( 'url', $url );
 
 		return $params;
 	}

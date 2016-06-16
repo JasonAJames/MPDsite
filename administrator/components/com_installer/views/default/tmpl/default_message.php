@@ -1,26 +1,20 @@
-<?php
-/**
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
-
-defined('_JEXEC') or die;
-
-$state    = $this->get('State');
-$message1 = $state->get('message');
-$message2 = $state->get('extension_message');
+<?php // no direct access
+	defined( '_JEXEC' ) or die( 'Restricted access' ); 
+	$state			= &$this->get('State');
+	$message1		= $state->get('message');
+	$message2		= $state->get('extension.message');
 ?>
-
-<?php if ($message1) : ?> 
-	<div class="span12"> 
-		<strong><?php echo $message1; ?></strong>
-	</div> 
-<?php endif; ?> 
-<?php if ($message2) : ?> 
-	<div class="span12"> 
-		<?php echo $message2; ?>
-	</div> 
-<?php endif; ?>
+<table class="adminform">
+	<tbody>
+		<?php if($message1) : ?>
+		<tr>
+			<th><?php echo JText::_($message1) ?></th>
+		</tr>
+		<?php endif; ?>
+		<?php if($message2) : ?>
+		<tr>
+			<td><?php echo $message2; ?></td>
+		</tr>
+		<?php endif; ?>
+	</tbody>
+</table>

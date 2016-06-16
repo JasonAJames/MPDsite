@@ -1,178 +1,120 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id: template.php 14401 2010-01-26 14:10:00Z louis $
+ * @package		Joomla
+ * @subpackage	Templates
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
  */
 
-defined('_JEXEC') or die;
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
 /**
- * Template Helper class.
- *
- * @since  3.2
+ * @package		Joomla
+ * @subpackage	Templates
  */
-abstract class TemplateHelper
+class TemplatesHelper
 {
-	/**
-	 * Checks if the file is an image
-	 *
-	 * @param   string  $fileName  The filename
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.2
-	 */
-	public static function getTypeIcon($fileName)
+	function isTemplateDefault($template, $clientId)
 	{
-		// Get file extension
-		return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
+		$db =& JFactory::getDBO();
+
+		// Get the current default template
+		$query = ' SELECT template '
+				.' FROM #__templates_menu '
+				.' WHERE client_id = ' . (int) $clientId
+				.' AND menuid = 0 ';
+		$db->setQuery($query);
+		$defaultemplate = $db->loadResult();
+
+		return $defaultemplate == $template ? 1 : 0;
 	}
 
-	/**
-	 * Checks if the file can be uploaded
-	 *
-	 * @param   array   $file  File information
-	 * @param   string  $err   An error message to be returned
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.2
-	 */
-	public static function canUpload($file, $err = '')
+	function isTemplateAssigned($template)
 	{
-		$params = JComponentHelper::getParams('com_templates');
+		$db =& JFactory::getDBO();
 
-		if (empty($file['name']))
+		// check if template is assigned
+		$query = 'SELECT COUNT(*)' .
+				' FROM #__templates_menu' .
+				' WHERE client_id = 0' .
+				' AND template = '.$db->Quote($template) .
+				' AND menuid <> 0';
+		$db->setQuery($query);
+		return $db->loadResult() ? 1 : 0;
+	}
+
+	function parseXMLTemplateFiles($templateBaseDir)
+	{
+		// Read the template folder to find templates
+		jimport('joomla.filesystem.folder');
+		$templateDirs = JFolder::folders($templateBaseDir);
+
+		$rows = array();
+
+		// Check that the directory contains an xml file
+		foreach ($templateDirs as $templateDir)
 		{
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_UPLOAD_INPUT'), 'error');
-
-			return false;
-		}
-
-		// Media file names should never have executable extensions buried in them.
-		$executable = array(
-			'exe', 'phtml','java', 'perl', 'py', 'asp','dll', 'go', 'jar',
-			'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-			'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'
-		);
-		$explodedFileName = explode('.', $file['name']);
-
-		if (count($explodedFileName) > 2)
-		{
-			foreach ($executable as $extensionName)
-			{
-				if (in_array($extensionName, $explodedFileName))
-				{
-					$app = JFactory::getApplication();
-					$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EXECUTABLE'), 'error');
-
-					return false;
-				}
+			if(!$data = TemplatesHelper::parseXMLTemplateFile($templateBaseDir, $templateDir)){
+				continue;
+			} else {
+				$rows[] = $data;
 			}
 		}
 
-		jimport('joomla.filesystem.file');
+		return $rows;
+	}
 
-		if ($file['name'] !== JFile::makeSafe($file['name']) || preg_match('/\s/', JFile::makeSafe($file['name'])))
-		{
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILENAME'), 'error');
-
+	function parseXMLTemplateFile($templateBaseDir, $templateDir)
+	{
+		// Check of the xml file exists
+		if(!is_file($templateBaseDir.DS.$templateDir.DS.'templateDetails.xml')) {
 			return false;
 		}
 
-		$format = strtolower(JFile::getExt($file['name']));
+		$xml = JApplicationHelper::parseXMLInstallFile($templateBaseDir.DS.$templateDir.DS.'templateDetails.xml');
 
-		$imageTypes   = explode(',', $params->get('image_formats'));
-		$sourceTypes  = explode(',', $params->get('source_formats'));
-		$fontTypes    = explode(',', $params->get('font_formats'));
-		$archiveTypes = explode(',', $params->get('compressed_formats'));
-
-		$allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
-
-		if ($format == '' || $format == false || (!in_array($format, $allowable)))
-		{
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
-
+		if ($xml['type'] != 'template') {
 			return false;
 		}
 
-		if (in_array($format, $archiveTypes))
-		{
-			$zip = new ZipArchive;
+		$data = new StdClass();
+		$data->directory = $templateDir;
 
-			if ($zip->open($file['tmp_name']) === true)
-			{
-				for ($i = 0; $i < $zip->numFiles; $i++)
-				{
-					$entry     = $zip->getNameIndex($i);
-					$endString = substr($entry, -1);
-
-					if ($endString != DIRECTORY_SEPARATOR)
-					{
-						$explodeArray = explode('.', $entry);
-						$ext          = end($explodeArray);
-
-						if (!in_array($ext, $allowable))
-						{
-							$app = JFactory::getApplication();
-							$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UNSUPPORTED_ARCHIVE'), 'error');
-
-							return false;
-						}
-					}
-				}
-			}
-			else
-			{
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
-
-				return false;
-			}
+		foreach($xml as $key => $value) {
+			$data->$key = $value;
 		}
 
-		// Max upload size set to 2 MB for Template Manager
-		$maxSize = (int) ($params->get('upload_limit') * 1024 * 1024);
+		$data->checked_out = 0;
+		$data->mosname = JString::strtolower(str_replace(' ', '_', $data->name));
 
-		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
-		{
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILETOOLARGE'), 'error');
+		return $data;
+	}
 
-			return false;
+	function createMenuList($template)
+	{
+		$db =& JFactory::getDBO();
+
+		// get selected pages for $menulist
+		$query = 'SELECT menuid AS value' .
+				' FROM #__templates_menu' .
+				' WHERE client_id = 0' .
+				' AND template = '.$db->Quote($template);
+		$db->setQuery($query);
+		$lookup = $db->loadObjectList();
+		if (empty( $lookup )) {
+			$lookup = array( JHTML::_('select.option',  '-1' ) );
 		}
 
-		$xss_check = file_get_contents($file['tmp_name'], false, null, -1, 256);
-		$html_tags = array(
-			'abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big', 'blackface', 'blink', 'blockquote',
-			'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'comment', 'custom', 'dd', 'del', 'dfn', 'dir', 'div',
-			'dl', 'dt', 'em', 'embed', 'fieldset', 'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'hr', 'html',
-			'iframe', 'ilayer', 'img', 'input', 'ins', 'isindex', 'keygen', 'kbd', 'label', 'layer', 'legend', 'li', 'limittext', 'link', 'listing',
-			'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object', 'ol', 'optgroup', 'option',
-			'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar', 'small', 'spacer', 'span', 'strike',
-			'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'tt', 'ul', 'var', 'wbr', 'xml',
-			'xmp', '!DOCTYPE', '!--'
-		);
-
-		foreach ($html_tags as $tag)
-		{
-			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
-			if (stristr($xss_check, '<' . $tag . ' ') || stristr($xss_check, '<' . $tag . '>'))
-			{
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNIEXSS'), 'error');
-
-				return false;
-			}
-		}
-
-		return true;
+		// build the html select list
+		$options	= JHTML::_('menu.linkoptions');
+		$result		= JHTML::_('select.genericlist',   $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
+		return $result;
 	}
 }

@@ -1,45 +1,60 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_media
- *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: view.html.php 14401 2010-01-26 14:10:00Z louis $
+* @package		Joomla
+* @subpackage	Media
+* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
-defined('_JEXEC') or die;
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
+
+jimport( 'joomla.application.component.view');
 
 /**
- * HTML View class for the Media component
+ * HTML View class for the WebLinks component
  *
- * @since  1.0
+ * @static
+ * @package		Joomla
+ * @subpackage	Media
+ * @since 1.0
  */
-class MediaViewImages extends JViewLegacy
+class MediaViewImages extends JView
 {
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 *
-	 * @since   1.0
-	 */
-	public function display($tpl = null)
+	function display($tpl = null)
 	{
-		$config = JComponentHelper::getParams('com_media');
+		global $mainframe;
+
+		$config =& JComponentHelper::getParams('com_media');
+
+		$app = JFactory::getApplication();
+		$append = '';
+		if($app->getClientId() == 1) $append = 'administrator/';
+
+		JHTML::_('script'    , 'popup-imagemanager.js', $append .'components/com_media/assets/');
+		JHTML::_('stylesheet', 'popup-imagemanager.css', $append .'components/com_media/assets/');
+		if ($config->get('enable_flash', 0)) {
+			JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
+		}
 
 		/*
 		 * Display form for FTP credentials?
 		 * Don't set them here, as there are other functions called before this one if there is any file write operation
 		 */
+		jimport('joomla.client.helper');
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
-		$this->session     = JFactory::getSession();
-		$this->config      = $config;
-		$this->state       = $this->get('state');
-		$this->folderList  = $this->get('folderList');
-		$this->require_ftp = $ftp;
+		$this->assignRef( 'session',	JFactory::getSession());
+		$this->assignRef( 'config',		$config);
+		$this->assignRef( 'state',		$this->get('state'));
+		$this->assignRef( 'folderList',	$this->get('folderList'));
+		$this->assign('require_ftp', $ftp);
 
 		parent::display($tpl);
 	}
