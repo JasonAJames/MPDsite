@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
+<install type="module" version="1.5.0">
+    <name>JoomlaStats Visitor Details</name>
+    <author>JoomlaStats Team</author>
+    <creationDate>2009-12-31</creationDate>
+    <copyright>Copyright (C) 2004-2009 JoomlaStats Team. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>info@JoomlaStats.org</authorEmail>
+    <authorUrl>www.JoomlaStats.org</authorUrl>
+    <version>3.0.0</version>
+    <description>
+        <![CDATA[
+            JoomlaStats Visitor Details Module - Shows visitor details like country, IP, OS, browser also in graphical way.<br />
+            <br />
+            Visitor Details Module is extension to JoomlaStats component/engine (com_joomlastats).<br />
+            <br />
+            <br />
+            Project JoomlaStats homepage <a href="http://www.joomlastats.org" target="_blank">http://www.joomlastats.org</a>.<br />
+            This Module (mod_jstats_visitordetails) <a href="http://www.joomlastats.org/index.php?option=com_content&amp;task=view&amp;id=118&amp;Itemid=38" target="_blank"><b>homepage</b></a>.
+        ]]>
+    </description>
+
+    <files>
+        <filename module="mod_jstats_visitordetails">mod_jstats_visitordetails.php</filename>
+        <filename>index.html</filename>
+    </files>
+
+    <languages>
+        <language tag="de-DE">language/de-DE.mod_jstats_visitordetails.ini</language>
+        <language tag="en-GB">language/en-GB.mod_jstats_visitordetails.ini</language>
+    </languages>
+
+    <params>
+        <param name="list_tld_images_dir"       type="folderlist" default="tld-png-16x11-1"      label="TLD images directory"      directory="/components/com_joomlastats/images" filter="^tld-"     hide_default="1" hide_none="1" description="Choose image set for TLD (Top Level Domains)&lt;br />&lt;br />To install more images, upload files to server to '(...)/joomla/components/com_joomlastats/images' directory.&lt;br />Remember to create directory with appropriate name!&lt;br />&lt;br />More image sets You will find in 'extra_images_v*.zip' package on JoomlaStats download page." />
+        <param name="list_os_images_dir"        type="folderlist" default="os-png-14x14-1"       label="OS images directory"       directory="/components/com_joomlastats/images" filter="^os-"      hide_default="1" hide_none="1" description="Choose image set for OS (Operating systems)&lt;br />&lt;br />To install more images, upload files to server to '(...)/joomla/components/com_joomlastats/images' directory.&lt;br />Remember to create directory with appropriate name!&lt;br />&lt;br />More image sets You will find in 'extra_images_v*.zip' package on JoomlaStats download page." />
+        <param name="list_browser_images_dir"   type="folderlist" default="browser-png-14x14-1"  label="Browser images directory"  directory="/components/com_joomlastats/images" filter="^browser-" hide_default="1" hide_none="1" description="Choose image set for Browser&lt;br />&lt;br />To install more images, upload files to server to '(...)/joomla/components/com_joomlastats/images' directory.&lt;br />Remember to create directory with appropriate name!&lt;br />&lt;br />More image sets You will find in 'extra_images_v*.zip' package on JoomlaStats download page." />
+
+        <param name="content_format"            type="textarea"   default="#tld_img_html #tld_name\n#os_img_html #os_name\n#browser_img_html #browser_name\nYour IP: #visitor_ip"   label="Content"         description="Enter translation here for 'country names'. Country names they will be replaced by texts defined here.&lt;br/>&lt;br/>You can also use 'Translation tool' to provide shortcuted country name: 'United States of America' => 'USA'&lt;br/>&lt;br/>eg.&lt;br/>&lt;b>de=Deutschland; nl=Niederlande; us=Vereinigte Staaten&lt;/b>&lt;br/>'Germany' will be replaced by 'Deutschland', 'Netherlands' by 'Niederlande' and 'United States' by 'Vereinigte Staaten'" rows="6" cols="40" />
+
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="tld_translation_tool"      type="textarea"   default=""                     label="Country translation tool" description="Enter translation here for 'country names'. Country names will be replaced by texts defined here.&lt;br/>&lt;br/>You can also use 'Translation tool' to provide shortcuted country name: 'United States of America' => 'USA'&lt;br/>&lt;br/>eg.&lt;br/>&lt;b>de=Deutschland; nl=Niederlande; us=Vereinigte Staaten&lt;/b>&lt;br/>'Germany' will be replaced by 'Deutschland', 'Netherlands' by 'Niederlande' and 'United States' by 'Vereinigte Staaten'" rows="3" cols="35" />
+        <param name="os_translation_tool"       type="textarea"   default=""                     label="OS translation tool" description="Enter translation here for 'Operating Systems'. OS names will be replaced by texts defined here.&lt;br/>&lt;br/>You can also use 'Translation tool' to provide shortcuted OS name: 'Windows 2000' => 'Win2000'&lt;br/>&lt;br/>eg.&lt;br/>&lt;b>Windows XP=Win XP; Windows Vista=Vista; Linux=We love Linux!&lt;/b>&lt;br/>'Windows XP' will be replaced by 'Win XP', 'Windows Vista' by 'Vista' and 'Linux' by 'We love Linux!'" rows="3" cols="35" />
+        <param name="browser_translation_tool"  type="textarea"   default=""                     label="Browser translation tool" description="Enter translation here for Internet Browser. Browser names will be replaced by texts defined here.&lt;br/>&lt;br/>You can also use 'Translation tool' to provide shortcuted browser name: 'Unknown Internet Browser' => 'Unknown'&lt;br/>&lt;br/>eg.&lt;br/>&lt;b>FireFox=Firefox; Google Chrome=Chrome; Internet Explorer=IE&lt;/b>&lt;br/>'FireFox' will be replaced by 'Firefox', 'Google Chrome' by 'Chrome' and 'Internet Explorer' by 'IE'" rows="3" cols="35" />
+
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+    </params>
+
+	<params group="advanced">
+		<!-- we show cache option to ensure users (and Joomla CMS) that cache is off -->
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+			<!-- <option value="1">Use global</option> cache has no sense for this module! -->
+			<option value="0">No caching</option>
+		</param>
+		<!-- <param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" /> -->
+	</params>
+</install>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install type="component" version="1.5.0">
+	<name>UserTrace</name>
+	<author>D&#39;Abronzo Vincenzo, Cristian Lupu</author>
+	<creationDate>September 2009</creationDate>
+	<copyright>(C) D&#39;Abronzo Vincenzo. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>vincenzodabronzo@gmail.com</authorEmail>
+	<authorUrl>www.vincenzodabronzo.com</authorUrl>
+	<version>2.4.1</version>
+	<description>
+		This component traces informations about your users.
+	</description>
+	
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>usertrace.php</filename>
+		<filename>controller.php</filename>
+		<folder>views/</folder>
+	</files>
+	
+	<administration>
+		<menu>UserTrace</menu>
+		<submenu>
+			<menu task="showall">Show data</menu>
+			<menu task="export">Export data as .CSV</menu>
+			<menu task="clear">Clear data</menu>
+			<menu task="conf">Configuration</menu>
+		</submenu>
+		<files folder="admin">     
+			<filename>index.html</filename>
+			<filename>admin.usertrace.php</filename>
+			<filename>controller.php</filename>
+			<folder>views/</folder>
+		</files>
+	</administration>
+	
+	<install>
+		<queries>
+			<query>CREATE TABLE IF NOT EXISTS #__usertrace (
+				  id int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  userid bigint(20) unsigned DEFAULT NULL,
+				  username varchar(150) DEFAULT NULL,
+				  ip varchar(15) DEFAULT NULL,
+				  agent text,
+				  url text,
+				  ref text,
+				  time datetime DEFAULT NULL,
+				  PRIMARY KEY (id)
+				) ENGINE=MyISAM;
+			</query>
+			<query>
+				CREATE TABLE IF NOT EXISTS #__usertrace_config (
+					id int(11) unsigned NOT NULL AUTO_INCREMENT,
+					name VARCHAR(254) NOT NULL default '',
+					value VARCHAR(254) NOT NULL default '',
+					note varchar(254) NOT NULL default '',
+					PRIMARY KEY (id)
+				) TYPE=MyISAM;
+			</query>
+			<query>
+				INSERT INTO #__usertrace_config (id, name, value, note) VALUES
+					(NULL, 'showid', '1', NULL),
+					(NULL, 'showuserid', '1', NULL),
+					(NULL, 'showusername', '1', NULL),
+					(NULL, 'showip', '1', NULL),
+					(NULL, 'showagent', '1', NULL),
+					(NULL, 'showurl', '1', NULL),
+					(NULL, 'showref', '1', NULL),
+					(NULL, 'showtime', '1', NULL);
+			</query>
+		</queries>
+	</install>
+	<uninstall>
+		<queries>
+			<query>DROP TABLE IF EXISTS #__usertrace</query>
+			<query>DROP TABLE IF EXISTS #__usertrace_config</query>
+		</queries>
+	</uninstall>
+	
+</install>

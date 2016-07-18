@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+	<name>Frontpage</name>
+	<author>Web Television</author>
+	<copyright>Copyright (C)  2010 WebTelevision.us All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@webtelevision.us</authorEmail>
+	<authorUrl>www.WebTelevision.us</authorUrl>
+	<version>1.5.0</version>
+	<description>This Component shows all the published Postings from your site marked Show on Front Page.</description>
+</install>

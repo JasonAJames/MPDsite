@@ -1,0 +1,109 @@
+<mos:comment>
+@version 
+@package 		GMaps
+@subpackage 	Templates
+@copyright 		(C) 2006-2007 Chris Strieter
+@license 		http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="form">
+
+<script language="javascript" type="text/javascript">
+	function submitbutton(pressbutton) {
+		var form = document.adminForm;
+		//alert(pressbutton);
+		if (pressbutton == 'cancelMarker') {
+			submitform( pressbutton );
+			return;
+		}
+		if (form.latitude.value == "") {
+			alert(" Latitude cannot be blank");
+			return;
+		}
+		if (form.longitude.value == "") {
+			alert(" Longitude cannot be blank");
+			return;
+		}		
+		// do field validation
+		if (form.name.value == "") {
+			alert( "Marker must have a name/title" );
+		} else {
+			submitform( pressbutton );
+		}
+	}
+</script>
+		
+
+
+	<table class="adminheading">
+		<tr>
+			<th>
+			Markers:
+			<small>{FUNCTION}</small>
+			</th>
+		</tr>
+	</table>
+
+	<table border=0 width="100%">
+		<tr>
+			<td width="50%" valign="top">
+<form name="adminForm" action="index2.php">	
+   	<table class="adminform" cellpadding="4" cellspacing="0" border="1" width="400px">
+   		<th colspan="5">
+   			Details
+   		</th>
+   		<tr>
+			<td width="10%">ID</td><TD>{DATA_ID}</TD>
+		<tr>
+		<tr>
+			<td width="10%">Name: </td>
+			<td width=""><input type="text" name="name" value="{DATA_NAME}" size="75" maxsize="50"></td>
+		</tr>
+		<tr>
+			<td width="10%">Latitude: </td>
+			<td width=""><input type="text" name="latitude" value="{DATA_LATITUDE}"></td>
+		</tr>
+		<tr>
+			<td width="10%">Longitude: </td>
+			<td width=""><input type="text" name="longitude" value="{DATA_LONGITUDE}"></td>
+		</tr>
+		<tr>
+			<td width="10%">Description: </td>
+			<td width=""><textarea rows="3" cols="50" name="description">{DATA_DESCRIPTION}</textarea></td>
+		</tr>
+		<tr>
+			<td width="10%">Icon: </td>
+			<td width="">{ICON_SELECTLIST}</td>
+		</tr>
+		<tr>
+			<td width="20%">Image URL: </td>
+			<td width=""><input type="text" size="75" name="imageurl" value="{DATA_IMAGEURL}"></td>
+		</tr>	
+    </table>
+
+	<input type="hidden" name="id" value="{DATA_ID}">    
+    <input type="hidden" name="option" value="{OPTION}">
+    <input type="hidden" name="task" value="{TASK}">
+    <input type="hidden" name="boxchecked" value="0">
+
+</form>
+	</td>
+	<td valign="top">
+	<h3>Instructions:</h3>
+	<ul>
+	<li>Enter the name of the marker.  This name will appear in the info box when the marker on the map is selected.  
+	You may change the styling on the name by editing the CSS from the control panel.  NOTE:  This CSS file is from the 
+	GMaps component.</li>
+	<li>Enter the latitude and longitude values</li>
+	<li>Enter the description for the marker.  This description will be shown in the information window when selecting
+	the marker on the map.  Please enter the text in raw HTML format so it displays properly.  For instance, if you want a 
+	carriage return, type &lt;br/&gt; in the textarea box.
+	</li>
+	<li>Currently, the ICON is not used.  You will receive the default Google marker.
+	</ul>
+	
+	</td>
+</tr>
+</table>	
+</mos:tmpl>
+

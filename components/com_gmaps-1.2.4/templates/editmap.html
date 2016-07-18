@@ -1,0 +1,160 @@
+<mos:comment>
+@version 
+@package 		GMaps
+@subpackage 	Templates
+@copyright 		(C) 2006-2007 Chris Strieter
+@license 		http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="form">
+
+<script language="javascript" type="text/javascript">
+	function submitbutton(pressbutton) {
+		var form = document.adminForm;
+		//alert(pressbutton);
+		if (pressbutton == 'cancel') {
+			submitform( pressbutton );
+			return;
+		}
+		// do field validation
+		if (form.id.value = form.overlay1.value) {
+			alert(" You cannot define this map as an overlay to itself");
+			return;
+		}
+		if (form.id.value = form.overlay2.value) {
+			alert(" You cannot define this map as an overlay to itself");
+			return;
+		}
+		if (form.id.value = form.overlay3.value) {
+			alert(" You cannot define this map as an overlay to itself");
+			return;
+		}
+		if (form.id.value = form.overlay4.value) {
+			alert(" You cannot define this map as an overlay to itself");
+			return;
+		}
+		if (form.id.value = form.overlay5.value) {
+			alert(" You cannot define this map as an overlay to itself");
+			return;
+		}								
+		if (form.title.value == "") {
+			alert( "Map must have a title" );
+		} else {
+			submitform( pressbutton );
+		}
+	}
+</script>
+		
+
+<h2 class="tab">Map Data</h2>
+
+<h3>Details</h3>
+      
+<table border=0 width="100%">
+	<tr>
+		<td>
+			
+		   	<table class="adminform" cellpadding="4" cellspacing="0" border="0" >
+		   		<tr>
+					<td width="20%">ID</td><TD>{DATA_ID}</TD>
+				<tr>
+				<tr>
+					<td width="20%">Title: </td>
+					<td width=""><input type="text" name="title" size="50" value="{DATA_TITLE}"/></td>
+				</tr>
+				<tr>
+					<td width="20%">Description: </td>
+					<td><textarea name="description" rows="3" cols="40">{DATA_DESCRIPTION}</textarea></td>
+				</tr>
+				<tr>
+					<td width="20%">Overlay Map 1: </td>
+					<td width="">{DATA_OVERLAY1}</td>
+				</tr>				
+				<tr>
+					<td width="20%">Overlay Map 2: </td>
+					<td width="">{DATA_OVERLAY2}</td>
+				</tr>
+				<tr>
+					<td width="20%">Overlay Map 3: </td>
+					<td width="">{DATA_OVERLAY3}</td>
+				</tr>
+				<tr>
+					<td width="20%">Overlay Map 4: </td>
+					<td width="">{DATA_OVERLAY4}</td>
+				</tr>
+				<tr>
+					<td width="20%">Overlay Map 5: </td>
+					<td width="">{DATA_OVERLAY5}</td>
+				</tr>
+				<tr>
+					<td width="20%">Map Type: </td>
+					<td width="">{MAPTYPE}</td>
+				</tr>				
+				<tr>
+					<td width="20%">Height: </td>
+					<td width="">{DATA_HEIGHT}</td>
+				</tr>	
+				<tr>
+					<td width="20%">Width: </td>
+					<td width="">{DATA_WIDTH}</td>
+				</tr>				
+				<tr>
+					<td width="20%">Zoom Level: </td>
+					<td width="">{ZOOMLEVEL}</td>
+				</tr>
+				<tr>
+					<td width="20%">Zoom Type: </td>
+					<td width="">{ZOOMTYPE}</td>
+				</tr>								
+		   </table>
+		
+			<input type="hidden" name="id" value="{DATA_ID}"/>    
+		    <input type="hidden" name="option" value="{OPTION}"/>
+		    <input type="hidden" name="task" value="{TASK}"/>
+		    <input type="hidden" name="boxchecked" value="0"/>
+		
+		
+    </td>
+  </tr>
+</table>
+
+<h3>Markers</h3>
+  <table cellpadding="4" cellspacing="0" border="0" width="100%">
+   		<tr>
+			<td width="100%"">
+<mos:tmpl name="ADD-MARKER-SECTION" type="condition" conditionVar="EDITING_MAP">
+<mos:sub condition="Y">				
+			 <form name="addMarker" action="index2.php">
+			  <table>
+			   	<tr><td>{MARKER_LIST} <input type="submit" value="Add Marker"/></td></tr>
+			  </table>
+				<input type="hidden" name="map_id" value="{DATA_ID}"/>    
+			    <input type="hidden" name="option" value="{OPTION}"/>
+			    <input type="hidden" name="task" value="addMarker"/>    
+			    </form>  	
+</mos:sub>	
+</mos:tmpl>				
+				<table width="100%">
+					<th>Name</th>
+					<th>Latitude</th>
+					<th>Longitude</th>
+					<th>Action</th>					
+					<mos:tmpl name="marker-list">					
+							<tr>
+								<TD>{MARK_NAME}</TD>
+								<TD>{MARK_LATITUDE}</TD>						
+								<TD>{MARK_LONGITUDE}</TD>	
+								<TD>{MARK_ACTION}</TD>					
+							</tr>
+					</mos:tmpl>				
+				</table>
+					
+			    		  
+		   </td>
+		</tr>
+  </table>      
+	
+		
+			
+</mos:tmpl>
+

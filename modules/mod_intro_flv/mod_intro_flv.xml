@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>intro_flv</name>
+	<author>Studiosacchetti</author>
+	<creationDate>june 2009</creationDate>
+	<copyright>(C) 2009 Studiosacchetti</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>studiosacchetti@gmail.com</authorEmail>
+	<authorUrl>www.studiosacchetti.com</authorUrl>
+	<version>1.0.0</version>
+	<description>Thanks for installing the intro_flv module v1.0 from Studiosacchetti. This module displays a video on loading page.  you can just ignore the unused parameters but they must be in sequence. Name your video whatever you like, and upload into the modules/mod_intro_flv/ folder. Lastly, be sure to set permissions to 777.
+	</description>
+	<files>
+	<filename module="mod_intro_flv">mod_intro_flv.php</filename>
+	<filename module="mod_intro_flv">js/videobox.js</filename>
+	<filename module="mod_intro_flv">js/swfobject.js</filename>
+	<filename module="mod_intro_flv">css/videobox.css</filename>
+	<filename module="mod_intro_flv">css/loading.gif</filename>
+	<filename module="mod_intro_flv">css/closelabel.gif</filename>
+	<filename module="mod_intro_flv">swf/flvplayer.swf</filename>	
+	</files>
+<params>
+	<param name="active" type="radio" default="2" label="Active" description="If you're having problems here, you can choose to temporarily show the output of the module configuration for debugging purposes." >
+		<option value="1">Yes</option>
+		<option value="2">No</option>
+	</param>
+		
+	<param name="filename" label="File name" type="text" description="filename of flv"  />
+	<param name="width" type="text" default="425x" label="Width (px)" description="Movie width (forces all images to be displayed with this width)" />
+	<param name="height" type="text" default="350px" label="Height (px)" description="Movie height (forces all images to be displayed with the height)" />
+	<param name="description" label="Description" type="text" description="description of player"  />
+	<param name="linkname" label="link name" type="text" description="name showed in link"  />
+	<!-- 
+	<param name="backcolor" type="text" default="333333" label="Movie background Color" description="The background color for your movie (shows in bgfade)" />
+		
+	<param name="autostart" type="radio" default="1" label="Autostart" description="Starts the transisition automatically. If set to 'True', the Repeat setting must also be set to 'True' or 'Once'">
+		<option value="1">Yes</option>
+		<option value="2">No</option>
+	</param>
+	<param name="repeat" type="radio" default="1" label="Repeat" description="The player can stop playback after every item to preserve bandwidth (repeat=false). You can set this to 'list' to playback all items in the playlist once, or to 'Yes' to continously playback your sequence.">
+		<option value="1">Yes</option>
+		<option value="2">No</option>
+		<option value="3">Once</option>
+	</param>		
+	<param name="shownavigation" type="radio" default="1" label="Show Navigation" description="Select if you would like navigation to appear in your movie">
+		<option value="1">Yes</option>
+		<option value="2">No</option>
+	</param> 
+	<param name="frontcolor" type="text" default="FFFFFF" label="Text Color" description="Texts / buttons color of the player/rotator. (*when Show Navigation is set to true*)" />
+	<param name="lightcolor" type="text" default="CCCCCC" label="Text Over Color" description="Rollover/ active color of the player/rotator. (*when Show Navigation is set to true*)" />
+	-->
+	<param name="showlink" type="radio" default="2" label="Show Link" description="Shows a link to player">
+		<option value="1">Yes</option>
+		<option value="2">No</option>
+	</param>
+	
+</params>
+		
+
+</install>

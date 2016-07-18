@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<install type="module" version="1.5">		
+<name>Simple Spotlight</name>
+<author>Pixel Point Creative </author>
+<creationDate>March 2010</creationDate>
+<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+<authorEmail>info@pixelpointcreative.com</authorEmail>
+<authorUrl>http://www.pixelpointcreative.com</authorUrl>
+<version>1.3</version>
+<description>Simple JQuery image rotator with links.</description>
+
+<files>
+      	<filename module="mod_ppc_simple_spotlight">mod_ppc_simple_spotlight.php</filename> 
+		<filename>mod_ppc_simple_spotlight.xml</filename>
+		<folder>img</folder>
+		<folder>js</folder>
+		<folder>css</folder>	
+                <folder>elements</folder>
+</files>
+<params addpath="/modules/mod_ppc_simple_spotlight/elements">
+<param type="logo" default="" ></param>
+<param type="spacer" default="&lt;b&gt;General Settings&lt;/b&gt;"></param>
+<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="Module Class Suffix"></param>
+<param name="width" type="text" default="900" label="Width" description="Specify width" />
+<param name="height" type="text" default="110" label="Height" description="Specify  height" />
+<param name="auto" type="text" default="5000" label="Display Length" description="Display length in milliseconds. 1000 = 1 second." /> 
+<param name="speed" type="text" default="800" label="Animation Speed" description="Animation Speed in milliseconds. 1000 = 1 second." /> 
+<param name="easing" type="list" default="linear" label="Animation Type" description="Type of easing effect to use.">
+<option value="linear">Linear</option>
+<option value="elasin">Elastic In</option>
+<option value="elasout">Elastic Out</option>
+<option value="elasinout">Elastic In/Out</option>
+<option value="bouncein">Bounce In</option>
+<option value="bounceout">Bounce Out</option>
+<option value="bounceinout">Bounce In/Out</option>
+<option value="backin">Back In</option>
+<option value="backout">Back Out</option>
+<option value="backinout">Back In/Out</option>
+</param>
+<param name="window" type="radio" default="_blank" label="Link Window" description="Open links in new window or same window?">
+<option value="_blank">New Window</option>
+<option value="_self">Same Window</option>
+</param>
+<param name="nav" type="radio" default="1" label="Navigation Buttons" description="Show/Hide Navigation Buttons">
+<option value="0">No</option>
+<option value="1">Yes</option>
+</param>
+<param name="@spacer" type="spacer" default="" label="" description="" />
+  
+<param type="spacer" default="&lt;b&gt;Image Settings&lt;/b&gt;"></param>
+<param type="spacer" default="Image 1" />
+<param name="spotlightImage" type="text" default="modules/mod_ppc_simple_spotlight/img/1.png" size="60" label="Image 1" description="ie: images/stories/spotlight/1.png" />
+<param name="link" type="text" default="http://www.pixelpointcreative.com" size="60" label="Link URL" description="Enter the complete url that should open when you click on this image." />
+
+<param type="spacer" default="Image 2" />
+<param name="spotlightImage2" type="text" default="modules/mod_ppc_simple_spotlight/img/2.png" size="60" label="Image 2" description="ie: images/stories/spotlight/1.png" />
+<param name="link2" type="text" default="http://www.pixelpointcreative.com" size="60" label="Link URL" description="Enter the complete url that should open when you click on this image." />
+
+<param type="spacer" default="Image 3" />
+<param name="spotlightImage3" type="text" default="modules/mod_ppc_simple_spotlight/img/3.png" size="60" label="Image 3" description="ie: images/stories/spotlight/1.png" />
+<param name="link3" type="text" default="http://www.pixelpointcreative.com" size="60" label="Link URL" description="Enter the complete url that should open when you click on this image." />
+
+<param type="spacer" default="Image 4" />
+<param name="spotlightImage4" type="text" default="" size="60" label="Image 4" description="ie: images/stories/spotlight/1.png" />
+<param name="link4" type="text" default="" size="60" label="Link URL" description="Enter the complete url that should open when you click on this image." />
+
+<param type="spacer" default="Image 5" />
+<param name="spotlightImage5" type="text" default="" size="60" label="Image 5" description="ie: images/stories/spotlight/1.png" />
+<param name="link5" type="text" default="" size="60" label="Link URL" description="Enter the complete url that should open when you click on this image." />
+
+<param type="spacer" default="Image 6" />
+<param name="spotlightImage6" type="text" default="" size="60" label="Image 6" description="ie: images/stories/spotlight/1.png" />
+<param name="link6" type="text" default="" size="60" label="Link URL" description="Enter the complete url that should open when you click on this image." />
+
+<param type="spacer" default="Image 7" />
+<param name="spotlightImage7" type="text" default="" size="60" label="Image 7" description="ie: images/stories/spotlight/1.png" />
+<param name="link7" type="text" default="" size="60" label="Link URL" description="Enter the complete url that should open when you click on this image." />
+
+<param type="spacer" default="Image 8" />
+<param name="spotlightImage8" type="text" default="" size="60" label="Image 8" description="ie: images/stories/spotlight/1.png" />
+<param name="link8" type="text" default="" size="60" label="Link URL" description="Enter the complete url that should open when you click on this image." />
+
+<param type="spacer" default="Image 9" />
+<param name="spotlightImage9" type="text" default="" size="60" label="Image 9" description="ie: images/stories/spotlight/1.png" />
+<param name="link9" type="text" default="" size="60" label="Link URL" description="Enter the complete url that should open when you click on this image." />
+
+<param type="spacer" default="Image 10" />
+<param name="spotlightImage10" type="text" default="" size="60" label="Image 10" description="ie: images/stories/spotlight/1.png" />
+<param name="link10" type="text" default="" size="60" label="Link URL" description="Enter the complete url that should open when you click on this image." />
+ 
+
+</params>
+</install>		

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+      <install type="component" version="1.5.0" method="upgrade">
+        <name>XtremeLocator</name>
+		<license>Open Source License, GPL v2 based</license>
+		<author>IQServices Linas Adomavicius</author>
+		<authorEmail>linas@iqservices.com</authorEmail>
+		<authorUrl>http://www.xtremelocator.com</authorUrl>
+		<creationDate>02/02/2010</creationDate>
+		<copyright>Copyright (C) 2010 IQServices.</copyright>
+		<version>2.0</version>
+        <description>JOOMLA XTREME LOCATOR COMPONENT      
+        </description>
+		
+        <installfile>install/install.xtremelocator.php</installfile>
+        <uninstallfile>install/uninstall.xtremelocator.php </uninstallfile>
+        <install>		
+			<sql>
+				<file driver="mysql" charset="utf8">install/install.mysql.sql</file>				
+			</sql>
+		</install>	          
+        <uninstall>         
+        </uninstall>
+		
+		<files folder="site">
+		    <folder>css</folder>
+			 <folder>models</folder>
+			  <folder>views</folder>
+			<filename>controller.php</filename>
+			<filename>view.php</filename>
+			<filename>metadata.xml</filename>
+			<filename>xtremelocator.php</filename>
+			<filename>index.html</filename>
+		</files>
+    
+		<languages folder="site/language">
+			<language tag="en-GB">en-GB.com_xtremelocator.ini</language>
+		</languages>
+		<media />
+		
+		<administration>
+			<menu img="components/com_xtremelocator/images/icon-16-xtremelocator.png">Xtreme Locator</menu>
+			<submenu>
+			  <menu link="option=com_xtremelocator" img="components/com_xtremelocator/images/icon-16-cpanel.png">Control</menu>
+			  <menu link="option=com_xtremelocator&amp;task=settings" img="components/com_xtremelocator/images/icon-16-settings.png">Settings</menu>
+			  <menu link="option=com_xtremelocator&amp;task=css_styles" img="components/com_xtremelocator/images/icon-16-css.png">CSS styles</menu>
+			  <menu link="option=com_xtremelocator&amp;task=help" img="components/com_xtremelocator/images/icon-16-help.png">Help</menu>
+			  <menu link="option=com_xtremelocator&amp;task=standard_search" img="components/com_xtremelocator/images/icon-16-search.png">Standard Search</menu>
+			  <menu link="option=com_xtremelocator&amp;task=advanced_search" img="components/com_xtremelocator/images/icon-16-advanced_search.png">Advanced Search</menu>
+			  <menu link="option=com_xtremelocator&amp;task=all_locations" img="components/com_xtremelocator/images/icon-16-all_locations.png">All locations Map setup </menu>
+			  <menu link="option=com_xtremelocator&amp;task=add_locations" img="components/com_xtremelocator/images/icon-16-add_locations.png">Public registration form setup </menu>
+			   <menu link="option=com_xtremelocator&amp;task=list_locations" img="components/com_xtremelocator/images/icon-16-list_locations.png">Location listing page setup </menu>
+			   <menu link="option=com_xtremelocator&amp;task=location_admin" img="components/com_xtremelocator/images/icon-16-xtremelocator.png">Location admin login form</menu>
+			</submenu>
+
+		<files folder="admin">
+		    <folder>help</folder>
+		    <folder>images</folder>
+			<folder>css</folder>
+			<folder>views</folder>
+		    <folder>install</folder>
+		    <folder>tables</folder>					
+			<filename>index.html</filename>
+			<filename>admin.xtremelocator.html.php</filename>
+			<filename>admin.xtremelocator.php</filename>
+			<filename>toolbar.xtremelocator.html.php</filename>
+			<filename>toolbar.xtremelocator.php</filename>
+			<filename>xtremelocator_config.xml</filename>
+			<filename>xtremelocator_fields.xml</filename>
+	    </files>		
+
+		<languages folder="admin/language">
+				<language tag="en-GB">en-GB.com_xtremelocator.ini</language>
+				<language tag="en-GB">en-GB.com_xtremelocator.menu.ini</language>
+			</languages>
+			
+		</administration>
+		<params />	
+		<modules>
+			<module module="mod_xtremelocator" title="XtremeLocator" position="left" order="2" client="site">
+				<files folder="mod_xtremelocator">					
+					<file>index.html</file>
+					<file>mod_xtremelocator.php</file>
+					<file>mod_xtremelocator.xml</file>
+				</files>
+
+				<languages folder="mod_xtremelocator/language">
+					<language tag="en-GB">en-GB.mod_xtremelocator.ini</language>
+				</languages>
+				<media />
+			</module>		
+	    </modules>
+</install>

@@ -1,0 +1,166 @@
+/*THE MAP*/
+#googlemap{
+	margin: 20px 0 20px 0;
+	padding: 0;
+	z-index: 100;
+}
+
+
+/*GENERAL START*/
+#googlecontainer {
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+h1.componentheading{
+	margin: 10px 0 20px 0;
+	padding: 0;
+}
+
+#pretext{
+	margin: 0;
+	padding: 0;
+}
+
+#aftertext{
+	margin: 10px 0 0 0;
+	padding: 0;
+}
+
+.google_link_author {
+	margin: 20px 0 20px 0;
+	padding: 5px 0 0 0;
+	border-top: 1px solid #999999; 
+}
+
+.clear {
+	clear: both;
+}
+/*GENERAL STOP*/
+
+/*STREETVIEW START*/
+#pano{
+	margin: 20px 0 20px 0;
+	padding: 0;
+}
+
+#pano_feedback{
+	width: 100%;
+	height: 50px;
+	position: absolute;
+	top: 55px;
+	left: 0;
+	border: 2px solid #b2b2b2;
+	background-color: #fffdd6;
+	background-image: url(components/com_google/css/notice-info.gif);
+	background-repeat: no-repeat;
+	background-position: 10px center; 
+	z-index: 10000000;
+	display: none;
+}
+
+#pano_feedback span{
+	line-height: 20px;
+	padding: 5px 0 0 50px;
+	font-size: 10px;
+	display: block;
+}
+/*STREETVIEW STOP*/
+
+/*DIRECTIONS START*/
+#directions{
+	margin: 0;
+	padding: 0;
+}
+
+#google_select {
+	margin: 20px 0 0 0;
+	padding: 0;
+	border: 0;
+}
+
+#google_select legend {
+	margin: 0 0 10px 0;
+	padding: 0;
+	font-size: 16px;
+}
+
+#google_select #from_address {
+	width: 150px;
+	height:15px;
+	padding: 3px 0 3px 5px;
+	margin: 0;
+	border: 1px solid #999999;
+	font-size: 10px;
+	float: left;
+}
+
+#google_select #from_zipcode {
+	width: 70px;
+	height:15px;
+	padding: 3px 0 3px 5px;
+	margin: 0 0 0 10px;
+	border: 1px solid #999999;
+	font-size: 10px;
+	float: left;
+}
+
+#google_select #from_town {
+	width: 100px;
+	height:15px;
+	padding: 3px 0 3px 5px;
+	margin: 0 0 0 10px;
+	border: 1px solid #999999;
+	font-size: 10px;
+	float: left;
+}
+
+#google_select select {
+	width: 150px;
+	padding: 3px 0 3px 0;
+	margin: 0;
+	border: 1px solid #999999;
+	font-size: 10px;
+	float: left;
+}
+
+#google_select label {
+	width: 90px;
+	margin: 0 0 20px 0;
+	float:left;
+	clear: both;
+}
+
+#google_select .btn {
+	height: 23px;
+	padding: 0 15px 0 15px;
+	margin: 0;
+	border: 1px solid #999999;
+	background-color: #DCDCDE;
+	cursor: pointer;
+	font-size: 10px;
+	float: left;
+}
+
+.print_btn {
+	width: 150px;
+	height: 25px;
+	margin: 10px 0 0 0;
+	border: 1px solid #999999;
+	background-color: #DCDCDE;
+	cursor: pointer;
+	font-size: 10px;
+	clear:both;
+}
+
+#direction_feedback {
+	margin: 10px 0 0 0;
+	padding: 10px 0 0 0;
+}
+
+#direction_started {
+	margin: 0 0 0 10px;
+}
+
+/*DIRECTIONS STOP*/
