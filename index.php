@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-<?php include_once(“Print-Products/index.php”); ?>
+<?php include_once(“printing/upload/index.php”); ?>
 =======
 <?php
 /**
