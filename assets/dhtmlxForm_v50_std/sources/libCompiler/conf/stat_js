@@ -1,0 +1,15 @@
+dhtmlxCommon/codebase/dhtmlxcommon.js
+dhtmlxCalendar/codebase/dhtmlxcalendar.js
+dhtmlxCalendar/codebase/ext/dhtmlxcalendar_double.js
+dhtmlxCombo/codebase/dhtmlxcombo.js
+dhtmlxForm/codebase/dhtmlxform.js
+dhtmlxForm/codebase/ext/dhtmlxform_item_combo.js
+dhtmlxForm/codebase/ext/dhtmlxform_item_calendar.js
+dhtmlxForm/codebase/ext/dhtmlxform_item_btn2state.js
+dhtmlxForm/codebase/ext/dhtmlxform_item_colorpicker.js
+dhtmlxForm/codebase/ext/dhtmlxform_item_container.js
+dhtmlxForm/codebase/ext/dhtmlxform_item_editor.js
+dhtmlxForm/codebase/ext/dhtmlxform_item_image.js
+dhtmlxForm/codebase/ext/dhtmlxform_item_upload.js
+dhtmlxForm/codebase/ext/dhtmlxform_backup.js
+dhtmlxForm/codebase/ext/dhtmlxform_dyn.js

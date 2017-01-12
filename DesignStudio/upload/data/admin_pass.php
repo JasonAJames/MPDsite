@@ -1,1 +1,0 @@
-<?php $admin_password = '62NPsgtD7MnHw'; ?>

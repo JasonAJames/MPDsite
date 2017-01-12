@@ -1,0 +1,28 @@
+<div class="container">
+<div class="row ui vertical masthead segment">
+    <div class="col-md-8 col-md-offset-2">
+        <h1>User Profile:</h1>
+        <span>Name: {{ user.email }}</span>
+        <hr>
+        {{#if orders }}
+        <h2>My Orders</h2>
+        {{# each orders }}
+        <div class="panel panel-default">
+          <div class="panel-body">
+              <ul class="list-group">
+                  {{# each this.items }}
+                  <li class="list-group-item">
+                    <span class="badge">Qty: {{ this.qty }} | ${{ this.price }}</span>
+                    <img src="{{this.item.imagePath}}"/><strong>{{this.item.title}}</strong><br/>
+                    {{ this.item.description }}<br/>
+                    {{ this.order._id }}
+                </li>
+                {{/each}}
+            </ul>
+          </div>
+        </div>
+        {{/each}}          
+        {{/if}}
+    </div>
+</div>
+</div>

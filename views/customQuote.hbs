@@ -1,0 +1,517 @@
+<SCRIPT>
+
+//Global Variables
+
+var RowsInForm = 10 //How many rows will be in the order details form
+
+var ProductsInList = 36 //Must equal highest subscript in product list
+
+var SalesTaxRate = 0.08 //Set to sales tax rate in decimal. e.g. 0.0775 is 7.75%
+
+var TaxableState = "USA" //Set to name of state you charge sales tax in
+
+var ProdSubscript = 0 //Identifies subscript of selected product in current row.
+
+
+// Function to create a new empty array that starts at 1.
+
+function MakeArray(n) {
+
+this.length = n
+
+for (var i = 1; i<= n; i++) {
+
+this[i] = 0
+
+}
+
+return this
+
+}
+
+
+// Function to create a new, empty array that starts at zero.
+
+function BuildZeroArray(n) {
+
+this.length = n
+
+for (var i = 0; i<= n; i++) {
+
+this[i] = 0
+
+}
+
+return this
+
+}
+
+
+// Define a custom object named prodobj (Product Object).
+
+// An array of these objects will act as our product/price list.
+
+function prodobj(name, unitprice) {
+
+this.name = name
+
+this.unitprice = unitprice
+
+}
+
+
+// Define a new custom object named ordobj (Order Object).
+
+// Will house real numbers from order form to help with math.
+
+function ordobj(prodsub, qty, unitprice, extprice) {
+
+this.prodsub = prodsub
+
+this.qty = qty
+
+this.unitprice = unitprice
+
+this.extprice = extprice
+
+}
+
+
+//convert any non-numeric value to a zero.
+
+function strToZero(anyval) {
+
+anyval = ""+anyval
+
+if (anyval.substring(0,1) < "0" || anyval.substring(0,1) > "9") {
+
+anyval = "0"
+
+}
+
+return eval(anyval)
+
+}
+
+
+//update current row in order array and form.
+
+function updateRow(rownum){
+
+var exec = 'ProdSubscript = document.ordform.prodchosen'+rownum+'.selectedIndex'
+
+eval (exec)
+
+ordData[rownum].prodsub=ProdSubscript //get qty from the form
+
+var exec='tempqty=document.ordform.qty'+rownum+'.value'
+
+eval (exec)
+
+ordData[rownum].qty = strToZero(tempqty) //get unit price from the product price list.
+
+ordData[rownum].unitprice=prodlist[ProdSubscript].unitprice
+
+ordData[rownum].extprice = (ordData[rownum].qty) * ordData[rownum].unitprice
+
+var exec = 'document.ordform.unitprice'+rownum+'.value = currencyPad(ordData['+rownum+'].unitprice,10)'
+
+eval (exec)
+
+var exec = 'document.ordform.extprice'+rownum+'.value = currencyPad(ordData['+rownum+'].extprice,10)'
+
+eval (exec)
+
+updateTotals() //update totals at bottom of form
+
+}
+
+
+//update the totals in the lower part of order details.
+
+function updateTotals() {
+
+var subtotal = 0
+
+for (var i=1; i<=RowsInForm; i++) {
+
+subtotal = subtotal + ordData[i].extprice
+
+}
+
+document.ordform.subtotal.value = currencyPad(subtotal,10)
+
+salestax = 0
+
+if (document.ordform.Taxable.checked) {
+
+salestax = SalesTaxRate * subtotal
+
+}
+
+document.ordform.salestax.value = currencyPad(salestax,10)
+
+document.ordform.grandtotal.value = currencyPad(subtotal+salestax,10)
+
+}
+
+//copy the "Bill To" information to the "Ship To" information.
+
+function copyAddress() {
+
+document.ordform.ShipName.value = document.ordform.billName.value
+
+document.ordform.ShipCompany.value = document.ordform.billCompany.value
+
+document.ordform.ShipAdd1.value = document.ordform.billAdd1.value
+
+document.ordform.ShipAdd2.value = document.ordform.billAdd2.value
+
+document.ordform.ShipCSZ.value = document.ordform.billCSZ.value
+
+}
+
+
+function currencyPad(anynum,width) {
+
+//returns number as string in $xxx,xxx.xx format.
+
+anynum = "" + eval(anynum)
+
+//evaluate (in case an expression sent)
+
+intnum = parseInt(anynum)
+
+//isolate integer portion
+
+intstr = ""+intnum
+
+//add comma in thousands place.
+
+if (intnum >= 1000) {
+
+intlen = intstr.length
+
+temp1=parseInt(""+(intnum/1000))
+
+temp2=intstr.substring(intlen-3,intlen)
+
+intstr = temp1+","+temp2
+
+}
+
+if (intnum >= 1000000) {
+
+intlen = intstr.length
+
+temp1=parseInt(""+(intnum/1000000))
+
+temp2=intstr.substring(intlen-7,intlen)
+
+intstr = temp1+","+temp2
+
+}
+
+decnum = Math.abs(parseFloat(anynum)-parseInt(anynum)) //isolate decimal portion
+
+decnum = decnum * 100 // multiply decimal portion by 100.
+
+decstr = "" + Math.abs(Math.round(decnum))
+
+while (decstr.length < 2) {
+
+decstr += "0"
+
+}
+
+retval = intstr + "." + decstr
+
+if (intnum < 0) {
+
+retval=retval.substring(1,retval.length)
+
+retval="("+retval+")"
+
+}
+
+retval = "$"+retval
+
+while (retval.length < width){
+
+retval=" "+retval
+
+}
+
+return retval
+
+}
+
+</SCRIPT>
+
+<div aLink=#8a8a8a bgColor=#ffffff 
+link=#ff0000 text=#000000 vLink=#215e21 class="container">
+<H3 align=center><FONT color=#0000ff><FONT size=+1>MyPrintingDeals CUSTOM ORDER 
+FORM</FONT></FONT></H3>
+<P>Pick a product from the drop-down list, then type in a quantity and click 
+another field, or press Tab. <BR>
+<SCRIPT>
+
+//Create a new array named prodlist with six elements.
+
+prodlist = new BuildZeroArray(ProductsInList) //Refers to global variable ProductsInList
+
+//Populate that array with this product info.
+
+//The first item, prodlist[0] must be a "non-product" with
+
+//a unitprice of zero.
+
+prodlist[0] = new prodobj('-none-',0)
+
+prodlist[1] = new prodobj('Anachronistic Widget',10.00)
+
+prodlist[2] = new prodobj('Bombastic Gadget',10.50)
+
+prodlist[3] = new prodobj('Cosmic Wingydingy',11.00)
+
+prodlist[4] = new prodobj('Desultory Doodad',11.99)
+
+prodlist[5] = new prodobj('Ethereal Entity',12.00)
+
+prodlist[6] = new prodobj('Fantastic Fingmabob',14.99)
+
+prodlist[7] = new prodobj('Fantastic Fingmabob',14.99)
+
+prodlist[8] = new prodobj('Humongous Humanoid',99.99)
+
+prodlist[9] = new prodobj('Ignominious Innuendo',100.00)
+
+prodlist[10] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[11] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[12] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[13] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[14] = new prodobj('Fantastic Fingmabob',14.99)
+
+prodlist[15] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[16] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[17] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[18] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[19] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[20] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[21] = new prodobj('Fantastic Fingmabob',14.99)
+
+prodlist[22] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[23] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[24] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[25] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[26] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[27] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[28] = new prodobj('Fantastic Fingmabob',14.99)
+
+prodlist[29] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[30] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[31] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[32] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[33] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[34] = new prodobj('Jumping Jehosafatz',250.00)
+
+prodlist[35] = new prodobj('Fantastic Fingmabob',14.99)
+
+prodlist[36] = new prodobj('Jumping Jehosafatz',250.00)
+
+//Create a new array, named ordData, that contains empty Order Objects.
+
+ordData = new MakeArray(RowsInForm)
+
+for (var i=1; i<= RowsInForm; i++) {
+
+ordData[i] = new ordobj(0,0,0,0)}
+
+</SCRIPT>
+<! A real form would require METHOD = and ACTION= attributes in the FORM tag below ><! to ensure that the data gets sent somewhere. The contents of the tag would be something ><! like FORM name="ordform" METHOD="POST" ACTION="youremailaddress" where youremailaddress ><! really is your e-mail address. However, even that would work only if your ISP supports ><! the use of mailto: in a form tag. If in doubt, contact your ISP for specifics. >
+<FORM name=ordform></P>
+<CENTER>
+<P><! Display the table header></P></CENTER>
+<TABLE align=center border=1>
+<CENTER>
+<TBODY>
+<TR>
+<TH width=192>
+<CENTER><B>Product</B></CENTER></TH>
+<TH width=72>
+<CENTER><B>Qty</B></CENTER></TH>
+<TH width=120>
+<CENTER><B>Unit Price</B></CENTER></TH>
+<TH width=120>
+<CENTER><B>Ext Price</B></CENTER></TH></TR><! Generate the rest of the rows using JavaScript><BR>
+<SCRIPT>
+
+for (var rownum = 1;rownum <= RowsInForm; rownum++) {
+
+document.write('<TR><TD WIDTH=192>')
+
+document.write('<SELECT NAME="prodchosen'+rownum+'" onChange= "updateRow('+rownum+')">')
+
+for (i = 0; i <= ProductsInList; i++) {
+
+document.write ("<OPTION>"+prodlist[i].name)
+
+} document.write ('</SELECT>')
+
+document.write ('</TD><TD WIDTH=72><CENTER><INPUT NAME="qty'+rownum+'" VALUE=""')
+
+document.write ('MAXLENGTH="3" SIZE=3 onChange="updateRow('+rownum+')"></CENTER>')
+
+document.write ('</TD><TD WIDTH=120><CENTER>')
+
+document.write ('<INPUT NAME="unitprice'+rownum+'" VALUE="" MAXLENGTH="10"')
+
+document.write ('SIZE=10 onfocus="this.blur()"></CENTER>')
+
+document.write ('</TD><TD WIDTH=120><CENTER>')
+
+document.write ('<INPUT NAME="extprice'+rownum+'" VALUE="" MAXLENGTH="10"')
+
+document.write ('SIZE=10 onfocus = "this.blur()"></CENTER>')
+
+document.write ('</TD></TR>')
+
+}
+
+</SCRIPT>
+
+<P></P></CENTER></TBODY></TABLE>
+<CENTER>
+<P><! Second table holds subtotal, sales tax, grand total></P></CENTER>
+<TABLE>
+<TBODY>
+<TR>
+<TD width=264></TD>
+<TD width=120>
+<CENTER>
+<P>Subtotal: </P></CENTER></TD>
+<TD width=120>
+<CENTER>
+<P><INPUT maxLength=10 name=subtotal onfocus=this.blur() 
+size=10></P></CENTER></TD></TR>
+<TR>
+<TD width=264>
+<P><INPUT name=Taxable onclick=updateTotals() type=checkbox value=true> 
+Click here if you live in the 
+<SCRIPT>
+
+document.write(TaxableState)
+
+</SCRIPT>
+</P></TD>
+<TD width=120>
+<CENTER>
+<P>Sales Tax:</P></CENTER></TD>
+<TD width=120>
+<CENTER>
+<P><INPUT maxLength=10 name=salestax onfocus=this.blur() 
+size=10></P></CENTER></TD></TR>
+<TR>
+<TD width=264>
+<P><FONT face=Arial><FONT size=-1>(more below)</FONT></FONT> </P></TD>
+<TD width=120>
+<CENTER>
+<P>Grand Total: </P></CENTER></TD>
+<TD width=120>
+<CENTER>
+<P><INPUT maxLength=10 name=grandtotal onfocus=this.blur() 
+size=10></P></CENTER></TD></TR></TBODY></TABLE>
+<P><B>Bill To:</B> <! Onto Bill To and Ship To address portions of the form></P>
+<TABLE align=center border=1>
+<TBODY>
+<TR>
+<TD width=120>
+<P>Name:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=billName size=50></P></TD></TR>
+<TR>
+<TD width=120>
+<P>Company:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=billCompany size=50> </P></TD></TR>
+<TR>
+<TD width=120>
+<P>Address1:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=billAdd1 size=50></P></TD></TR>
+<TR>
+<TD width=120>
+<P>Address2:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=billAdd2 size=50> </P></TD></TR>
+<TR>
+<TD width=120>
+<P>City, State, Zip:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=billCSZ size=50></P></TD></TR>
+<TR>
+<TD width=120>
+<P>Phone:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=25 name=Phone size=25></P></TD></TR>
+<TR>
+<TD width=120>
+<P>Email address:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=email size=40></P></TD></TR></TBODY></TABLE>
+<CENTER>
+<P><INPUT onclick=copyAddress() type=button value="Copy 'Bill To' info to 'Ship To' blanks"> 
+</P></CENTER>
+<P><B>Ship To:</B> </P>
+<TABLE align=center border=1>
+<TBODY>
+<TR>
+<TD width=120>
+<P>Name:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=ShipName size=50></P></TD></TR>
+<TR>
+<TD width=120>
+<P>Company:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=ShipCompany size=50></P></TD></TR>
+<TR>
+<TD width=120>
+<P>Address1:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=ShipAdd1 size=50></P></TD></TR>
+<TR>
+<TD width=120>
+<P>Address2:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=ShipAdd2 size=50></P></TD></TR>
+<TR>
+<TD width=120>
+<P>City, State, Zip:</P></TD>
+<TD width=408>
+<P><INPUT maxLength=75 name=ShipCSZ size=50></P></TD></TR></TBODY></TABLE>
+<P><! In real life, you'd want to omit the whole onclick... thing in the input tag below. ><! Which is to say you want to get rid of... ><! onClick = "alert('I do not really get submitted anywhere. But thanks for trying me!')" ><INPUT onclick="alert('I do not really get submitted anywhere. But thanks for trying me!')" type=submit value=Submit> 
+<INPUT type=reset value=Reset> <! In real life, you can omit the entire input tag (i.e. the entire line) below ><INPUT onclick="self.location = 'jsindex.htm'" type=button value="All Done"> 
+</FORM></P>
+</div>
