@@ -1,0 +1,311 @@
+{
+    "console": {
+        "@expanded": true,
+        "@height": "153",
+        "@maximized": "false",
+        "json()": {
+            "meta": {
+                "accessList": [
+                    "tab1",
+                    "tab2"
+                ]
+            },
+            "name": "pane1",
+            "nodes": [
+                {
+                    "type": "tab",
+                    "name": "tab1",
+                    "path": "",
+                    "className": [
+                        "tab1"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1484337525410
+                        },
+                        "filter": true,
+                        "title": "bash - \"6ac1f263eb5d\"",
+                        "tooltip": "bash - \"6ac1f263eb5d\"",
+                        "terminal": {
+                            "id": "devel_696",
+                            "cwd": "",
+                            "width": 1004,
+                            "height": 127
+                        }
+                    },
+                    "editorType": "terminal",
+                    "active": true
+                },
+                {
+                    "type": "tab",
+                    "name": "tab2",
+                    "path": "",
+                    "className": [],
+                    "document": {
+                        "title": "Immediate",
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1484337525415
+                        },
+                        "filter": true
+                    },
+                    "editorType": "immediate",
+                    "active": false
+                }
+            ],
+            "skin": "editor_tab",
+            "skinset": "default",
+            "type": "pane"
+        }
+    },
+    "experiments": {
+        "@@enabled": true,
+        "@flat-dark": 0,
+        "@git": 1,
+        "@mount": 0,
+        "@plugin-manager": 0,
+        "@plugins": 0,
+        "@sdk": 0,
+        "@test": 0
+    },
+    "ext": {
+        "counters": {
+            "@ace": 1,
+            "@acestatus": 1,
+            "@divider": 4,
+            "@document": 10,
+            "@form": 6,
+            "@menu": 5,
+            "@menuitem": 13,
+            "@pane": 2,
+            "@session": 9,
+            "@tab": 10,
+            "@undoManager": 10,
+            "@welcome": 1
+        }
+    },
+    "findinfiles": {
+        "@console": "true",
+        "@matchcase": "false",
+        "@regex": "false",
+        "@wholeword": "false"
+    },
+    "menus": {
+        "@minimized": "false"
+    },
+    "nak": {
+        "@installed": true
+    },
+    "panecycle": {
+        "json()": [
+            "tab9",
+            "tab1"
+        ]
+    },
+    "panels": {
+        "@active-left": "tree",
+        "commands.panel": {
+            "@enabled": "true",
+            "@name": "commands.panel"
+        },
+        "debugger": {
+            "@enabled": "true",
+            "@name": "debugger"
+        },
+        "navigate": {
+            "@enabled": "true",
+            "@name": "navigate"
+        },
+        "outline": {
+            "@enabled": "true",
+            "@name": "outline"
+        },
+        "scm": {
+            "@enabled": "true",
+            "@name": "scm"
+        },
+        "tree": {
+            "@enabled": "true",
+            "@name": "tree"
+        }
+    },
+    "projecttree": {
+        "@showfs": true,
+        "expanded": {
+            "json()": [
+                "/",
+                "/views",
+                "/views/shop"
+            ]
+        }
+    },
+    "tabs": {
+        "json()": {
+            "focus": "/views/shop/paypal-checkout.html",
+            "meta": {
+                "accessList": [
+                    "tab9",
+                    "tab7",
+                    "tab8",
+                    "tab6",
+                    "tab5",
+                    "tab4",
+                    "tab3"
+                ]
+            },
+            "name": "pane0",
+            "nodes": [
+                {
+                    "type": "tab",
+                    "name": "tab3",
+                    "path": "/app.js",
+                    "className": [
+                        "tab3"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1484243106000
+                        },
+                        "filter": true,
+                        "title": "app.js",
+                        "tooltip": "/app.js",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab4",
+                    "path": "/views/sitedown.html",
+                    "className": [
+                        "tab4"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1484338069130
+                        },
+                        "filter": true,
+                        "title": "sitedown.html",
+                        "tooltip": "/views/sitedown.html",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab5",
+                    "path": "/views/shop/templatedownload.html",
+                    "className": [
+                        "tab5"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1484338187257
+                        },
+                        "filter": true,
+                        "title": "templatedownload.html",
+                        "tooltip": "/views/shop/templatedownload.html",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab6",
+                    "path": "/views/shop/contact.html",
+                    "className": [
+                        "tab6"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1484338276288
+                        },
+                        "filter": true,
+                        "title": "contact.html",
+                        "tooltip": "/views/shop/contact.html",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab7",
+                    "path": "/views/shop/shopping-cart.html",
+                    "className": [
+                        "tab7"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1484201354000
+                        },
+                        "filter": true,
+                        "title": "shopping-cart.html",
+                        "tooltip": "/views/shop/shopping-cart.html",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab8",
+                    "path": "/views/shop/store.html",
+                    "className": [
+                        "tab8"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1484338379719
+                        },
+                        "filter": true,
+                        "title": "store.html",
+                        "tooltip": "/views/shop/store.html",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab9",
+                    "path": "/views/shop/paypal-checkout.html",
+                    "className": [
+                        "tab9",
+                        "focus"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1482607271000
+                        },
+                        "filter": true,
+                        "title": "paypal-checkout.html",
+                        "tooltip": "/views/shop/paypal-checkout.html",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": true
+                }
+            ],
+            "skin": "editor_tab",
+            "skinset": "default",
+            "type": "pane"
+        }
+    },
+    "tree_selection": {
+        "json()": [
+            "/views/shop/paypal-checkout.html"
+        ]
+    }
+}
