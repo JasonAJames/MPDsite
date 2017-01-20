@@ -72,14 +72,14 @@
             "@ace": 1,
             "@acestatus": 1,
             "@divider": 4,
-            "@document": 10,
+            "@document": 11,
             "@form": 5,
             "@menu": 5,
             "@menuitem": 13,
             "@pane": 2,
-            "@session": 9,
-            "@tab": 1,
-            "@undoManager": 10,
+            "@session": 10,
+            "@tab": 11,
+            "@undoManager": 11,
             "@welcome": 1
         }
     },
@@ -97,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab8",
+            "tab10",
             "tab1"
         ]
     },
@@ -129,7 +129,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": -10,
+        "@scrollpos": 501,
         "@showfs": true,
         "expanded": {
             "json()": [
@@ -147,9 +147,10 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/views/shop/store.html",
+            "focus": "/public/partials/header.html",
             "meta": {
                 "accessList": [
+                    "tab10",
                     "tab8",
                     "tab4",
                     "tab3",
@@ -362,12 +363,12 @@
                     "path": "/views/shop/store.html",
                     "className": [
                         "tab8",
-                        "focus"
+                        "changed"
                     ],
                     "document": {
-                        "changed": false,
+                        "changed": true,
                         "meta": {
-                            "timestamp": 1484338379000
+                            "timestamp": 1484952393776
                         },
                         "filter": true,
                         "title": "store.html",
@@ -375,7 +376,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "tab",
@@ -421,6 +422,27 @@
                     },
                     "editorType": "ace",
                     "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab10",
+                    "path": "/public/partials/header.html",
+                    "className": [
+                        "tab10",
+                        "focus"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1481672682000
+                        },
+                        "filter": true,
+                        "title": "header.html",
+                        "tooltip": "/public/partials/header.html",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": true
                 }
             ],
             "skin": "editor_tab",
@@ -430,7 +452,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/public/partials"
+            "/views/shop/store.html"
         ]
     }
 }
