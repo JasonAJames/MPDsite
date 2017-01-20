@@ -97,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab8",
+            "tab10",
             "tab1"
         ]
     },
@@ -147,11 +147,11 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/views/shop/store.html",
+            "focus": "/public/partials/header.html",
             "meta": {
                 "accessList": [
-                    "tab8",
                     "tab10",
+                    "tab8",
                     "tab9",
                     "tab4",
                     "tab3",
@@ -362,13 +362,12 @@
                     "name": "tab8",
                     "path": "/views/shop/store.html",
                     "className": [
-                        "tab8",
-                        "focus"
+                        "tab8"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484955133887
+                            "timestamp": 1484955396276
                         },
                         "filter": true,
                         "title": "store.html",
@@ -376,7 +375,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "tab",
@@ -403,7 +402,8 @@
                     "name": "tab10",
                     "path": "/public/partials/header.html",
                     "className": [
-                        "tab10"
+                        "tab10",
+                        "focus"
                     ],
                     "document": {
                         "changed": false,
@@ -416,7 +416,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": false
+                    "active": true
                 }
             ],
             "skin": "editor_tab",
