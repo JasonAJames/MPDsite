@@ -151,13 +151,13 @@
             "meta": {
                 "accessList": [
                     "tab8",
+                    "tab9",
                     "tab10",
                     "tab4",
                     "tab3",
                     "tab5",
                     "tab6",
-                    "tab7",
-                    "tab9"
+                    "tab7"
                 ]
             },
             "name": "pane0",
@@ -369,7 +369,7 @@
                     "document": {
                         "changed": true,
                         "meta": {
-                            "timestamp": 1484952393776
+                            "timestamp": 1484954162799
                         },
                         "filter": true,
                         "title": "store.html",
@@ -387,39 +387,14 @@
                         "tab9"
                     ],
                     "document": {
-                        "filter": true,
-                        "title": "paypal-checkout.html",
-                        "tooltip": "/views/shop/paypal-checkout.html",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 3259.5,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 215,
-                                    "column": 65
-                                },
-                                "end": {
-                                    "row": 215,
-                                    "column": 65
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": {
-                                "row": 1338,
-                                "mode": "ace/mode/html"
-                            }
-                        },
-                        "hash": "a627770ed01fb556da415bec8b24a592c5bbac96",
+                        "changed": false,
                         "meta": {
                             "timestamp": 1484338449000
                         },
-                        "changed": false
+                        "filter": true,
+                        "title": "paypal-checkout.html",
+                        "tooltip": "/views/shop/paypal-checkout.html",
+                        "ace": {}
                     },
                     "editorType": "ace",
                     "active": false
@@ -434,7 +409,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484953838684
+                            "timestamp": 1484954634170
                         },
                         "filter": true,
                         "title": "header.html",
