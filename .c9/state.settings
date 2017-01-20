@@ -97,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab3",
+            "tab8",
             "tab1"
         ]
     },
@@ -147,13 +147,13 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/app.js",
+            "focus": "/views/shop/store.html",
             "meta": {
                 "accessList": [
-                    "tab3",
                     "tab8",
-                    "tab9",
                     "tab10",
+                    "tab3",
+                    "tab9",
                     "tab4",
                     "tab5",
                     "tab6",
@@ -167,8 +167,7 @@
                     "name": "tab3",
                     "path": "/app.js",
                     "className": [
-                        "tab3",
-                        "focus"
+                        "tab3"
                     ],
                     "document": {
                         "changed": false,
@@ -181,7 +180,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "tab",
@@ -341,10 +340,12 @@
                     "name": "tab8",
                     "path": "/views/shop/store.html",
                     "className": [
-                        "tab8"
+                        "tab8",
+                        "changed",
+                        "focus"
                     ],
                     "document": {
-                        "changed": false,
+                        "changed": true,
                         "meta": {
                             "timestamp": 1484956070278
                         },
@@ -354,7 +355,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "tab",
@@ -386,7 +387,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484955143043
+                            "timestamp": 1484956540787
                         },
                         "filter": true,
                         "title": "header.html",
