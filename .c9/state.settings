@@ -97,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab10",
+            "tab3",
             "tab1"
         ]
     },
@@ -147,14 +147,14 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/public/partials/header.html",
+            "focus": "/app.js",
             "meta": {
                 "accessList": [
-                    "tab10",
+                    "tab3",
                     "tab8",
                     "tab9",
+                    "tab10",
                     "tab4",
-                    "tab3",
                     "tab5",
                     "tab6",
                     "tab7"
@@ -167,42 +167,21 @@
                     "name": "tab3",
                     "path": "/app.js",
                     "className": [
-                        "tab3"
+                        "tab3",
+                        "focus"
                     ],
                     "document": {
-                        "filter": true,
-                        "title": "app.js",
-                        "tooltip": "/app.js",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 582,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 44,
-                                    "column": 45
-                                },
-                                "end": {
-                                    "row": 44,
-                                    "column": 45
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": 0
-                        },
-                        "hash": "1701e4ccb6e769ebc2b324b8b08bf53846687dbe",
+                        "changed": false,
                         "meta": {
                             "timestamp": 1484243106000
                         },
-                        "changed": false
+                        "filter": true,
+                        "title": "app.js",
+                        "tooltip": "/app.js",
+                        "ace": {}
                     },
                     "editorType": "ace",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "tab",
@@ -367,7 +346,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484955396276
+                            "timestamp": 1484956070278
                         },
                         "filter": true,
                         "title": "store.html",
@@ -402,8 +381,7 @@
                     "name": "tab10",
                     "path": "/public/partials/header.html",
                     "className": [
-                        "tab10",
-                        "focus"
+                        "tab10"
                     ],
                     "document": {
                         "changed": false,
@@ -416,7 +394,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 }
             ],
             "skin": "editor_tab",
@@ -426,7 +404,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/views/shop/store.html"
+            "/app.js"
         ]
     }
 }
