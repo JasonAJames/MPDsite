@@ -151,8 +151,8 @@
             "meta": {
                 "accessList": [
                     "tab8",
-                    "tab9",
                     "tab10",
+                    "tab9",
                     "tab4",
                     "tab3",
                     "tab5",
@@ -363,13 +363,12 @@
                     "path": "/views/shop/store.html",
                     "className": [
                         "tab8",
-                        "changed",
                         "focus"
                     ],
                     "document": {
-                        "changed": true,
+                        "changed": false,
                         "meta": {
-                            "timestamp": 1484954162799
+                            "timestamp": 1484955133887
                         },
                         "filter": true,
                         "title": "store.html",
@@ -409,7 +408,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484954634170
+                            "timestamp": 1484955143043
                         },
                         "filter": true,
                         "title": "header.html",
