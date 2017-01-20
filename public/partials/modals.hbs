@@ -1,315 +1,427 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>{{title}}</title>
-	<!-- Standard Meta -->
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<link rel='stylesheet' href='/stylesheets/style.css' /> 
 
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/reset.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/site.css">
+                  <!-- Template Download Section -->
+                  <div class="modal fade row" id="template-download-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                    
+                    <script>
+                      $( function() {
+                        $( "#menu" ).menu();
+                      } );
+                    </script>
+                    
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>
+                        <h1 class="ui header">Download Templates</h1>
+                        </div>
+                        <div class="modal-body">
+                          <ul id="menu" class="ui vertical menu">
+                            <!-- Announcement Envelopes -->
+                            <li><div>Announcement Envelopes</div>
+                              <ul class="ui green segment">
+                                <li>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/announcement-envelopes/A-6 Envelope.zip" target="_blank">A-6 Envelope</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/announcement-envelopes/A-7 Envelope.zip" target="_blank">A-7 Envelope</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/announcement-envelopes/A-9 Envelope.zip" target="_blank">A-9 Envelope</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Banners -->
+                            <li><div>Banners</div>
+                              <ul class="ui orange segment">
+                                <li>                                 
+                                  <ul class="ui purple segment">
+                                    <li>
+                                    <strong>Indoor Banners</strong>                                    
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/1x2-indoorbanner.zip" target="_blank">1&#39; x 2&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/2x2-indoorbanner.zip" target="_blank">2&#39; x 2&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/2x3-indoorbanner.zip" target="_blank">2&#39; x 3&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/2x4-indoorbanner.zip" target="_blank">2&#39; x 4&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/3x3-indoorbanner.zip" target="_blank">3&#39; x 3&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/3x5-indoorbanner.zip" target="_blank">3&#39; x 5&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/4x4-indoorbanner.zip" target="_blank">4&#39; x 4&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/4x6-indoorbanner.zip" target="_blank">4&#39; x 6&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/5x5-indoorbanner.zip" target="_blank">5&#39; x 5&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/5x7-indoorbanner.zip" target="_blank">5&#39; x 7&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/6x6-indoorbanner.zip" target="_blank">6&#39; x 6&#39; Indoor Banner</a>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/banners/6x9-indoorbanner.zip" target="_blank">6&#39; x 9&#39; Indoor Banner</a>
+                                   </li>
+                                 </ul>
+                                <strong>Outdoor Banners</strong>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/1x2-outdoorbanner.zip" target="_blank">1&#39; x 2&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/2x2-outdoorbanner.zip" target="_blank">2&#39; x 2&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/2x3-outdoorbanner.zip" target="_blank">2&#39; x 3&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/2x4-outdoorbanner.zip" target="_blank">2&#39; x 4&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/2x6-outdoorbanner.zip" target="_blank">2&#39; x 6&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/2x8-outdoorbanner.zip" target="_blank">2&#39; x 8&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/3x3-outdoorbanner.zip" target="_blank">3&#39; x 3&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/3x5-outdoorbanner.zip" target="_blank">3&#39; x 5&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/3x6-outdoorbanner.zip" target="_blank">3&#39; x 6&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/3x8-outdoorbanner.zip" target="_blank">3&#39; x 8&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/4x4-outdoorbanner.zip" target="_blank">4&#39; x 4&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/4x6-outdoorbanner.zip" target="_blank">4&#39; x 6&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/4x8-outdoorbanner.zip" target="_blank">4&#39; x 8&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/5x5-outdoorbanner.zip" target="_blank">5&#39; x 5&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/5x7-outdoorbanner.zip" target="_blank">5&#39; x 7&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/6x6-outdoorbanner.zip" target="_blank">6&#39; x 6&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/6x9-outdoorbanner.zip" target="_blank">6&#39; x 9&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/7x10-outdoorbanner.zip" target="_blank">7&#39; x 10&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/8x8-outdoorbanner.zip" target="_blank">8&#39; x 8&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/8x12-outdoorbanner.zip" target="_blank">8&#39; x 12&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/10x10-outdoorbanner.zip" target="_blank">10&#39; x 10&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/10x15-outdoorbanner.zip" target="_blank">10&#39; x 15&#39; Outdoor Banner</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/banners/outdoor-banners/12x12-outdoorbanner.zip" target="_blank">12&#39; x 12&#39; Outdoor Banner</a>
+                               </li>
+                              </ul>
+                            </li>
+                            <!-- Bookmarks -->
+                            <li><div>Bookmarks</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/bookmarks/1.5 x 7 Bookmark.zip" target="_blank">1.5&quot; x 7&quot; Bookmarks</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/bookmarks/2 x 8 Bookmark.zip" target="_blank">2&quot; x 8&quot; Bookmarks</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/bookmarks/2.125 x 5.5 Bookmark.zip" target="_blank">2.125&quot; x 5.5&quot; Bookmarks</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Brochures -->
+                            <li><div>Brochures</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/brochures/11 x 17 Flyer-Brochure.zip" target="_blank">11&quot; x 17&quot; Brochures</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/brochures/25.5 x 11 Brochures.zip" target="_blank">25.5&quot; x 11&quot; Brochures</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/brochures/8.5 x 11 Flyer-Brochure.zip" target="_blank">8.5&quot; x 11&quot; Brochures</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/brochures/8.5 x 14 Flyer-Brochures.zip" target="_blank">8.5&quot; x 14&quot; Brochures</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/brochures/9 x 12 Flyer-Brochure.zip" target="_blank">9&quot; x 12&quot; Brochures</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Bulletins and Inserts -->
+                            <li><div>Bulletins and Inserts</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/bulletins-inserts/11x17_poster-brochure.zip" target="_blank">11&quot; x 17&quot; Bulletin-Insert</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/bulletins-inserts/5.5x8.5_postcard.zip" target="_blank">5.5&quot; x 8.5&quot; Bulletin-Insert</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/bulletins-inserts/8.5x11_flyer-brochure.zip" target="_blank">8.5&quot; x 11&quot; Bulletin-Insert</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/bulletins-inserts/8.5x14_brochure.zip" target="_blank">8.5&quot; x 14&quot; Bulletin-Insert</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Business Cards Mini -->
+                            <li><div>Business Cards Mini</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/business-card-mini/3.4375 x 1.5 BC Ultra Mini.zip" target="_blank">3.4375&quot; x 1.5&quot; Business Card Ultra Mini</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/business-card-mini/3.4375 x 1.9375 BC Mini.zip" target="_blank">3.4375&quot; x 1.9375&quot; Business Card Mini</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Business Cards -->
+                            <li><div>Business Cards</div>
+                              <ul class="ui orange segment">
+                                <li>                                 
+                                  <ul class="ui purple segment">
+                                    <li>
+                                     <strong>Vertical</strong>
+                                    <a class="item" href="{{> awsbucket_printingtemplates}}/BusinessCard/Acrobat/VerticalScoreFold/Vert Score BusCard_Tmplt.pdf.zip" target="_blank">Vertical Score<br/>2&quot; x 3.5&quot;</a>
+                                    </li>
+                                   </ul>
+                                <strong>Horizontal</strong>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/BusinessCard/Acrobat/HorizontalScoreFold/BusCard_Tmplt.pdf.zip" target="_blank">3.5&quot; x 2&quot;</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/BusinessCard/Acrobat/HorizontalScoreFold/Horiz Score BusCard_Tmplt.pdf.zip" target="_blank">Horizontal Score 3.5&quot; x 2&quot;</a>
+                               </li>
+                              </ul>
+                            </li>
+                            <!-- Calendars -->
+                            <li><div>Calendars</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/calendars/12 x 12 Calendar.zip" target="_blank">12&quot; x 12&quot; Calendar</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/calendars/9 x 12 Calendar.zip" target="_blank">9&quot; x 12&quot; Calendar</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Catalogs -->
+                            <li><div>Catalogs</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/4 x 6 Catalog.zip" target="_blank">4&quot; x 6&quot; Catalog</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/5.5 x 8.5 Catalog.zip" target="_blank">5.5&quot; x 8.5&quot; Catalog</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/8.5 x 11 Catalogs.zip" target="_blank">8.5&quot; x 11&quot; Catalog</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- CD / DVD Inserts -->
+                            <li><div>CD / DVD Inserts</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/CD-DVD-inserts/5.9375 x 4.625_CD Insert.zip" target="_blank">5.9375&quot; x 4.625&quot; CD Insert</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/CD-DVD-inserts/8.5x11_CD Tray Combo.zip" target="_blank">8.5&quot; x 11&quot; CD Tray Combo</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/CD-DVD-inserts/CD-DVD_10.75 x 7.25.zip" target="_blank">10.75&quot; x 7.25&quot; CD / DVD Insert</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/CD-DVD-inserts/CD_14.25 x 4.75.zip" target="_blank">14.25&quot; x 4.75&quot; CD Insert</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/CD-DVD-inserts/CD_4.75 x 19.zip" target="_blank">4.75&quot; x 19&quot; CD Insert</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/CD-DVD-inserts/CD_4.75 x 4.75.zip" target="_blank">4.75&quot; x 4.75&quot; CD Insert</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/CD-DVD-inserts/CD_9.5 x 4.75.zip" target="_blank">9.5&quot; x 4.75&quot; CD Insert</a>
+                                </li>
+                              </ul>
+                        <!-- Corrugated Plastic Yard Sign -->
+                            <li><div>Corrugated Plastic Yard Sign</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/corrugated-plastic-boards/12x16-yardsign.pdf.zip" target="_blank">12&quot; x 16&quot; Corrugated Plastic Yard Sign</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/corrugated-plastic-boards/12x18-yardsign.pdf.zip" target="_blank">12&quot; x 18&quot; Corrugated Plastic Yard Sign</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/corrugated-plastic-boards/12x24-yardsign.pdf.zip" target="_blank">12&quot; x 24&quot; Corrugated Plastic Yard Sign</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/corrugated-plastic-boards/18x24-yardsign.pdf.zip" target="_blank">18&quot; x 24&quot; Corrugated Plastic Yard Sign</a>
+                                </li>
+                                </ul>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/corrugated-plastic-boards/24x24-yardsign.pdf.zip" target="_blank">24&quot; x 24&quot; Corrugated Plastic Yard Sign</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/corrugated-plastic-boards/24x32-yardsign.pdf.zip" target="_blank">24&quot; x 32&quot; Corrugated Plastic Yard Sign</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/corrugated-plastic-boards/24x36-yardsign.pdf.zip" target="_blank">24&quot; x 36&quot; Corrugated Plastic Yard Sign</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/corrugated-plastic-boards/24x48-yardsign.pdf.zip" target="_blank">24&quot; x 48&quot; Corrugated Plastic Yard Sign</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Crack-n-Peel Labels -->
+                            <li><div>Crack-n-Peel Labels</div>
+                              <ul class="ui green segment">
+                                <li>
+                                  <ul class="ui green segment">
+                                    <li>
+                                      <ul class="ui green segment">
+                                        <li>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/2 x 3.5 Labels.zip" target="_blank">2&quot; x 3.5&quot; Crack-n-Peel Labels</a>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/2 x 4 CnP Label.zip" target="_blank">2&quot; x 4&quot; Crack-n-Peel Labels</a>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/2 x 8 Labels.zip" target="_blank">2&quot; x 8&quot; Crack-n-Peel Labels</a>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/2.125 x 5.5 CnP Labels.zip" target="_blank">2.125&quot; x 5.5&quot; Crack-n-Peel Labels</a>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/2.75 x 4.25 Labels.zip" target="_blank">2.75&quot; x 4.25&quot; Crack-n-Peel Labels</a>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/2.75 x 8.5 CnP Labels.zip" target="_blank">2.75&quot; x 8.5&quot; Crack-n-Peel Labels</a>
+                                        </li>
+                                      </ul>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/3 x 4 Labels.zip" target="_blank">3&quot; x 4&quot; Crack-n-Peel Labels</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/3.5 x 3.5 CnP Label.zip" target="_blank">3.5&quot; x 3.5&quot; Crack-n-Peel Labels</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/3.66 x 4.25 Labels.zip" target="_blank">3.66&quot; x 4.25&quot; Crack-n-Peel Labels</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/3.66 x 8.5 Labels.zip" target="_blank">3.66&quot; x 8.5&quot; Crack-n-Peel Labels</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/4 x 4 Labels.zip" target="_blank">4&quot; x 4&quot; Crack-n-Peel Labels</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/4 x 6 Labels.zip" target="_blank">4&quot; x 6&quot; Crack-n-Peel Labels</a>
+                                    </li>
+                                  </ul>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/4 x 9 Labels.zip" target="_blank">4&quot; x 9&quot; Crack-n-Peel Labels</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/4.25 x 11 Labels.zip" target="_blank">4.25&quot; x 11&quot; Crack-n-Peel Labels</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/4.25 x 5.5 Labels.zip" target="_blank">4.25&quot; x 5.5&quot; Crack-n-Peel Labels</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/5 x 7 Labels.zip" target="_blank">5&quot; x 7&quot; Crack-n-Peel Labels</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/5.5 x 8.5 Labels.zip" target="_blank">5.5&quot; x 8.5&quot; Crack-n-Peel Labels</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/6 x 9 Labels.zip" target="_blank">6&quot; x 9&quot; Crack-n-Peel Labels</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/8.5 x 11 Labels.zip" target="_blank">8.5&quot; x 11&quot; Crack-n-Peel Labels</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Door Hangers -->
+                            <li><div>Door Hangers</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/3.5 x 11 Door Hanger.zip" target="_blank">3.5&quot; x 11&quot; Door Hangers</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/crack-n-peel-labels/4.25 x 11 Door Hanger.zip" target="_blank">4.25&quot; x 11&quot; Door Hangers</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Envelopes -->
+                            <li><div>Envelopes</div>
+                              <ul class="ui green segment">
+                                <li>
+                                  <ul class="ui green segment">
+                                    <li>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/10lb Conversion Envelope.zip" target="_blank">10lb Conversion Envelope</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/10lb Envelope.zip" target="_blank">10lb Envelope</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/10x13 Envelope.zip" target="_blank">10&quot; x 13&quot; Envelope</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/6.5 RemittanceEnvelope.zip" target="_blank">6.5&quot; Remittance Envelope</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/6x9 Envelope.zip" target="_blank">6&quot; x 9&quot; Envelope</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/9lb Envelope.zip" target="_blank">9lb Envelope</a>
+                                    </li>
+                                  </ul>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/A-10 Envelope.zip" target="_blank">A-10 Envelope</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/A-2 Envelope.zip" target="_blank">A-2 Envelope</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/A-6 Envelope.zip" target="_blank">A-6 Envelope</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/A-7 Envelope.zip" target="_blank">A-7 Envelope</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/A-8 Envelope.zip" target="_blank">A-8 Envelope</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/envelopes/A-9 Envelope.zip" target="_blank">A-9 Envelope</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Flyers -->
+                            <li><div>Flyers</div>
+                              <ul class="ui green segment">
+                                <li>
+                                  <ul class="ui green segment">
+                                    <li>
+                                      <ul class="ui green segment">
+                                        <li>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/6 x 9 Postcard-Flyer.zip" target="_blank">6&quot; x 9&quot; Flyer</a>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/7 x 10 Postcard-Flyer.zip" target="_blank">7&quot; x 10&quot; Flyer</a>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/8.5 x 11 Flyer-Brochure.zip" target="_blank">8.5&quot; x 11&quot; Flyer</a>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/8.5 x 14 Flyer-Brochure.zip" target="_blank">8.5&quot; x 14&quot; Flyer</a>
+                                          <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/9 x 12 Flyer-Brochure.zip" target="_blank">9&quot; x 12&quot; Flyer</a>
+                                        </li>
+                                      </ul>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/4.25 x 5.5 Postcard-Flyer.zip" target="_blank">4.25&quot; x 5.5&quot; Flyer</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/4.25 x 6 Postcard-Flyer.zip" target="_blank">4.25&quot; x 6&quot; Flyer</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/5 x 7 Postcard-Flyer.zip" target="_blank">5&quot; x 7&quot; Flyer</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/5.5 x 8.5 Postcard-Flyer.zip" target="_blank">5.5&quot; x 8.5&quot; Flyer</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/6 x 11 Postcard-Flyer.zip" target="_blank">6&quot; x 11&quot; Flyer</a>
+                                    </li>
+                                  </ul>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/11 x 17 Flyer-Brochure.zip" target="_blank">11&quot; x 17&quot; Flyer</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/3.5 x 8 Flyer.zip" target="_blank">3.5&quot; x 8&quot; Flyer</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/3.5 x 8.5 Flyer.zip" target="_blank">3.5&quot; x 8.5&quot; Flyer</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/4 x 6 Postcard-Flyer.zip" target="_blank">4&quot; x 6&quot; Flyer</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Flyer/PDF/4.25 x 11 Flyer.zip" target="_blank">4.25&quot; x 11&quot; Flyer</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Folders -->
+                            <li><div>Folders</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/folders/5.25x10.5 SIZE.zip" target="_blank">5.25&quot; x 10.5&quot; Folder</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/folders/6x9 SIZE.zip" target="_blank">6&quot; x 9&quot; Folder</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/folders/9x12 SIZE.zip" target="_blank">9&quot; x 12&quot; Folder</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/folders/9x14.5 SIZE.zip" target="_blank">9&quot; x 14.5&quot; Folder</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Greeting Cards -->
+                            <li><div>Greeting Cards</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/greeting-cards/5.5 x 8.5 Postcard-Flyer.zip" target="_blank">5.5&quot; x 8.5&quot; Greeting Cards</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/greeting-cards/7 x 10 Postcard-Flyer.zip" target="_blank">7&quot; x 10&quot; Greeting Cards</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/greeting-cards/8.5 x 11 Flyer-Brochure.zip" target="_blank">8.5&quot; x 11&quot; Greeting Cards</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Letterhead -->
+                            <li><div>Letterhead</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Letterhead/PDF/11 x 17 Flyer-Brochure.zip" target="_blank">11&quot; x 17&quot; Letterhead</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Letterhead/PDF/3.5 x 8 Flyer.zip" target="_blank">3.5&quot; x 8&quot; Letterhead</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Letterhead/PDF/3.5 x 8.5 Flyer.zip" target="_blank">3.5&quot; x 8.5&quot; Letterhead</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Letterhead/PDF/4.25 x 11 Flyer.zip" target="_blank">4.25&quot; x 11&quot; Letterhead</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Letterhead/PDF/5.5 x 8.5 Postcard-Flyer.zip" target="_blank">5.5&quot; x 8.5&quot; Letterhead</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Letterhead/PDF/8.5 x 14 Flyer-Brochure.zip" target="_blank">8.5&quot; x 14&quot; Letterhead</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Letterhead/PDF/Letterhead 8.5x11.pdf.zip" target="_blank">8.5&quot; x 11&quot; Letterhead</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Postcards -->
+                            <li><div>Postcards</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Postcard/PDF/4.25x6/Postcard_4.25x6_Tmplt.pdf.zip" target="_blank">4.25&quot; x 6&quot; Postcard</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Postcard/PDF/5.5x8.5/Postcard_5.5x8.5_Tmplt.pdf.zip" target="_blank">5.5&quot; x 8.5&quot; Postcard</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Postcard/PDF/6x9/Postcard_6x9_Tmplt.pdf.zip" target="_blank">6&quot; x 9&quot; Postcard</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Postcard/PDF/4 x 6 Postcard-Flyer.zip" target="_blank">4&quot; x 6&quot; Postcard</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Postcard/PDF/4.25 x 5.5 Postcard-Flyer.zip" target="_blank">4.25&quot; x 5.5&quot; Postcard</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Postcard/PDF/5 x 7 Postcard-Flyer.zip" target="_blank">5&quot; x 7&quot; Postcard</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Postcard/PDF/6 x 11 Postcard-Flyer.zip" target="_blank">6&quot; x 11&quot; Postcard</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Postcard/PDF/6.25 x 11 Postcard-Flyer.zip" target="_blank">6.25&quot; x 11&quot; Postcard</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/Postcard/PDF/7 x 10 Postcard-Flyer.zip" target="_blank">7&quot; x 10&quot; Postcard</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Posters -->
+                            <li><div>Posters</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/posters/11 x 17 Poster.zip" target="_blank">11&quot; x 17&quot; Poster</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/posters/18 x 24 Poster.zip" target="_blank">18&quot; x 24&quot; Poster</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/posters/24 x 36 Poster.zip" target="_blank">24&quot; x 36&quot; Poster</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Promo-Cards -->
+                            <li><div>Promo-Cards</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/promo-cards/2.75 x 4.25 Promo Cards.zip" target="_blank">2.75&quot; x 4.25&quot; Promo Card</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/promo-cards/3.66 x 4.25 Promo Card.zip" target="_blank">3.66&quot; x 4.25&quot; Promo Card</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/promo-cards/3.66 x 8.5 Promo Cards.zip" target="_blank">3.66&quot; x 8.5&quot; Promo Card</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/promo-cards/4.25 x 11 Promo Card.zip" target="_blank">4.25&quot; x 11&quot; Promo Card</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Rack Cards -->
+                            <li><div>Rack Cards</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/rack-cards/4 x 9 Rack Card.zip" target="_blank">4&quot; x 9&quot; Rack Card</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Stickers -->
+                            <li><div>Stickers</div>
+                              <ul class="ui green segment">
+                                <li>
+                                  <ul class="ui green segment">
+                                    <li>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/4 x 6 Stickers.zip" target="_blank">4&quot; x 6&quot; Stickers</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/4.25 x 6 Stickers.zip" target="_blank">4.25&quot; x 6&quot; Stickers</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/5 x 7 Stickers.zip" target="_blank">5&quot; x 7&quot; Stickers</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/5.5 x 8.5 Stickers.zip" target="_blank">5.5&quot; x 8.5&quot; Stickers</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/6 x 9 Stickers.zip" target="_blank">6&quot; x 9&quot; Stickers</a>
+                                      <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/8.5 x 11 Stickers.zip" target="_blank">8.5&quot; x 11&quot; Stickers</a>
+                                    </li>
+                                  </ul>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/2 x 4 Stickers.zip" target="_blank">2&quot; x 4&quot; Stickers</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/2.5 x 3.5 Stickers.zip" target="_blank">2.5&quot; x 3.5&quot; Stickers</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/3 x 4 Stickers.zip" target="_blank">3&quot; x 4&quot; Stickers</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/3 x 5 Stickers.zip" target="_blank">3&quot; x 5&quot; Stickers</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/3.5 x 3.5 Stickers.zip" target="_blank">3.5&quot; x 3.5&quot; Stickers</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/stickers/4 x 4 Stickers.zip" target="_blank">4&quot; x 4&quot; Stickers</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Table Tents -->
+                            <li><div>Table Tents</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/table-tents/4 x 16.5 Table Tent.zip" target="_blank">4&quot; x 16.5&quot; Table Tents</a>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/table-tents/5 x 16.5 Table Tent.zip" target="_blank">5&quot; x 16.5&quot; Table Tents</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Trading Cards -->
+                            <li><div>Trading Cards</div>
+                              <ul class="ui green segment">
+                                <li>
+                                <a class="item" href="{{> awsbucket_printingtemplates}}/trading-cards/2.5 x 3.5 Trading Cards.zip" target="_blank">2.5&quot; x 3.5&quot; Trading Cards</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- Window Cling -->
+                            <li><div>Window Cling</div>
+                              <ul class="ui green segment">
+                                <li>
+                                  <a class="item" href="{{> awsbucket_printingtemplates}}/window-clings/1x2-windowcling.zip" target="_blank">1&quot; x 2&quot; Window Cling</a>
+                                  <a class="item" href="{{> awsbucket_printingtemplates}}/window-clings/2x2-windowcling.zip" target="_blank">2&quot; x 2&quot; Window Cling</a>
+                                  <a class="item" href="{{> awsbucket_printingtemplates}}/window-clings/2x3-windowcling.zip" target="_blank">2&quot; x 3&quot; Window Cling</a>
+                                  <a class="item" href="{{> awsbucket_printingtemplates}}/window-clings/2x4-windowcling.zip" target="_blank">2&quot; x 4&quot; Window Cling</a>
+                                  <a class="item" href="{{> awsbucket_printingtemplates}}/window-clings/3x3-windowcling.zip" target="_blank">3&quot; x 3&quot; Window Cling</a>
+                                  <a class="item" href="{{> awsbucket_printingtemplates}}/window-clings/3x5-windowcling.zip" target="_blank">3&quot; x 5&quot; Window Cling</a>
+                                  <a class="item" href="{{> awsbucket_printingtemplates}}/window-clings/4x4-windowcling.zip" target="_blank">4&quot; x 4&quot; Window Cling</a>
+                                  <a class="item" href="{{> awsbucket_printingtemplates}}/window-clings/4x6-windowcling.zip" target="_blank">4&quot; x 6&quot; Window Cling</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <!-- keep all contents above here -->
+                          </ul>
+                        </div>
+                      </div>
 
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/container.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/grid.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/header.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/image.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/menu.css">
-
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/divider.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/dropdown.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/segment.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/button.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/list.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/icon.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/sidebar.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/components/transition.css">
-	<link rel="stylesheet" href="/bower_components/semantic/dist/semantic.css">
-	
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  	
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-
-	<style type="text/css">
-		.ui-menu { width: 180px; }
-		
-		.glossary_topic {
-			font-weight: bold;
-		}
-		
-		.hidden.menu {
-			display: none;
-		}
-
-		.masthead.segment {
-			min-height: 700px;
-			padding: 1em 0em;
-			
-		}
-		.masthead .logo.item img {
-			margin-right: 1em;
-		}
-		.masthead .ui.menu .ui.button {
-			margin-left: 0.5em;
-		}
-		.masthead h1.ui.header {
-			margin-top: 4em;
-			margin-bottom: 0em;
-			font-size: 4em;
-			font-weight: normal;
-		}
-		.masthead h2 {
-			font-size: 1.7em;
-			font-weight: normal;
-		}
-
-		.ui.vertical.stripe {
-			padding: 8em 0em;
-		}
-		.ui.vertical.stripe h3 {
-			font-size: 2em;
-		}
-		.ui.vertical.stripe .button + h3,
-		.ui.vertical.stripe p + h3 {
-			margin-top: 3em;
-		}
-		.ui.vertical.stripe .floated.image {
-			clear: both;
-		}
-		.ui.vertical.stripe p {
-			font-size: 1.33em;
-		}
-		.ui.vertical.stripe .horizontal.divider {
-			margin: 3em 0em;
-		}
-
-		.quote.stripe.segment {
-			padding: 0em;
-		}
-		.quote.stripe.segment .grid .column {
-			padding-top: 5em;
-			padding-bottom: 5em;
-		}
-
-		.footer.segment {
-			padding: 5em 0em;
-		}
-
-		.secondary.pointing.menu .toc.item {
-			display: none;
-		}
-
-		@media only screen and (max-width: 700px) {
-			.ui.fixed.menu {
-				display: none !important;
-			}
-			.secondary.pointing.menu .item,
-			.secondary.pointing.menu .menu {
-				display: none;
-			}
-			.secondary.pointing.menu .toc.item {
-				display: block;
-			}
-			.masthead.segment {
-				min-height: 350px;
-			}
-			.masthead h1.ui.header {
-				font-size: 2em;
-				margin-top: 1.5em;
-			}
-			.masthead h2 {
-				margin-top: 0.5em;
-				font-size: 1.5em;
-			}
-		}
-		
-	</style>
-
-	<script src="/javascripts/main.js"></script>
-
-	<script src="/bower_components/semantic/examples/assets/library/jquery.min.js"></script>
-	<script src="/bower_components/semantic/dist/components/visibility.js"></script>
-	<script src="/bower_components/semantic/dist/components/sidebar.js"></script>
-	<script src="/bower_components/semantic/dist/components/transition.js"></script>
-	<script src="/bower_components/semantic/dist/semantic.js"></script>
-	<script>
-		$(document)
-		.ready(function() {
-
-      // fix menu when passed
-      $('.masthead')
-      .visibility({
-      	once: false,
-      	onBottomPassed: function() {
-      		$('.fixed.menu').transition('fade in');
-      	},
-      	onBottomPassedReverse: function() {
-      		$('.fixed.menu').transition('fade out');
-      	}
-      })
-      ;
-
-      // create sidebar and attach to menu open
-      $('.ui.sidebar')
-      .sidebar('attach events', '.toc.item')
-      ;
-
-  })
-		;
-	</script>
-
-	<!-- Latest compiled and minified JavaScript --> 
-	<!-- html5 print shiv -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.js" integrity="sha256-btup0J8ailzC2SIkxIm9kZnW4IlDDKihhohGVN7Nfns=" crossorigin="anonymous"></script>
-	<!-- html5shiv -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js" integrity="sha256-sqQlcOZwgKkBRRn5WvShSsuopOdq9c3U+StqgPiFhHQ=" crossorigin="anonymous"></script> 
-	<!-- jQuery minified -->
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-	<!-- bootstrap minified -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-</head>
-<body ng-app="">
-	<div ng-include="'partials/header.html'"></div>
-<nav class="navbar navbar-inverse" id="header-container">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand active" href="/">MyPrintingDeals.com</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <!-- Uncomment Below when finished with cart AI -->
-      <ul class="nav navbar-nav">
-        <li class="item"><a href="/templatedownload" class="item">Download Templates</a></li>
-        <li class="item"><a href="" class="item" data-toggle="modal" data-target="#global-product-menu-section">Product Menu <span class="caret"></span></a></li>
-      </ul>
-
-       <form class="navbar-form navbar-left" action="/search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search Products">
-        </div>
-        <button type="submit" class="btn btn-default">Search</button>
-      </form>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="/shopping-cart/">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart &nbsp;
-            {{#if session.cart.totalQty}}<span class="badge">{{ session.cart.totalQty }} item(s) <!--/ Total: ${{ session.cart.totalPrice }} --></span>{{else}}<span class="badge"> Empty </span>{{/if}}
-            </a>
-            </li>
-        <li class="dropdown">
-          {{#if login}}<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> User Profile<span class="caret"></span></a>{{else}}
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Signup or Login <span class="caret"></span></a>{{/if}}
-          <ul class="dropdown-menu">
-            {{# if login }}
-              <li><a href="/user/profile">User Profile Settings</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="/user/logout">Logout</a></li>
-              {{ else }}
-              <li><a href="/user/signup">Sign Up</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="/user/signin">Login</a></li>
-            {{/if}}
-            
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav> 
-
-<div id="homeTop"></div>
-  <!-- Following Menu -->
- <div class="ui large top fixed hidden menu">
-    <div class="ui container">
-      <a class="active item" href="#homeTop">Home</a>
-      <a href="#" class="item" data-toggle="modal" data-target="#template-download-section">Download Templates</a>
-      <a href="#" class="item" data-toggle="modal" data-target="#company-section">Company</a>
-      <div class="right menu">
-        <div class="item">
-          <a href="/user/signin">Login</a>
-        </div>
-        <div class="item">
-          <a href="/user/signup">Sign Up</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sidebar Menu -->
-{{!--<div class="ui vertical inverted sidebar menu">--}}
-{{!--    <a class="active item" href="#homeTop">Home</a>--}}
-{{!--    <a href="#" class="item" data-toggle="modal" data-target="#template-download-section">Download Templates</a>--}}
-{{!--    <a href="#" class="item" data-toggle="modal" data-target="#company-section">Company</a>--}}
-{{!--    <a href="/user/signin">Login</a>--}}
-{{!--    <a href="/user/signup">Sign Up</a>--}}
-{{!--  </div>--}}
-
-	<div class="ui vertical">
-		<div>
-			<div class="row">
-				<div>
-					<div class="container">
-  <h1>{{title}}</h1>
-<p>Welcome to the {{title}} One Stop Print Shop.</p>
-
-<div class="row col-sm-12" id="rowContainer">
-  <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
-    <div id="sucess" class="{{#if noMessage}}hidden{{else}} alert-sucess{{/if}}">
-      {{ successMsg }}
-    </div>
-  </div>
-</div>
-{{# each products}}
-<div class="row">
-  {{# each this }}
-  <div class="col-xs-12 col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="{{ this.imagePath }}" alt="{{ this.title }}" class="img-responsive" id="productImage">
-      <div class="caption">
-        <h3>{{ this.title }}</h3>
-        <p class="description">{{ this.description }}</p>
-        <div class="clearfix">
-        	<div class="price pull-left">
-        		${{ this.price }}
-        	</div>
-        	<p>
-        		<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-              <INPUT TYPE="hidden" name="cmd" value="_cart">
-	        <input type="hidden" name="add" value="1">
-            <input type="hidden" name="currency_code" value="USD">
-            <input type="hidden" name="item_name" value="{{ this.item.title }} - {{ this.item._id }}">
-                  <a href="/add-to-cart/{{this._id}}" class="btn btn-success pull-right" name="submit" role="button">Add to Cart</a>
-               </form>
-        		
-        		
-        	</p>
-        </div>
-      </div>
-    </div> 
-    </div>
-   {{/each}}
- </div>
-{{/each}}
-</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	  <!-- Modal Content -->
-  <!--  Company Section -->                
+                <!--  Company Section -->                
                 <div class="modal fade" id="company-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                   <div class="modal-dialog" role="document">
                     <div class="center aligned row">
@@ -339,6 +451,7 @@
                     </div>
                   </div>
                 </div>
+
                 <!--  Global Product Menu Nav Section -->                
                 <div class="modal fade" id="global-product-menu-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                   <div class="modal-dialog" role="document">
@@ -1396,51 +1509,145 @@
 
 
                           <p align="center">&nbsp;</p>
-                          <p align="center" class="MainContentText">NOTE: If you need a custom quote for sizes or printing options not listed, <a href="/contact">Contact Us</a>.<strong><br />
-                            If you can dream, it we can print it!</strong></p>
+                          <p align="center" class="MainContentText">NOTE: If you need a custom quote for sizes or printing options not listed, please fill out the form below.<strong><br />
+                            You can dream it we can print it!</strong></p>
+                          <form action="/gdform.php" method="post" enctype="application/x-www-form-urlencoded" name="CustomQuoteForm" id="CustomQuoteForm">
+                            <span class="MainContentText">
+                            <input type="hidden" name="subject" value="Custom Printing Quote Form Submission" />
+                            <label for="textfield">
+                            <input type="hidden" name="redirect" value="/Pages/Printing/SubmissionGuideline_Pages/PrintingSubmission_ThankyouPage.html" />
+                            <div align="center">
+                              <table width="482" border="0" cellspacing="3" cellpadding="5">
+                                <tr>
+                                  <td width="238"><div align="right" class="MainContentText">First Name </div></td>
+                                  <td width="215" class="MainContentText"><input type="text" name="First Name" id="First Name" />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td><div align="right" class="MainContentText">Last Name</div></td>
+                                  <td class="MainContentText"><input type="text" name="Last Name" id="Last Name" />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td><div align="right" class="MainContentText">Contact Email</div></td>
+                                  <td class="MainContentText"><input type="text" name="Customer Email" id="Customer Email" />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td><div align="right" class="MainContentText">Contact Phone Number</div></td>
+                                  <td class="MainContentText"><input type="text" name="ContactPhoneNumber" id="ContactPhoneNumber" />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td><div align="right" class="MainContentText">Product you want to print</div></td>
+                                  <td class="MainContentText"><input type="text" name="PrintProduct" id="PrintProduct" />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td><div align="right" class="MainContentText">Quantity of product you want printed</div></td>
+                                  <td class="MainContentText"><input type="text" name="PrintQuantityWanted" id="PrintQuantityWanted" />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td><div align="right"> <span class="MainContentText">
+                                      <input type="submit" name="Submit" value="Submit" />
+                                  </span></div></td>
+                                  <td><div align="left"> <span class="MainContentText">
+                                      <input type="reset" name="Reset" value="Reset" />
+                                  </span></div></td>
+                                </tr>
+                              </table>
+                              <span class="MainContentText"><br />
+                              <br />
+                              <br />
+                            </span></div>
+                            <span class="MainContentText">
+                            </label>
+                            </span>
+                          </form>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-  <!-- Modal Content End -->
-	<nav class="navbar navbar-inverse" id="footer-container">
-                <div class="ui inverted vertical footer segment">
-                  <div class="ui container">
-                    <div class="ui stackable inverted divided equal height stackable grid">
-                      <div class="three wide column">
-                        <h4 class="ui inverted header">About</h4>
-                        <div class="ui inverted link list">
-                          <a href="#" class="item" data-toggle="modal" data-target="#company-section">Company</a>
-                          {{!--<a href="#" class="item" data-toggle="modal" data-target="#customer-testimonial-section">Customer Testimonials</a>--}}
-                          <a href="#" class="item" data-toggle="modal" data-target="#graphic-guidelines-section">Graphic Guidelines</a>
-                          <a href="#" class="item" data-toggle="modal" data-target="#glossary-of-terms-section">Glossary of Terms</a>
-                          <a href="#" class="item" data-toggle="modal" data-target="#additional-printing-details-section">Additional Printing Details</a>
-                        </div>
+
+                
+                                <!-- SignUp modal -->
+                   {{!--             <div class="modal fade" id="signup-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">--}}
+                   {{!--               <div class="modal-dialog" role="document">--}}
+                   {{!--                 <div class="center aligned row">--}}
+                   {{!--                   <div class="modal-content">--}}
+                   {{!--                     <div class="modal-header">--}}
+                   {{!--                       <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>--}}
+                   {{!--                       <h3>Sign Up</h3>--}}
+                   {{!--                     </div>--}}
+                   {{!--                     <div class="modal-body">--}}
+                   {{!--                       <div class="col-md-4 col-md-offset-4;  class="modal-dialog" role="document">--}}
+                		 {{!--                       <h1>Sign Up</h1>--}}
+                		 {{!--                       {{#if hasErrors}}--}}
+                			{{!--                      <div class="alert alert-danger">--}}
+                			{{!--	                    {{# each messages }}--}}
+                			{{!--		                  <p>{{this}}</p>--}}
+                			{{!--	                    {{/each}}--}}
+                			{{!--                      </div>--}}
+                		 {{!--                       {{/if}}--}}
+                		 {{!--                     <form action="/user/signup" method="post">--}}
+                			{{!--                      <div class="form-group">--}}
+                			{{!--	                      <label for="name">Name:</label>--}}
+                			{{!--	                      <input type="text" id="name" name="name" class="form-control" required>--}}
+                			{{!--                      </div>--}}
+                			{{!--                      <div class="form-group">--}}
+                			{{!--	                      <label for="email">Email</label>--}}
+                			{{!--	                      <input type="text" id="email" name="email" class="form-control" required>--}}
+                			{{!--                      </div>--}}
+                			{{!--                      <div class="form-group">--}}
+                			{{!--	                      <label for="password">Password</label>--}}
+                			{{!--	                      <input type="password" id="password" name="password" class="form-control" required>--}}
+                			{{!--                      </div>--}}
+                			{{!--<div class="form-group">--}}
+                			{{!--	<label for="verifyPassword">Verify Password</label>--}}
+                			{{!--	<input type="password" id="verifyPassword" name="verifyPassword" class="form-control">--}}
+                			{{!--</div>--}}
+                			{{!--                      <input type="hidden" name="_csrf" value="{{ csrfToken }}">--}}
+                			{{!--                      <button type="submit" class="btn btn-primary">Sign Up</button>--}}
+                		 {{!--                     </form>--}}
+                	  {{!--                      </div>--}}
+                   {{!--                     </div>--}}
+                   {{!--                     </div>--}}
+                   {{!--                 </div>--}}
+                   {{!--               </div>--}}
+                   {{!--             </div>--}}
+                
+                <!-- Customer Testimonial Section -->                
+                <div class="modal fade" id="customer-testimonial-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>
+                          <h1>Customer Testimonials</h1>
                       </div>
-                      <div class="three wide column">
-                        <h4 class="ui inverted header">Resources</h4>
-                        <div class="ui inverted link list">
-                          <a href="#" class="item" data-toggle="modal" data-target="#privacy-security-section">Privacy & Security</a>
-                          <a href="#" class="item" data-toggle="modal" data-target="#terms-and-conditions-section">Terms & Conditions</a>
-                          {{!--<a href="#" class="item" data-toggle="modal" data-target="#template-download-section">Download Templates</a>--}}
-                          <a href="#" class="item" data-toggle="modal" data-target="#turn-around-time-section">Turn Around Times</a>
-                          <a href="/contact" class="item">Contact Us</a>
-                        </div>
+                      <div class="modal-body">
+                        <h3>"I shouldn't have gone with their competitor."</h3>
+                        <p>
+                          <img src="bower_components/semantic/examples/assets/images/avatar/nan.jpg" class="ui avatar image"> <b>Nan</b> Chief Fun Officer Acme Toys
+                        </p>
+                        <h4 class="ui horizontal header divider">
+                          <label class="label label-info">Customer Testimonial</label>
+                        </h4>
+                        <h3>"I shouldn't have gone with their competitor."</h3>
+                          <p>
+                            <img src="bower_components/semantic/examples/assets/images/avatar/nan.jpg" class="ui avatar image"> <b>Nan</b> Chief Fun Officer Acme Toys
+                          </p>
+                        <h4 class="ui horizontal header divider">
+                          <label class="label label-info">Customer Testimonial</label>
+                        </h4>
                       </div>
-                      <div class="seven wide column">
-                        <h4 class="ui inverted header">MyPrintingDeals.com</h4>
-                        <p>If you can dream it, We can print it!</p>
-                        <p style="text-align:center;" id="copyright">&copy; <span id="copyrightDate"></span> MyPrintingDeals.com - All Rights Reserved</p>
-                        <script>
-                          var d = new Date();
-                          document.getElementById("copyrightDate").innerHTML = d.getFullYear();
-                        </script>
-                      </div>
+                    
                     </div>
+
                   </div>
+                    
                 </div>
               </div>
-            </div>
-</body>
-</html>
+              </div>
+              

@@ -135,7 +135,10 @@
             "json()": [
                 "/",
                 "/views/shop",
-                "/views"
+                "/views",
+                "/views/partials",
+                "/public/partials",
+                "/public"
             ]
         }
     },
@@ -427,7 +430,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/views/partials/header.html"
+            "/public/partials"
         ]
     }
 }
