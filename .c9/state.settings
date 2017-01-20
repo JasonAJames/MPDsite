@@ -6,8 +6,8 @@
         "json()": {
             "meta": {
                 "accessList": [
-                    "tab1",
-                    "tab2"
+                    "tab2",
+                    "tab1"
                 ]
             },
             "name": "pane1",
@@ -22,7 +22,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484337525410
+                            "timestamp": 1484337522515
                         },
                         "filter": true,
                         "title": "bash - \"6ac1f263eb5d\"",
@@ -30,7 +30,7 @@
                         "terminal": {
                             "id": "devel_696",
                             "cwd": "",
-                            "width": 1004,
+                            "width": 1003,
                             "height": 127
                         }
                     },
@@ -44,11 +44,9 @@
                     "className": [],
                     "document": {
                         "title": "Immediate",
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1484337525415
-                        },
-                        "filter": true
+                        "meta": {},
+                        "filter": true,
+                        "changed": false
                     },
                     "editorType": "immediate",
                     "active": false
@@ -75,12 +73,12 @@
             "@acestatus": 1,
             "@divider": 4,
             "@document": 10,
-            "@form": 6,
+            "@form": 5,
             "@menu": 5,
             "@menuitem": 13,
             "@pane": 2,
             "@session": 9,
-            "@tab": 10,
+            "@tab": 1,
             "@undoManager": 10,
             "@welcome": 1
         }
@@ -99,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab9",
+            "tab8",
             "tab1"
         ]
     },
@@ -131,27 +129,31 @@
         }
     },
     "projecttree": {
+        "@scrollpos": -10,
         "@showfs": true,
         "expanded": {
             "json()": [
                 "/",
-                "/views",
-                "/views/shop"
+                "/views/shop",
+                "/views"
             ]
         }
     },
+    "recentfiles": {
+        "json()": []
+    },
     "tabs": {
         "json()": {
-            "focus": "/views/shop/paypal-checkout.html",
+            "focus": "/views/shop/store.html",
             "meta": {
                 "accessList": [
-                    "tab9",
-                    "tab7",
                     "tab8",
-                    "tab6",
-                    "tab5",
                     "tab4",
-                    "tab3"
+                    "tab3",
+                    "tab5",
+                    "tab6",
+                    "tab7",
+                    "tab9"
                 ]
             },
             "name": "pane0",
@@ -164,14 +166,36 @@
                         "tab3"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1484243106000
-                        },
                         "filter": true,
                         "title": "app.js",
                         "tooltip": "/app.js",
-                        "ace": {}
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 582,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 44,
+                                    "column": 45
+                                },
+                                "end": {
+                                    "row": 44,
+                                    "column": 45
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "1701e4ccb6e769ebc2b324b8b08bf53846687dbe",
+                        "meta": {
+                            "timestamp": 1484243106000
+                        },
+                        "changed": false
                     },
                     "editorType": "ace",
                     "active": false
@@ -186,7 +210,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484338069130
+                            "timestamp": 1484338069000
                         },
                         "filter": true,
                         "title": "sitedown.html",
@@ -204,14 +228,36 @@
                         "tab5"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1484338187257
-                        },
                         "filter": true,
                         "title": "templatedownload.html",
                         "tooltip": "/views/shop/templatedownload.html",
-                        "ace": {}
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 38263.5,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 2402,
+                                    "column": 78
+                                },
+                                "end": {
+                                    "row": 2402,
+                                    "column": 78
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "1062fc2002427ff49b44feeb17dace015dd45fe3",
+                        "meta": {
+                            "timestamp": 1484338187000
+                        },
+                        "changed": false
                     },
                     "editorType": "ace",
                     "active": false
@@ -224,14 +270,36 @@
                         "tab6"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1484338276288
-                        },
                         "filter": true,
                         "title": "contact.html",
                         "tooltip": "/views/shop/contact.html",
-                        "ace": {}
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 38676,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 2432,
+                                    "column": 78
+                                },
+                                "end": {
+                                    "row": 2432,
+                                    "column": 78
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "da22f63652f0f14b5d9927c0028b63046e6b87db",
+                        "meta": {
+                            "timestamp": 1484338276000
+                        },
+                        "changed": false
                     },
                     "editorType": "ace",
                     "active": false
@@ -244,14 +312,43 @@
                         "tab7"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1484201354000
-                        },
                         "filter": true,
                         "title": "shopping-cart.html",
                         "tooltip": "/views/shop/shopping-cart.html",
-                        "ace": {}
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 5297,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 0,
+                                    "column": 0
+                                },
+                                "end": {
+                                    "row": 0,
+                                    "column": 0
+                                },
+                                "isBackwards": true
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": {
+                                "row": 72,
+                                "state": [
+                                    "css-ruleset",
+                                    "css-start"
+                                ],
+                                "mode": "ace/mode/html"
+                            }
+                        },
+                        "hash": "34664e9ba792a56cb2d8ef75ff86ea3077624975",
+                        "meta": {
+                            "timestamp": 1484201354000
+                        },
+                        "changed": false
                     },
                     "editorType": "ace",
                     "active": false
@@ -261,12 +358,13 @@
                     "name": "tab8",
                     "path": "/views/shop/store.html",
                     "className": [
-                        "tab8"
+                        "tab8",
+                        "focus"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484338379719
+                            "timestamp": 1484338379000
                         },
                         "filter": true,
                         "title": "store.html",
@@ -274,28 +372,52 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "tab",
                     "name": "tab9",
                     "path": "/views/shop/paypal-checkout.html",
                     "className": [
-                        "tab9",
-                        "focus"
+                        "tab9"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1482607271000
-                        },
                         "filter": true,
                         "title": "paypal-checkout.html",
                         "tooltip": "/views/shop/paypal-checkout.html",
-                        "ace": {}
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 3259.5,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 215,
+                                    "column": 65
+                                },
+                                "end": {
+                                    "row": 215,
+                                    "column": 65
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": {
+                                "row": 1338,
+                                "mode": "ace/mode/html"
+                            }
+                        },
+                        "hash": "a627770ed01fb556da415bec8b24a592c5bbac96",
+                        "meta": {
+                            "timestamp": 1484338449000
+                        },
+                        "changed": false
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 }
             ],
             "skin": "editor_tab",
@@ -305,7 +427,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/views/shop/paypal-checkout.html"
+            "/views/partials/header.html"
         ]
     }
 }
