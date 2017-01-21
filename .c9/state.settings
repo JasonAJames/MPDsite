@@ -97,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab8",
+            "tab10",
             "tab1"
         ]
     },
@@ -129,7 +129,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": 501,
+        "@scrollpos": 417,
         "@showfs": true,
         "expanded": {
             "json()": [
@@ -147,11 +147,11 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/views/shop/store.html",
+            "focus": "/public/partials/header.html",
             "meta": {
                 "accessList": [
-                    "tab8",
                     "tab10",
+                    "tab8",
                     "tab3",
                     "tab9",
                     "tab4",
@@ -340,14 +340,12 @@
                     "name": "tab8",
                     "path": "/views/shop/store.html",
                     "className": [
-                        "tab8",
-                        "changed",
-                        "focus"
+                        "tab8"
                     ],
                     "document": {
-                        "changed": true,
+                        "changed": false,
                         "meta": {
-                            "timestamp": 1484956070278
+                            "timestamp": 1484956547572
                         },
                         "filter": true,
                         "title": "store.html",
@@ -355,7 +353,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "tab",
@@ -382,7 +380,8 @@
                     "name": "tab10",
                     "path": "/public/partials/header.html",
                     "className": [
-                        "tab10"
+                        "tab10",
+                        "focus"
                     ],
                     "document": {
                         "changed": false,
@@ -395,7 +394,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": false
+                    "active": true
                 }
             ],
             "skin": "editor_tab",
