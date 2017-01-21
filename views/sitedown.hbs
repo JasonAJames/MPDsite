@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<!-- Standard Meta -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel='stylesheet' href='/stylesheets/style.css' /> 
+
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/reset.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/site.css">
+
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/container.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/grid.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/header.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/image.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/menu.css">
+
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/divider.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/dropdown.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/segment.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/button.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/list.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/icon.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/sidebar.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/components/transition.css">
+	<link rel="stylesheet" href="/bower_components/semantic/dist/semantic.css">
+	
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
+	<style type="text/css">
+		.ui-menu { width: 180px; }
+		
+		.glossary_topic {
+			font-weight: bold;
+		}
+		
+		.hidden.menu {
+			display: none;
+		}
+
+		.masthead.segment {
+			min-height: 700px;
+			padding: 1em 0em;
+			
+		}
+		.masthead .logo.item img {
+			margin-right: 1em;
+		}
+		.masthead .ui.menu .ui.button {
+			margin-left: 0.5em;
+		}
+		.masthead h1.ui.header {
+			margin-top: 4em;
+			margin-bottom: 0em;
+			font-size: 4em;
+			font-weight: normal;
+		}
+		.masthead h2 {
+			font-size: 1.7em;
+			font-weight: normal;
+		}
+
+		.ui.vertical.stripe {
+			padding: 8em 0em;
+		}
+		.ui.vertical.stripe h3 {
+			font-size: 2em;
+		}
+		.ui.vertical.stripe .button + h3,
+		.ui.vertical.stripe p + h3 {
+			margin-top: 3em;
+		}
+		.ui.vertical.stripe .floated.image {
+			clear: both;
+		}
+		.ui.vertical.stripe p {
+			font-size: 1.33em;
+		}
+		.ui.vertical.stripe .horizontal.divider {
+			margin: 3em 0em;
+		}
+
+		.quote.stripe.segment {
+			padding: 0em;
+		}
+		.quote.stripe.segment .grid .column {
+			padding-top: 5em;
+			padding-bottom: 5em;
+		}
+
+		.footer.segment {
+			padding: 5em 0em;
+		}
+
+		.secondary.pointing.menu .toc.item {
+			display: none;
+		}
+
+		@media only screen and (max-width: 700px) {
+			.ui.fixed.menu {
+				display: none !important;
+			}
+			.secondary.pointing.menu .item,
+			.secondary.pointing.menu .menu {
+				display: none;
+			}
+			.secondary.pointing.menu .toc.item {
+				display: block;
+			}
+			.masthead.segment {
+				min-height: 350px;
+			}
+			.masthead h1.ui.header {
+				font-size: 2em;
+				margin-top: 1.5em;
+			}
+			.masthead h2 {
+				margin-top: 0.5em;
+				font-size: 1.5em;
+			}
+		}
+		
+	</style>
+
+	<script src="/javascripts/main.js"></script>
+
+	<script src="/bower_components/semantic/examples/assets/library/jquery.min.js"></script>
+	<script src="/bower_components/semantic/dist/components/visibility.js"></script>
+	<script src="/bower_components/semantic/dist/components/sidebar.js"></script>
+	<script src="/bower_components/semantic/dist/components/transition.js"></script>
+	<script src="/bower_components/semantic/dist/semantic.js"></script>
+	<script>
+		$(document)
+		.ready(function() {
+
+      // fix menu when passed
+      $('.masthead')
+      .visibility({
+      	once: false,
+      	onBottomPassed: function() {
+      		$('.fixed.menu').transition('fade in');
+      	},
+      	onBottomPassedReverse: function() {
+      		$('.fixed.menu').transition('fade out');
+      	}
+      })
+      ;
+
+      // create sidebar and attach to menu open
+      $('.ui.sidebar')
+      .sidebar('attach events', '.toc.item')
+      ;
+
+  })
+		;
+	</script>
+
+	<!-- Latest compiled and minified JavaScript --> 
+	<!-- html5 print shiv -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.js" integrity="sha256-btup0J8ailzC2SIkxIm9kZnW4IlDDKihhohGVN7Nfns=" crossorigin="anonymous"></script>
+	<!-- html5shiv -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js" integrity="sha256-sqQlcOZwgKkBRRn5WvShSsuopOdq9c3U+StqgPiFhHQ=" crossorigin="anonymous"></script> 
+	<!-- jQuery minified -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+	<!-- bootstrap minified -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+</head>
+<body>
+<!-- Start Header -->	
+<nav class="navbar navbar-inverse" id="header-container">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand active" href="/">MyPrintingDeals.com</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
+      <ul class="nav navbar-nav">
+        <li class="item"><a href="/templatedownload" class="item">Download Templates</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav> 
+<!-- Content Start -->
+
+<div id="homeTop"></div>
+  <!-- Following Menu -->
+ <div class="ui large top fixed hidden menu">
+    <div class="ui container">
+      <a class="active item" href="#homeTop">Home</a>
+      <a href="/templatedownload" class="item">Download Templates</a>
+      <a href="#" class="item" data-toggle="modal" data-target="#company-section">Company</a>
+      <div class="right menu">
+        <div class="item">
+          <a href="/user/signin">Login</a>
+        </div>
+        <div class="item">
+          <a href="/user/signup">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Menu -->
+{{!--<div class="ui vertical inverted sidebar menu">--}}
+{{!--    <a class="active item" href="#homeTop">Home</a>--}}
+{{!--    <a href="/templatedownload" class="item" data-toggle="modal" data-target="">Download Templates</a>--}}
+{{!--    <a href="#" class="item" data-toggle="modal" data-target="#company-section">Company</a>--}}
+{{!--    <a href="/user/signin">Login</a>--}}
+{{!--    <a href="/user/signup">Sign Up</a>--}}
+{{!--  </div>--}}
+<!-- END Header -->
+	<div class="ui vertical">
+		<div>
+			<div class="row">
+				<div>
+					<div id="homeTop"></div>
+  <!-- Following Menu -->
+  
+<div class="ui large top fixed hidden menu">
+    <div class="ui container">
+
+      <a class="active item" href="#homeTop">Home</a>
+      <a class="item" href="#templatedownload">Download Templates</a>
+      <a class="item" href="#company-section">Company</a>
+      <a class="item">Careers</a>
+    </div>
+  </div>
+
+<!--   Sidebar Menu -->
+<div class="ui vertical inverted sidebar menu">
+    <a class="active item" href="#homeTop">Home</a>
+    <a class="item" href="#templatedownload">Download Templates</a>
+    <a class="item" href="#company-section">Company</a>
+  </div>
+
+  <!-- Content Start -->
+  <div class="pusher" ng-app="">
+    <div id="hero" class="ui inverted masthead vertical center aligned segment">
+      <div class="ui text container">
+        <h1 class="ui inverted header">
+          MyPrintingDeals.com
+        </h1>
+        <h2>If you can dream it<br/>We can print it!</h2>
+        <a href="/contact"><div class="ui huge primary button"><i class="left phone icon"></i>Get your Custom Quote</div></a>
+      </div>
+    </div> 
+  </div>
+  <!-- Modal Content -->
+  <!--  Company Section -->                
+                <div class="modal fade" id="company-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="center aligned row">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>
+                          <h1>Who Is MyPrintingDeals.com?</h1>
+                        </div>
+                        <div class="modal-body">
+                          <h4>MyPrintingDeals.com</h4><p> is a cutting edge, full service commercial printer servicing the commercial printing market since 2006. Our proprietary web-to-print technology allows customers to access over $35 million dollars of state-of-the-art printing equipment direct from their computer or hand held device.</p> 
+                          <h4>MyPrintingDeals.com</h4><p> offers high quality commercial printing, mailing services and brand building technologies at an affordable cost, so you can afford to market your company above the rest!</p>
+                          <h4>MyPrintingDeals.com</h4><p> offers customers the largest collection of online products, paper stocks, colors, sizes and product options available in the printing industry today. In addition to high quality commercial printing at the nation’s lowest prices, we even offer in-house mailing services and brand building solutions.</p>
+                          <h4>The MyPrintingDeals.com Difference</h4>
+                          <p>By offering cutting edge technology that delivers premium quality offset printing, we have taken the subjectivity of color out of the printing process. We’ve implemented the most advanced screening technology into our industry leading, state-of-the-art closed loop system.</p>
+                          <p>Our "Worry-Free” web-to-print services utilize Kodak Creo Direct to Plate technology and the most advanced commercial offset presses to ensure quality and efficiency. Vibrant, consistent color and great image fidelity provides our customers a "photographic” look delivering superior print quality that preserves the integrity of pictures, text, knockouts and line work is our forte. Fast turnaround options include 1 & 2 Day Express, 2 – 4 Day Standard and 5 – 7 Day "Wait & Save”.</p>
+                          <h4>Website Technology & Advantages</h4>
+                          <p>My Printing Deals’s proprietary website technology is years ahead of the competition... and we are continually upgrading and developing our website technology to guarantee it always stays that way! We’re proud to offer an unparalleled customer ordering experience that incorporates ease of use, reliability, and flexibility to insure that our customer’s print ordering is as rewarding as possible.</p>
+                          <h4>The MyPrintingDeals.com Team</h4>
+                          <p>consists of a team of over 140 qualified and trained printing industry professionals to support our My Printing Deals commitment to exceptional quality and service. Our fully-trained customer service team is available to answer questions and provide solutions for simple and complex issues concerning customer orders, order processing, delivery options, service issues and anything necessary to insure a customer ordering experience that exceeds are customer’s expectations. Our custom quote sales team is readily available to quote all custom projects or products that are not available on our website or better suited as custom projects. Our pre-press, press, bindery, mailing services and shipping departments employ qualified and trained personnel with combined industry experience totaling over 300 years in the commercial printing trade.</p>
+                          <h4>Our Commitment to Quality & Superior Customer Service</h4>
+                          <p>At MyPrintingDeals.com we do whatever it takes to get the job done; and done right, the first time. Our presses can run 3 shifts 24 hours a day, 7 days per week to meet the needs of our customers. We made the decision many years ago that we would rather explain our pricing and services one time, than have to apologize for inferior quality and service forever. Exceptional customer service and support is a top priority.</p>
+                          <h4> The MyPrintingDeals.Com Mission Statement</h4>
+                          <p>We will strive to be the most user friendly, most technologically advanced, commercial online printing resource. Our mission is to continue to be recognized by our peers as a world-class, progressive printing organization providing the widest range of full-line commercial/consumer products, printing and mailing services. In addition to offering the highest level of finished quality, unparalleled customer service and quick turnaround, we will also maintain the industry’s most competitive pricing. Our proprietary business model, will serve as an industry benchmark capable of producing optimal printing solutions in a once complex industry. We will remain humble and accommodating knowing that our success will always be measured by the success of our customers, big or small, and our ability to be proactive to changing market conditions. We will learn and understand our customer’s needs and support their efforts to profitably develop and grow their business. We are, and always will be, accountable to our people, our organization and our customers, to set an industry standard that exceeds your greatest expectations.</p>
+                          <h5>My Printing Deals Credo ~ "Quality with integrity; Strictly the best Printing Available!"</h5>
+                        </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <!--  Global Product Menu Nav Section -->                
+                <div class="modal fade" id="global-product-menu-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="center aligned row">
+                      <div class="modal-content col-md-12 col-sm-12 col-lg-12">
+                        <div class="modal-header">
+                          <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>
+                          <h1>Choose your Printing Product</h1>
+                        </div>
+                        <div class="modal-body">
+                          <ul type="none" class="col-md-6 col-sm-12 col-lg-6">
+                            <li><label name="offset-products">Offset Printing Products</label></li>
+                            <li><a href="/user/profile">Announcement Envelopes</a></li>
+                            <li><a href="/user/logout">Bookmarks</a></li>
+                            <li><a href="/user/logout">Brochures &amp; Flyers</a></li>
+                            <li><a href="/user/logout">Bulletins &amp; Inserts</a></li>
+                            <li><a href="/user/logout">Business Cards</a></li>
+                            <li><a href="/user/logout">Folders</a></li>
+                            <li><a href="/user/logout">Calendars</a></li>
+                            <li><a href="/user/logout">Greeting Cards</a></li>
+                            <li><a href="/user/logout">Letterhead</a></li>
+                            <li><a href="/user/logout">Catalogs</a></li>
+                            <li><a href="/user/logout">Catalogs (Mini)</a></li>
+                            <li><a href="/user/logout">CD &amp; DVD Products</a></li>
+                            <li><a href="/user/logout">Posters</a></li>
+                            <li><a href="/user/logout">Door Hangers</a></li>
+                            <li><a href="/user/logout">Postcards</a></li>
+                            <li><a href="/user/logout">1 &amp; 2 Color Envelopes</a></li>
+                            <li><a href="/user/logout">4 Color Envelopes</a></li>
+                            <li><a href="/user/logout">Rack Cards</a></li>
+                            <li><a href="/user/logout">Promotional Cards</a></li>
+                            <li><a href="/user/logout">Table Tents</a></li>
+                          </ul>
+                             <ul type="none" class="col-md-6 col-sm-12 col-lg-6">
+                            <li><label name="offset-products">Marketing Printing Products</label></li>
+                            <li><a href="/user/logout">Banners (Indoor)</a></li>
+                            <li><a href="/user/logout">Banners (Outdoor)</a></li>
+                            <li><a href="/user/logout">Car Magnets</a></li>
+                            <li><a href="/user/logout">Letterhead</a></li>
+                            <li><a href="/user/logout">Catalogs</a></li>
+                            <li><a href="/user/logout">Catalogs (Mini)</a></li>
+                            <li><a href="/user/logout">CD &amp; DVD Products</a></li>
+                            <li><a href="/user/logout">Posters</a></li>
+                            <li><a href="/user/logout">Door Hangers</a></li>
+                            <li><a href="/user/logout">Postcards</a></li>
+                            <li><a href="/user/logout">1 &amp; 2 Color Envelopes</a></li>
+                            <li><a href="/user/logout">4 Color Envelopes</a></li>
+                            <li><a href="/user/logout">Rack Cards</a></li>
+                            <li><a href="/user/logout">Promotional Cards</a></li>
+                            <li><a href="/user/logout">Table Tents</a></li>
+                            <li><a href="/user/logout">T-Shirts</a></li>
+                          </ul>
+                        </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--  Terms & Conditions Section -->
+                <div class="modal fade" id="terms-and-conditions-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="center aligned row">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>
+                          <h1>Terms &amp; Conditions</h1>
+                        </div>
+                        <div class="modal-body">
+                          <ul type="none">
+                          <li><a href="#acceptanceOfTerms">ACCEPTANCE OF TERMS</a>
+                          </li><li><a href="#ChangeOfTerms">CHANGE OF TERMS</a>
+                          </li><li><a href="#Indemnity">INDEMNITY</a>
+                          </li><li><a href="#Copyright">COPYRIGHT</a>
+                          </li><li><a href="#CustomerContent">CUSTOMER CONTENT</a>
+                          </li><li><a href="#Folding">FOLDING</a>
+                          </li><li><a href="#SubmissionOfArtworkOrGraphics">SUBMISSION OF ARTWORK OR GRAPHICS</a>
+                          </li><li><a href="#ColorProofingAndMatching">COLOR PROOFING &amp; MATCHING</a>
+                          </li><li><a href="#OrderProofs">ORDER PROOFS</a>
+                          </li><li><a href="#OverUnder">OVER / UNDER</a>
+                          </li><li><a href="#ChangeOrders">CHANGE ORDERS</a>
+                          </li><li><a href="#OrderCancellation">ORDER CANCELLATION</a>
+                          </li><li><a href="#ReturnsAndRefunds">RETURNS AND REFUNDS</a>
+                          </li><li><a href="#ShippingAndDeliveryOfProducts">SHIPPING AND DELIVERY OF PRODUCTS</a>
+                          </li><li><a href="#ShippingErrorsAndLostPackages">SHIPPING ERRORS &amp; LOST PACKAGES</a>
+                          </li><li><a href="#LimitationsAndLiability">LIMITATIONS &amp; LIABILITY:</a>
+                          </li><li><a href="#ReturnedChecks">RETURNED CHECKS</a>
+                          </li><li><a href="#TaxExemption">TAX EXEMPTION</a>
+                          </li><li><a href="#OfficeHoursAndObservedHolidays">OFFICE HOURS AND OBSERVED HOLIDAYS</a>
+                          </li><li><a href="#MailingServicesTermsAndConditions">MAILING SERVICES TERMS AND CONDITIONS</a>
+                          </li><li><a href="#StockPolicy">PAPER STOCK POLICY</a>
+                          </li><li><a href="#CA-Supply-Chains-Act">CA SUPPLY CHAINS ACT</a>
+                          </li></ul>
+                          
+                          <h3 id="AcceptanceOfTerms">ACCEPTANCE OF TERMS</h3>
+                          
+                          <b>NOTICE: PLEASE READ THESE TERMS &amp; CONDITIONS CAREFULLY. BY ACCESSING THIS WEBSITE YOU AGREE TO BE BOUND BY THE TERMS AND CONDITIONS BELOW:</b>
+                          <p>
+                          All services provided by James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com are subject to Terms and Conditions of use. By viewing or using this website, yourself and the entity you represent (collectively hereinafter referred to as "you") agree to be bound by all the Terms and Conditions as stated below without modification. If for any reason you do not agree with the Terms and Conditions as stated below, please do not access this site.
+                          </p><p>
+                          </p><h3 id="ChangeOfTerms">CHANGE OF TERMS</h3>
+                          <p>
+                          James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com reserves the right to change the Terms and Conditions at any time and these changes or additions become effective immediately when they become available on partnerprinting.com . James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com does not assume the obligation to notify you of any changes to the Terms and Conditions. You are responsible for reviewing the Terms and Conditions for any changes and continued use of this site constitutes your consent to these changes.
+                          </p><p>
+                          </p><h3 id="Indemnity">INDEMNITY</h3>
+                          <p>
+                          You agree to indemnify and hold James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com, its parent and affiliate companies, and their respective officers, harmless from any and all claims, including reasonable attorneys' fees, arising out of your breach of any of these Terms and Conditions or in connection with your use of this site.
+                          </p><p>
+                          </p><h3 id="Copyright">COPYRIGHT</h3>
+                          <p>
+                          James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com and all of its content are protected by copyright laws of the United States and international treaty provisions. © 2016 James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com. All rights reserved. This website, its trademark and associated logos, may not, in part or in whole, be copied, imitated, reproduced, modified, transmitted, translated, distributed, adapted or disassembled in any fashion without expressed written permission of James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com.
+                          </p><p>
+                          Copyright laws also pertain to the content you submit to James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com. Unlicensed or misuse of copyrighted material from books, magazines, newspapers, photographs, web content, writers, artists, composers, publishers, and other authors is strictly prohibited. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will not assume the responsibility of checking the content of its client's submitted materials for copyright violations. Therefore, James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will not be held accountable for any illegal use of copyrighted material by its clients.
+                          </p><p>
+                          </p><h3 id="CustomerContent">CUSTOMER CONTENT</h3>
+                          <p>
+                          You, as the buyer, understand and agree that all content/information (including but not limited to text, graphics, information and messages) are the responsibility of the sender of that content/information and not James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com. Furthermore, you are responsible for all information and content that you acquire and/or use from the partnerprinting.com  service.
+                          </p><p>
+                          In addition, you agree to abide by all rules and regulations pertaining to on-line decency and appropriate and acceptable content. This means that you agree to the following with regards to any product coming from James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com:
+                          </p><p>
+                          You will not upload, post or send any content through the James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com service containing adult or child pornography, or anything indecent, lewd, or obscene; material that threatens to kidnap or injure anyone, threatens to damage the reputation of anyone or harm their personal property, threatens to accuse anyone of a crime, threatens to announce that a person has violated law/s of the United States, or threatens blackmail; encourages or suggests forcible resistance to any law of the United States, insurrection, or treason; includes fraudulent, libelous or hurtful remarks directed at any other person or business; or infringes upon the intellectual property rights of James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com or any other party.
+                          </p><p>
+                          Let it also be known that James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com does not control, nor certify the legitimacy, accuracy and/or quality of any information or content posted by our customers. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will not be held liable under any conditions or circumstances for any information, content or material that you may find indecent or offensive.
+                          </p><p>
+                          James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com provides services and products only for your personal use and you agree to refrain from using such services and products, as well as messages or correspondences for any unauthorized purposes including but not limited to promotional materials, advertising, spam, or any other form of solicitation.
+                          </p><p>
+                          You must have a registered account. Protection of passwords and controlling account access is your responsibility. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will not be held responsible for any password or access problems. Furthermore, all orders, actions, etc., placed through your registered account are your responsibility and not the responsibility of James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com.
+                          </p><p>
+                          James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com reserves the right to remove or refuse any content or information that violates the Terms and Conditions agreement or may otherwise be considered unlawful or objectionable. Out of respect for the employees and guests of James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com, we define objectionable as any content that is not child-friendly. We reserve the right to refuse to print any such objectionable content. In the event your order is rejected for objectionable content, we will issue a credit for the full value of your order minus 10% to cover processing fees, OR, upon request, we will issue a promotional code for the full value of your order for use on a future project. If you wish for us to review content prior to placing your order, please contact Customer Service.
+                          </p><p>
+                          In addition, you agree that content and or information obtained by James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com may be kept and disclosed if James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com is required to do so by law, or if James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com believes, in good faith, that it is necessary to disclose such content in order to comply with any legal proceeding or processes; uphold or enforce the terms of our services; respond to any claims that the content or information is or may be in violation of the rights of another party; that the content or information may be objectionable or offensive; or that the content/information is necessary to protect the rights or property of the public or James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com in any way.
+                          </p><p>
+                          </p><h3 id="Folding">FOLDING</h3>
+                          <p><span style="color: #F00;"><strong>DIGITAL ONLY</strong> <br>Please note: Due to the nature of toner  (toner is applied to the surface of the paper, as opposed to offset  printing where the ink is absorbed by the paper), images or areas of  solid color that run over any folds will crack.</span>
+                          </p><p>
+                          </p><h3 id="SubmissionOfArtworkOrGraphics">SUBMISSION OF ARTWORK OR GRAPHICS</h3>
+                          
+                          <p>All files must be submitted in CMYK format, except for 1 and 2 color letterhead and envelopes. Any files not in CMYK may color shift when processed. A minimum resolution of 275 dpi is required for all raster art and images. Artwork of a lesser resolution may not print as sharp and clean as desired. 
+                          
+                          </p><p>We strongly suggest that all items except for background images be at least 1/8" from the trim line. Items falling closer to the trim line may be cut off. Please refer to the templates provided on our site for guidelines.
+                          
+                          </p><p><span style="color: #FF0000; font-weight: bold;">IMPORTANT! </span><strong>If you   choose "NO PROOF - PROCEED AS IS" you assume full (100%) responsibility for   printing outcome(s).</strong></p>
+                          
+                          <p>If you select a double-sided product (4/1, 4/4, 5/1, 5/4) that is not a catalog/calendar please upload two separate files. Multiple-page files need to be separated into two different files and be submitted as "front" and "back" files. Not separating files will cause delays and you might have to send the files again. You may still submit multi-page files for your catalog/calendar orders that require more than two files.</p>
+                          
+                          <p>Templates are available for download at http://partnerprinting.com /index.php?page=graphic_guidelines.  Note: <i>Both PDF and Hard Copy proofs are generated within 24 hours of the time and date of art file online upload submission for all "print ready" art files submitted.</i>  
+                           Weekends and Holidays are not considered part of the 24 hour proof turnaround time period.
+                           </p><p>
+                          </p><h3 id="ColorProofingAndMatching">COLOR PROOFING &amp; MATCHING</h3>
+                          
+                          <p>
+                          James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com cannot be held responsible for matching colors or ink densities on screen proofs approved by customers. Screen proofs can be used to help display layout, text accuracy, and image placement and proportion, but not color or density.  <i>Note: Both PDF and Hard Copy proofs are generated within 24 hours of the time and date of art file online upload submission for all "print ready" art files submitted.</i>  Weekends and Holidays are not considered part of the 24 hour proof turnaround time period.
+                          </p><p>
+                          James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will make every effort to match the gradient density of each color, however, we cannot be held responsible for the final appearance of a color. The appearance of printed colors may be affected by UV coating, therefore, James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com cannot be held responsible for final color appearance of UV-coated products.
+                          </p><p>
+                          
+                          </p><h3 id="OrderProofs">ORDER PROOFS</h3>
+                          
+                          <p>
+                          It is the client's  responsibility to review the final proof and layout of all orders prior to  actual printing. Note: <em>Both PDF and Hard Copy proofs are generated within 24  hours of the time and date of art file online upload submission for all  "print ready" art files submitted.</em> Weekends and Holidays are not  considered part of the 24 hour proof turnaround time period. <strong>Once the final  proof has been confirmed by the client, no further changes can be made to that  order. On orders placed with the NO PROOF option, no changes or cancellations  may be made to the order after the order status is changed to Approved Work In  Progress. The order is then ready to Schedule for Printing and our automated  order processing system cannot accept any changes. This includes changes to  bindery and shipping.</strong> Please review the final proof carefully prior to  completing your order. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will not accept responsibility for  typographical errors, errors in spelling, grammar, punctuation, graphics, fonts  or content. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will not be held responsible for client errors in  finished product sizes, wrong cuts, or missing or incorrect folds. <strong>Important Note:</strong> Hard copy Epson proofs  are always printed on a specialty paper with a satin finish called "Oris  Select Proof" paper stock. This proof paper is used for all hard copy  Epson proofs regardless of the paper selected for your print project. &nbsp;This is a standard and accepted print industry  policy and procedure. <u>If you order an Epson hard copy proof, it will not be  printed on the actual paper stock you've selected for your print project.&nbsp;&nbsp; </u>
+                          </p><p>
+                          If you need to make changes to your artwork, after  receiving your proof, please resubmit your files. There will be a $10 resubmit  fee charged to your account. If you wish to receive a new proof, a fee of $5  for PDF proof will also be charged. For a new hard copy proof, please contact our customer service department as the proof prices vary by specific product order(s) placed.  the date the order was placed
+                          
+                          </p><p>
+                          
+                          <span style="color: #FF0000; font-weight: bold;">IMPORTANT! </span> Please be aware if you have an order with multiple jobs and one of the jobs is on hold it may delay the shipment date of the other jobs of the that parent order. To avoid this issue please make sure all held jobs are followed-up with and all issues causing it to be held get resolved.
+                          
+                          
+                          </p><h3 id="OverUnder">OVER / UNDER</h3>
+                          <p>
+                          We consider any order filled within 5% over or under ordered quantity to be delivered in full.
+                          </p><p>
+                          </p><h3 id="ChangeOrders">CHANGE ORDERS</h3>
+                          <p>
+                          If a Change is made to an existing order that results in a credit, a Fee will be charged in the amount of 10% of total credit amount, to cover transaction costs related to this credit. A promo code for the full value of the credit can be issued in lieu of a credit, upon request and prior to the credit processing date.
+                          </p><p>
+                          </p><h3 id="OrderCancellation">ORDER CANCELLATION</h3>
+                          <p>
+                          Prior to proof approval, James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com allows customers to cancel orders. Cancellation requests should be submitted through "My Account". We will inform you of any charges depending on the stage of the order.
+                          </p><p>
+                          Orders placed without proofs cannot be cancelled once the order has been processed through Pre-press and the order status of Approved Work in Progress(WIP) has been posted. The order is then Ready to Schedule for Printing and our automated order processing system cannot accept any changes.
+                          </p><p>
+                          Cancellation fees will be calculated based on the age of the order and whether a proof was created. Age will be calculated in calendar days from the date the order was placed.
+                          </p><p>
+                           Age in Calendar Days And Fee
+                           </p><ul> 
+                           <li>0-30 days 10%
+                          </li><li>31-60 days 25%
+                          </li><li>61-90 days 50%
+                          </li><li>91+ days No Refund
+                          </li></ul>
+                          <p>
+                          We will automatically cancel any orders that remain in the same status for 90 days. You will not get a credit but upon request may get a promo code for the entire dollar amount of the order.
+                          </p><p>
+                          The cost of proofs plus administrative fees (calculated in the above table) will be subtracted from the total refund.
+                          </p><p>
+                          NO CANCELLATIONS ON ORDERS PAID FOR BY TELECHECK. A Promo Code for the Order Amount will be provided to Client in lieu of a credit.
+                          </p><p>
+                          </p><h3 id="ReturnsAndRefunds">RETURNS AND REFUNDS</h3>
+                          <p>
+                          Customer orders have no re-sale value. Therefore, ALL SALES ARE FINAL. If the error is verifiably due to James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com, we will re-print the order at our cost. Any defect/s discovered in your shipment must be reported to James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com within 10 days of your order's receipt. To qualify for a free replacement order, you must return your entire product (at your own expense) within 15 days from the time THE product was delivered. All Charges related to expedited orders (rush printing or shipping) are NON REFUNDABLE UNLESS UPS FAILS DELIVERY OR DELIVERS DAMAGED PRODUCT. ANY CREDIT DUE WILL BE PROCESSED WITHIN 4 to 6 WEEKS. If a change is made to an existing order that results in a credit, a processing fee equal to 10% of total credit amount will be charged to cover transaction costs related to this credit. Upon request a promo code for the full value of the credit can be issued in lieu of a credit, if we are contacted prior to the credit processing date.
+                          </p><p>
+                          </p><h3 id="ShippingAndDeliveryOfProducts">SHIPPING AND DELIVERY OF PRODUCTS</h3>
+                          <p>
+                          James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will always strive to avoid any delays in production or shipping, however, we will not be held responsible for any consequences or damages due to delayed production or delivery. Our shipment and delivery dates are based upon estimates provided by our shipment suppliers. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will not be responsible for delays in shipments due to shipping company delays, international customs issues, weather conditions or any other circumstances beyond our control. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will strive to ensure that all delivery schedules are met in a timely manner. There will be an additional charge if any changes to the shipping address must be made after the order is placed.
+                          </p><p>
+                          However, unexpected production or shipment delays may occur as a result of technical problems or equipment malfunction or failure. Rush charges/fees will be refunded or waived by James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com, where applicable, for a delay caused by technical difficulty. However, order cancellations will not be allowed due to technical difficulty.
+                          </p><p>
+                          </p><h3 id="ShippingErrorsAndLostPackages">SHIPPING ERRORS &amp; LOST PACKAGES</h3>
+                          <p>
+                          In order to file a lost or damaged claim the following must apply:
+                          </p><p>
+                          Claims can only be placed within 30 days from package shipment. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com cannot be held responsible for shipping errors, delays or lost or damaged products due to 3rd party errors.
+                          In the case that a customer supplies the wrong address causing a package not to be delivered on time, James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com will reship the package (to the corrected address) with an additional shipping fee for the re-shipment.
+                          </p><p>
+                          
+                          </p><h3 id="LimitationsAndLiability">LIMITATIONS &amp; LIABILITY:</h3>
+                          <p>
+                          OUR LIABILITY IS LIMITED UP TO THE TOTAL AMOUNT OF YOUR ONLINE PURCHASE (AT THE SPECIFIC TIME AND DATE OF YOUR PURCHASE) AND SHALL NOT INCLUDE ANY CONSEQUENTIAL DAMAGES OR DAMAGES FOR PROFIT LOSS.  WE HAVE THE RIGHT TO HOLD CUSTOMER PROPERTY (a lien) AS SECURITY FOR UNPAID BILLS. 
+                          </p><p>
+                          James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com reserves the right to refuse service to any party for any reason it deems fit.
+                          </p><p>
+                          PLEASE NOTE:  ANY SUPPLIED MEDIA WILL NOT BE RETURNED.  PLEASE DO NOT SEND ANY ORIGINAL MEDIA.
+                          </p><p>
+                          </p><h3 id="ReturnedChecks">RETURNED CHECKS</h3>
+                          <p>
+                          Does not apply to orders placed through website.
+                          </p><p>
+                          </p><h3 id="TaxExemption">TAX EXEMPTION:</h3>
+                          <p>
+                          There are only three ways to be tax exempt:
+                          </p><p>
+                          1. You must have a re-sale certificate on file with James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com.
+                          <br>2. Order is processed and mailed from our facility and a Printed Sales Message Sales Tax Exemption Certificate is on file for the project.
+                          <br>3. Order is shipped directly to a mail house and a Printed Sales Message Sales Tax
+                          </p><p>
+                          Exemption Certificate is faxed over with the order number written on it.
+                          </p><p>
+                          </p><h3 id="OfficeHoursAndObservedHolidays">OFFICE HOURS AND OBSERVED HOLIDAYS</h3>
+                          <p>
+                          Office hours are 9am to 5pm PST<!--Office hours are Monday-Friday from 9AM to 6PM PST-->, excluding observed holidays. Express orders will be ready between 6pm and 9pm on the date they are due.
+                          </p><p>
+                          
+                          The following holidays are observed as business holidays.<br>
+                          All operations as well as Customer Service are closed on these days.
+                          </p><p>
+                          Holidays are excluded from Turnaround Time.
+                          </p><p>
+                          </p><ul>
+                          <li>New Year's Day
+                          </li><li>Memorial Day
+                          </li><li>Independence Day
+                          </li><li>Labor Day
+                          </li><li>Thanksgiving Day, and Black Friday following Thanksgiving
+                          </li><li>Christmas Day
+                          </li></ul>
+                          <p>
+                          </p><h3 id="MailingServicesTermsAndConditions">MAILING SERVICES TERMS AND CONDITIONS</h3>
+                          <p>
+                          Terms and conditions
+                          </p><p>
+                          We are not responsible for lost or non-delivered mail. The U.S. Postal Service does not track mail. Our responsibilities end when the U.S. Postal Service accepts your mailing from us. We will have a proof of mailing statement (3602-R for standard class, 3602-NP for the Non-Profit and 3600 for first class mail.) that can be faxed to you upon request. First Class mail takes 1 - 5 days (average) to reach its destination. Standard Class and Non Profit mail take 7 - 20 days (average) to reach its destination. The U.S. Postal Service will not give a refund on postage for non-delivered mail. We are not responsible nor do we guarantee a response to your mailing. Industry average is a 1 - 2% response rate. Your results may vary.
+                          </p><p>
+                          We understand that your list is privileged and confidential. It will not be used or sold for any purposes other than your mailing. Upon request we may archive your list but will not be held responsible of system failure. You should always have a copy of your list with you.
+                          </p><p>
+                          In the event of a mistake or error, we will only accept liability up to the cost of goods and services provided. By using our services we will not accept liability for any loss of revenue, business or implied damages.
+                          </p><p>
+                          </p><h3 id="PaperStockPolicy">PAPER STOCK POLICY</h3>
+                          <p>
+                          In order to maintain the most competitive print prices, we must utilize a number of paper stock sources and paper mills. We reserve the right to change our paper suppliers as necessary to assure you the best quality paper stocks available at the industry’s most competitive prices. We will make every effort to assure our online paper stock offerings remain consistent, reliable and predictable over time. However, we cannot control or be held accountable for paper production variances caused by independent paper mills and sources which are beyond our control.  Although the stated weights of our featured paper stocks will remain constant, there could be a slight difference in caliper, brightness or texture. Slight differences may or may not be evident when printing the exact same project, on the exact same selected paper stock, and using the exact same art file but ordered and printed on a different date. For example, you order a print project today (we’ll call it XYZ Flyers project) and you order it printed as 4/0 on 70 lb. Opaque Offset Smooth (Recycled). Three months from today, you place the exact same order, exact same art, same named paper stock, same project (XYZ Flyers). When you receive the project, you notice a slight difference in the paper stock (be it caliper, brightness or texture).  The slight difference will be within print industry standards for paper stock and mill industry tolerance levels (very similar to slight dye lot variations common in the carpet or fabric industry). We will not be held personally responsible or accountable, in any way, for these slight differences. Our position is a common print industry policy with regard to paper stock grades, paper mills and the varying slight differences from one source or mill to another concerning like weight and like named paper stocks purchased from different manufacturing resources.              </p>
+                          <p></p>
+                          <h3 id="CA-Supply-Chains-Act">CA SUPPLY CHAINS ACT</h3>
+                          <p>
+                          James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com recognizes the importance of making efforts to ensure that its supply chain is free of any products of forced labor, child labor, human trafficking and/or slavery. In addition to compliance with current U.S. and individual state laws regarding labor practices, James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com is also required to comply with the California Transparency in Supply chains Act of 2010 (SB657), which requires manufacturers and retailers to disclose their efforts, if any, to track forced labor and human trafficking in their supply chains. The information contained below relates to James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com’s obligations under this law.
+                          <br><br>
+                          James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com primarily operates in the United States with one plant located in Toronto Canada. Almost all of James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com’s products are manufactured in the United States and as such are subject to either U.S. or Canadian laws and regulations regarding among other things forced labor and human trafficking.
+                          Under section 1714.13 of the California Civil Code, manufacturers are requested to post disclosures in five specific categories:
+                          </p>
+                          
+                          <p>
+                          </p><ul><li>
+                          Verification of product supply chains to evaluate the potential for products of forced labor, child labor, human trafficking and slavery to be present in its direct supply chain. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com does not presently follow a formal policy for verification to evaluate its products;
+                          </li>
+                          <br>
+                          <li>
+                          Audits of suppliers to evaluate supplier compliance with company standards for prohibiting trafficking and slavery in supply chains. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com conducts informal inspections or observations on occasion but does not presently follow a formal policy for auditing suppliers with respect to supplier compliance however if James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com became aware of any credible indicator of potential trafficking or forced labor on the part of a direct supplier, James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com would conduct an unannounced audit;
+                          </li>
+                          <br>
+                          <li>
+                          Certification for suppliers in writing that materials incorporated into their products comply with the laws regarding forced labor, child labor, human trafficking and slavery in the country or countries where they do business. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com generally requires its contract suppliers to comply with all applicable laws and regulations in the country or countries they do business in but does not presently follow a formal policy for independent certification by  suppliers;
+                          
+                          </li>
+                          <br>
+                          <li>
+                          Maintaining internal accountability standards and procedures for employees or contractors failing to meet company standards regarding avoidance of forced labor, child labor, human trafficking and slavery. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com does not presently follow a formal policy of internal accountability for employees or contractors; and
+                          </li>
+                          <br>
+                          <li>
+                          Providing company employees and management, who have direct responsibility for supply chain management, training on forced labor, child labor, human trafficking and slavery, particularly with respect to mitigating risks within the supply chain of products. James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com does not presently follow a formal policy related to such issues but does require all of its employees to act ethically and comply with all federal and local laws in the conducting of the business of the company.
+                          </li></ul>
+                        </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--  Privacy & Security Section -->
+                <div class="modal fade" id="privacy-security-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="center aligned row">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>
+                          <h1>Privacy &amp; Security</h1>
+                        </div>
+                        <div class="modal-body">
+                          <div id="content_background_column_2_1" class="content_background content_background_column_2">
+                            <div id="content_column_2_1" class="content_content content_column_2 content_color_column_2">
+                              <h2>Privacy Policy</h2>
+
+                              At James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com we care about your personal information and how it is used and shared. We appreciate your trust, be assured that we take every precaution necessary to ensure privacy of your personal information. This notice describes our privacy policy. By visiting James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com, you are accepting the practices described in this Privacy Notice.
+                              <p>
+                              What Personal Information About Customers Does James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com Gather?
+                              </p><p>
+                              The information we learn from customers helps us personalize and continually improve your shopping experience at James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com. Here are the types of information we gather.
+                              </p><ul>
+                                  <li>Information You Give Us: We receive and store any information you enter on our Web site or give us in any other way. You can choose not to provide certain information, but then you might not be able to take advantage of many of our features and special offers. We use the information that you provide in order to respond to your requests, customizing future shopping, improving our stores, and communicating with you.
+                                  </li><li>Automatic Information: We receive and store certain types of information whenever you interact with us. For example, like many Web sites, we use "cookies," and we obtain certain types of information when your Web browser accesses James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com. A number of companies offer utilities designed to help you visit Web sites anonymously. Although we will not be able to provide you with a personalized experience at James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com if we cannot recognize you, we want you to be aware that these tools exist.
+                                  </li><li>E-mail Communications: To help us make e-mails more useful and interesting, we often receive a confirmation when you open e-mail from James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com if your computer supports such capabilities. We also compare our customer list to lists received from other companies, in an effort to avoid sending unnecessary messages to our customers. If you do not want to receive e-mail or other mail from us, please adjust your Customer Communication Preferences.
+                                  </li><li>Information from Other Sources: We might receive information about you from other sources and add it to our account information.
+                              </li></ul>
+                              <p>
+                              </p><h3>What About Cookies?</h3>
+                              <p>
+                              Cookies are alphanumeric identifiers that we transfer to your computer's hard drive through your Web browser to enable our systems to recognize your browser and to provide features such as 1-Click purchasing, New for You, personalized James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com Honor System greetings, and storage of items in your Shopping Cart between visits.
+                              </p><p>
+                              The Help portion of the toolbar on most browsers will tell you how to prevent your browser from accepting new cookies, how to have the browser notify you when you receive a new cookie, or how to disable cookies altogether. However, cookies allow you to take full advantage of some of James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com's coolest features, and we recommend that you leave them turned on.
+                              </p><p>
+                              Does James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com Share the Information It Receives?
+                              </p><p>
+                              Information about our customers is an important part of our business, and we are not in the business of selling it to others. We share customer information only as described below and with subsidiaries James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com controls that either are subject to this Privacy Notice or follow practices at least as protective as those described in this Privacy Notice.
+                              </p><ul>
+                                  <li> Affiliated Businesses We Do Not Control: We work closely with our affiliated businesses. In some cases, such as Marketplace, zShops, and Auctions sellers, these businesses operate stores at James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com or sell offerings to you at James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com. In other cases, we operate stores, provide services, or sell product lines jointly with these businesses. Click here for some examples of co-branded and joint offerings. You can tell when a third party is involved in your transactions, and we share customer information related to those transactions with that third party.
+                                  </li><li> Agents: We employ other companies and individuals to perform functions on our behalf. Examples include fulfilling orders, delivering packages, sending postal mail and e-mail, removing repetitive information from customer lists, analyzing data, providing marketing assistance, providing search results and links (including paid listings and links), processing credit card payments, and providing customer service. They have access to personal information needed to perform their functions, but may not use it for other purposes.
+                                  </li><li> Promotional Offers: Sometimes we send offers to selected groups of James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com customers on behalf of other businesses. When we do this, we do not give that business your name and address. If you do not want to receive such offers, please adjust your Customer Communication Preferences.
+                                  </li><li> Business Transfers: As we continue to develop our business, we might sell or buy stores, subsidiaries, or business units. In such transactions, customer information generally is one of the transferred business assets but remains subject to the promises made in any pre-existing Privacy Notice (unless, of course, the customer consents otherwise). Also, in the unlikely event that James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com, or substantially all of its assets are acquired, customer information will of course be one of the transferred assets.
+                                  </li><li> Protection of James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com and Others: We release account and other personal information when we believe release is appropriate to comply with the law; enforce or apply our Conditions of Use and other agreements; or protect the rights, property, or safety of James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com, our users, or others. This includes exchanging information with other companies and organizations for fraud protection and credit risk reduction. Obviously, however, this does not include selling, renting, sharing, or otherwise disclosing personally identifiable information from customers for commercial purposes in violation of the commitments set forth in this Privacy Notice.
+                                  </li><li> With Your Consent: Other than as set out above, you will receive notice when information about you might go to third parties, and you will have an opportunity to choose not to share the information.
+                              </li></ul>
+                              <h3>How Secure Is Information About Me?</h3>
+                              <ul>
+                                  <li> We work to protect the security of your information during transmission by using Secure Sockets Layer (SSL) software, which encrypts information you input.
+                                  </li><li> We reveal only the last five digits of your credit card numbers when confirming an order. Of course, we transmit the entire credit card number to the appropriate credit card company during order processing.
+                                  </li><li> It is important for you to protect against unauthorized access to your password and to your computer. Be sure to sign off when finished using a shared computer. Click here for more information on how to sign off.
+                              </li></ul>
+                              <h3>Which Information Can I Access?</h3>
+                              <p>
+                              James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com gives you access to a broad range of information about your account and your interactions with James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com for the limited purpose of viewing and, in certain cases, updating that information. Click here to see some examples, the list of which will change as our Web site evolves.
+                              </p><p>
+                              </p><h3>What Choices Do I Have?</h3>
+                              <ul>
+                                  <li> As discussed above, you can always choose not to provide information, even though it might be needed to make a purchase or to take advantage of such James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com features as Your About You Area, Wish Lists, and Customer Reviews.
+                                  </li><li> You can add or update certain information on pages such as those listed in the "Which Information Can I Access?" section above. When you update information, we usually keep a copy of the prior version for our records.
+                                  </li><li> If you do not want to receive e-mail or other mail from us, please adjust your Customer Communication Preferences. (If you do not want to receive Conditions of Use and other legal notices from us, such as this Privacy Notice, those notices will still govern your use of James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com, and it is your responsibility to review them for changes.)
+                                  </li><li> The Help portion of the toolbar on most browsers will tell you how to prevent your browser from accepting new cookies, how to have the browser notify you when you receive a new cookie, or how to disable cookies altogether. However, you will not be able to use such important features as 1-Click ordering and New for You if you do not use cookies.
+                                  </li><li> Click here to explore products that offer anonymous browsing. In addition, the Federal Trade Commission provides useful information about online privacy on its own Web site, Site Seeing on the Internet.
+                              </li></ul>
+                              <h3>Children</h3>
+                              <p>
+                              James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com does not sell products for purchase by children. We sell children's products for purchase by adults. If you are under 18, you may use James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com only with the involvement of a parent or guardian.
+                              </p><p>
+                              Conditions of Use, Notices, and Revisions
+                              </p><p>
+                              If you choose to visit James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com, your visit and any dispute over privacy is subject to this Notice and our Conditions of Use, including limitations on damages, arbitration of disputes, and application of the law of the state of California. If you have any concern about privacy at James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com, please send us a thorough description to support@partnerprinting.com , and we will try to resolve it.
+                              </p><p>
+                              Our business changes constantly, and our Privacy Notice and the Conditions of Use will change also. We may e-mail periodic reminders of our notices and conditions, unless you have instructed us not to, but you should check our Web site frequently to see recent changes. Unless stated otherwise, our current Privacy Notice applies to all information that we have about you and your account. We stand behind the promises we make, however, and will never materially change our policies and practices to make them less protective of customer information collected in the past without the consent of affected customers.              </p></div>
+                                  </div>
+                        </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Turn-Around Time Section --> 
+                <div class="modal fade" id="turn-around-time-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="center aligned row">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>
+                          <h1>Turn-Around Time</h1>
+                        </div>
+                        <div class="modal-body">
+                          <div id="content_background_column_2_1" class="content_background content_background_column_2">
+                            <p>
+                            
+                            <a href="/images/turn-around-time-CHART.pdf" target="_blank"><img src="/images/turnaround_chart_thumb.jpg" border="0"></a>
+                            
+                            <br>View Our Turnaround Chart
+                            
+                            </p><h3>TURNAROUND TIMES:</h3>
+                            <p>Turnaround Time is the time (days) it takes to manufacture your order from  the date/time your order is APPROVED ("print ready" files, PDF or  Hard Copy proof approved and considered Work In Process – WIP or "No Proof  – Proceed As Is" with "print ready" files considered Work In  Process – WIP). <br>
+                              Important Note: If there are challenges with your art files being  "print ready" the turn time clock will not start until it is  "print ready" and in Approved WIP (Work In Process) status. <br>
+                              There are 3 ways to start the turnaround TIME clock ticking... <br>
+                              <strong>1. Submit your order with a "NO PROOF – Proceed As Is" option.</strong> <br>
+                              <em>We strongly suggest that you order a proof. If there are any problems  with your order, you are accepting full responsibility. Please read our Terms  &amp; Conditions for clarification.</em> <br>
+                              <br>
+                              <strong>2. Approve your PDF PROOF in My Account before 12:00 pm PST </strong>for all  orders (other than SAME DAY service which is 8:00 am PSTor Next Day which has a  9:00 am PST cutoff time and is "No Proof – Proceed As Is" only). <br>
+                              <br>
+                              <strong>3. Approve your HARD COPY PROOF in My Account before 12:00 pm PST </strong>for  all orders (other than SAME DAY service which is 8:00 am PSTor Next Day which  has a 9:00 am PST cutoff time and is "No Proof – Proceed As Is"  only). </p>
+                            <ul type="disc">
+                              <li>TURNAROUND TIMES START AFTER PDF or HARD COPY PROOF       APPROVAL. </li>
+                              <li>Turnaround Time is calculated in BUSINESS DAYS and       EXCLUDES HOLIDAYS AND WEEKENDS. </li>
+                              <li>WEEKEND and HOLIDAY JOB SUBMISSIONS CALCULATE DAY 1 AS       BEGINNING ON THE FOLLOWING BUSINESS DAY. </li>
+                            </ul>
+                            
+                            <h3>Proofing Turnaround  Times:</h3>
+                            <ul type="disc">
+                              <li>Please allow 24 hours from the date and time of art submission for PDF proofs to be made available in My Account for your final approval. </li>
+                              <li>Please allow 24 hours for your Hard Copy Proof to ship. </li>
+                              <li>On "NO PROOF – Proceed As Is" orders, files will be processed in order received. Orders placed using the "No Proof – Proceed As Is" option, before 12:00 pm PST (for all turnaround times other than Same Day which has a 8:00 am PST cutoff timeor Next Day which has a 9:00 am PST cutoff time, will start the turnaround time clock       on that business day). "No Proof – Proceed As Is" orders       submitted that are deemed "not print ready" due to art issues       beyond our control which require customer corrections to make "print       ready" will not be processed until customer corrections are made to       deem the art file(s) "print ready". </li>
+                            </ul>
+                            <h3>RESUBMITTED FILES:</h3>
+                            <p>On orders with Resubmitted Files, please allow 24 hours for file processing  after the revised file (date and time) is submitted. There will be a $15  resubmit fee charged to your account. If you wish to receive a new proof (PDF  or Hard Copy), a fee of $8 for the new PDF proof or the new Hard Copy proof fee  (product specific) will also be charged. For a new hard copy proof, please  contact our customer service department as the prices for hard copy proofs vary  by product size and type. <br>
+                              <br>
+                              <strong>SAME DAY SERVICE</strong> turnaround policy:(Same Day Service category  products will incur higher wholesale prices versus Standard or other non-rush  turnaround options) <br>
+                              All jobs in by 8:00 AM PST as "No Proof – Print As Is" will be  ready the same business day by 8:00 PM PST. Problem Jobs (those with art file  issues requiring customer involvement to make "print ready") will not  consider the order date as the Same Business Day. <br>
+                              <br>
+                              <strong>NEXT DAY SERVICE </strong>turnaround policy:(Products and quantities offering  a Next Day Service option will incur higher wholesale prices versus Standard or  other non-rush turnaround options) <br>
+                              <br>
+                              <strong>Important Note:</strong> "All jobs in" refers to all projects ordered as  "No Proof - Proceed As Is" by the applicable cut-off time (Which is  9:00 AM PST and has a "No Proof - Proceed As Is" only policy). <br>
+                              <br>
+                              <strong>EXPRESS 3 DAY SERVICE </strong>turnaround policy:(Products and quantities  offering an Express 3 Day Service option will incur higher wholesale prices  versus Standard or other non-rush turnaround options) <br>
+                              Available on a limited selection of Products (See Website for Specific  Products) All jobs in by 12:00 PM PST ordered as Express 3 Day Service  turnaround times will count the Business Day ordered as day 1 and be ready for  shipment on the 3rd business  day. Orders placed after 10:00 PM PST with an Express 3 day turnaround time  will not count the business day ordered as business day 1. Problem Jobs (those  with art file issues requiring customer involvement to make "print  ready") or jobs that require proofs (PDF or Hard Copy) will not consider  the order date as the first Business Day. <br>
+                              <br>
+                              <strong>Important Note:</strong> "All jobs in" refers to all projects ordered as  "No Proof – Proceed As Is" or with Approved PDF or Hard Copy Proof by  the applicable cut-off time (12:00 PM PST for all turnaround times above other  than Same Day which is 8:00 AM PST or Next Day which has a 9:00 am PST cutoff  time and has a "No Proof – Proceed As Is" only policy). <br>
+                              <br>
+                              <strong>STANDARD TURNAROUND </strong>policy: <br>
+                              All jobs in by 12:00 PM PST ordered with standard turnaround times of 2 – 4,  3 – 4 or 5 -7 business days (depending on the products) will count the Business  Day ordered as day 1 and be ready for shipment or Will Call pick-up by no later  than 8PM PST on the 3rd, 4th or 7th business day (depending on whether they  are 2 – 4, 3 – 4 or 5 – 7 business day products). Orders placed after 10:00 PM  PST with a standard turnaround time of 2 – 4, 3 – 4 or 5 -7 business days will  not count the business day ordered as business day 1. Problem Jobs (those with  art file issues requiring customer involvement to make "print ready")  or jobs that require proofs (PDF or Hard Copy) will not consider the order date  as the first Business Day. <br>
+                              <strong>Important Note:</strong> "All jobs in" refers to all projects ordered as  "No Proof – Proceed As Is" or with Approved PDF or Hard Copy Proof by  the applicable cut-off time (12:00 PM PST for all turnaround times above other  than Same Day which is 8:00 AM PSTor Next Day which has a 9:00 am PST cutoff  time and has a "No Proof – Proceed As Is" only policy). <br>
+                              <br>
+                              <strong>WAIT &amp; SAVE TURNAROUND</strong> policy: <br>
+                              Available on a limited selection of Products (See Website for Specific  Products). Savings of up to 25% may apply with Wait &amp; Save pricing! <br>
+                              All jobs in by 12:00 PM PST ordered with a Wait &amp; Save turnaround time of  5 -7 business days will count the Business Day ordered as day 1 and be ready  for shipment on the 7th day  business day. Orders placed after 10:00 PM PST with a Wait &amp; Save  turnaround time of 5 -7 business days will not count the business day ordered  as business day 1. Problem jobs (those with art file issues requiring customer  involvement to make "print ready") or jobs that require proofs (PDF  or Hard Copy) will not consider the order date as the first Business Day. <br>
+                              <br>
+                              <strong>Important Note:</strong> "All jobs in" refers to all projects ordered as  "No Proof – Proceed As Is" or with Approved PDF or Hard Copy Proof by  the applicable cut-off time (12:00 PM PST for all turnaround times above other  than Same Day which is 8:00 AM PSTor Next Day which has a 9:00 am PST cutoff  time and has a "No Proof – Proceed As Is" only policy). <br>
+                            SEE REFERENCE CHARTS ABOVE FOR EASY REVIEW OF ALL AVAILABLE TURN TIMES (BY  PRODUCT) AND TURNAROUND TIME SEQUENCE EXAMPLES. SHIPPING TIMES ARE RELATIVE TO  THE SPECIFIC CHOSEN SHIPPING METHOD AND SHIP-TO LOCATION.&nbsp;</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Additional Printing Details Section --> 
+                <div class="modal fade" id="additional-printing-details-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="center aligned row">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>
+                          <h1>Additional Printing Details</h1>
+                        </div>
+                        <div class="modal-body">
+                          <div id="column_content_2" class="content_column content_column_2 content_column_2_of_2">
+
+                            <!-- Start Of Column 2 Item 1 -->
+                            <div id="content_background_column_2_1" class="content_background content_background_column_2">
+                              <div id="content_column_2_1" class="content_content content_column_2 content_color_column_2">
+                                <a name="size">
+                            <h2>Size: </h2>
+                            </a>
+                            
+                            Select your required size.  The size you select will determine the paper stocks which are available for your required size.  Once you select your size, the specific paper stocks available for that size will auto populate into the Stock/Substrate drop down menu.  If your required size falls somewhere in between the sizes shown, select the size that is slightly larger than your finished size.  You can than request Custom Cutting in the options menu.  For example, your finished piece is 8" x 10".  Choose the 8.5" x 11" size (which is slightly larger than your needed size) and select Custom Cutting to obtain your finished size.  You will be prompted to enter the 8" x 10" size in the Custom Cutting options area. If you require a size that is not available in the product category you've selected (too big or it does not fall just under an available size that can be custom cut) you may possibly find your required size in another print product category.  Please call customer service for assistance and if they cannot achieve your size goal online, they will direct you to our custom services department for assistance.
+                            
+                            <a name="stock">
+                            <h2>Stock: </h2>
+                            </a>
+                            
+                            Select a paper stock from the drop down menu of paper stocks available based on the product size you've selected.  The size of the product you've selected will determine the available paper stock options for that size in the paper stock drop down menu.  If you find that your preferred stock choice is not listed on the drop down menu, then we do not offer the size you've pre-selected in that particular paper stock.  Only the paper stocks available for your chosen size will be shown on the drop down menu.  You can either select a different product size or different paper stock to meet your project needs.  You may also contact our customer service department for assistance.  If our internet customer service team is unable to meet your "size to paper stock" wishes online, we may be able to provide a custom quote for your project through our custom services department (offline).  
+                            
+                            <a name="color">
+                            <h2>Color: </h2>
+                            </a>
+                            
+                            Select your ink color from the drop down menu of color choices available based on the stock you've previously selected.  The ink color options for the paper stock you've selected are auto populated in the color drop down menu.  Only the ink colors available for your chosen paper stock will be shown on the color drop down menu.  If your ink color choice is not listed on the drop down menu, then we do not offer the ink color you require on that particular paper stock.  You can re-select a different paper stock that may offer the ink color option you require.  You may also contact our customer service department for assistance.  If our internet customer service team is unable to match your selected stock with your preferred ink color (online), we may be able to quote your project through our custom services department (offline) to meet your specific needs.  An explanation of Four Color Process printing, also known as "Full Color" printing is explained below.
+                            
+                            <h2>Ink Color Option Descriptions:</h2>
+                            <ul>
+                            <li>4/0 (Full Color Front / Blank Back)
+                            </li><li>4/1 (Full Color Front / Black back)
+                            </li><li>4/4 (Full Color Front / Full Color Back)
+                            </li><li>1/0 (Black Front / Blank Back)
+                            </li><li>1/0 (1 PMS Color Front / Blank Back) 
+                            </li><li>2/0 (Black+1 PMS Color Front / Blank Back)
+                            </li><li>2/0 (1 PMS + 1 PMS Color Front / Blank Back)
+                            </li></ul>
+                            
+                            <a name="metallics">
+                            <h2>Metallics</h2> 
+                            </a>
+                             <ul>
+                            <li>4/0 (Full Color Front + Metallic / Blank Back)                                                       
+                            </li><li> 4/1 (Full Color Front + Metallic / Black Back)                                                                  </li><li>4/4 (Full Color Front + Metallic / Full Color Back + Metallic)
+                            </li></ul>
+                            <h2>Explanation of Ink Color Options:</h2>
+                            Below are the specific ink color options we offer: 
+                            <p><b>CMYK</b> = Four Color Process or "Full Color"
+                            </p><p><b>CMYK</b> stands for Cyan, Magenta, Yellow and Black. This is an acronym for the 4 colors used in 4-color process printing, also known as "Full Color". The combination of these four colors (CMYK) approximates other colors in the full color spectrum. 
+                            
+                            
+                            
+                            
+                            </p><p><b>4/0</b> = (Full Color Front / Blank Back)
+                            </p><p>Four Color Process (Full Color) for the front side of your print product with a blank back side of your printed product. Four Color Process is defines as a system where a color image is separated into 4 different color values, by the   use of filters and screens. When transferred to the printing press and printed,      it reproduces the original full color image.
+                            
+                            </p><p><b>As an example:</b> A post card has color images (four color process or full color) on one side (front) and is blank on the back side. 
+                            </p><p><b>4/1</b> = (Full Color Front / Black Back)
+                            </p><p>Four Color Process (Full Color) for the front side of your printed product with black only for the back side of your printed product. 
+                            </p><p><b>4/4:</b> = Four Color Process (Full Color) for the front side of your printed product and Four Color Process (Full Color) on the back side of your printed product. 
+                            
+                            <a name="quantity">
+                            </a></p><h2><a name="quantity">Quantity:</a></h2><a name="quantity">
+                            </a>
+                            
+                            <p>Select your required print product quantity and applicable turnaround time.  If your exact required quantity is not listed, you can choose to order the next higher quantity available or you can choose to place two different quantities that are closer to, or the exact total, that you need (see example below).  On higher quantities, over the maximum shown in the drop down, we may be able to quote your print project through our custom services department (offline) to meet your specific quantity needs.  
+                            
+                            </p><p><b>Example:</b> You need 6,000 finished pieces (the finished flat size for this example is 8.5" x 4" printed on 100 lb. Gloss Book).  You're ordering in the Flyer Product category.  The quantity menu shows 250, 500, 1,000, 2,000, 2,500, 5,000, 10,000 on up.  If you place an order for 5,000 and 1,000 to get 6,000 pieces, your total net cost (in this example) will cost more than ordering 10,000 pieces.  This is the nature of the gang-run printing concept; one large order of more than you need may cost less than two smaller orders that match your quantity exactly.  Please note that shipping &amp; handling costs for the higher piece count may offset any savings.  You should compare total costs (two smaller orders equaling exact needed piece count (with S&amp;H) versus one single order of a larger than needed piece count (with S&amp;H) before you finalize your order.
+                            
+                            </p><p>Most of the time, the larger order will net a lower total price than two smaller orders.  You will have more than you need and you can possibly upsell the additional pieces (as overs) to your customer.
+                            
+                            <a name="4">
+                            </a></p><h2><a name="4">File Type:</a></h2><a name="4">
+                            </a>
+                            
+                            <p>We prefer that you submit (upload) a print ready Adobe Acrobat PDF file for your print project.  However, we will convert your native art files to PDF files for a small fee.  The native art files we accept are as follows: Adobe Illustrator (AI), InDesign, Microsoft Publisher and Adobe Photoshop (PSD).  <b>Cost saving tip!</b>  We have free online tutorials showing how to convert native art files (those listed above) to print ready PDF files.  To access these tutorials, scroll to the bottom of any screen view and you will see a link to "Graphic Guidelines".  Click the link and you will be redirected to a Help? page where all of the Graphic Design Guidelines will be described. After reviewing the Graphic Design Guidelines, you can visit our Download Template page to download our preformatted templates (for all our online products) and there are also guidelines to help you convert your own native art files to PDF files.</p>
+                            
+                            <a name="5">
+                            <h2>Proof:</h2>
+                            </a>
+                            
+                            <p>You have three options  with regards to a proof for your online print order. You can select PDF Proof  ($5.00), No Proof - Proceed As Is ($0) or a Hard Copy Proof (Fee varies based  on the specific print project). <u>At minimum</u>, we always suggest a PDF  Proof. <strong>Important Note:</strong> Hard copy  Epson proofs are always printed on a specialty paper with a satin finish called  "Oris Select Proof" paper stock. This proof paper is used for all  hard copy Epson proofs regardless of the paper selected for your print  project.&nbsp; This is a standard and accepted  print industry policy and procedure. <u>If you order an Epson hard copy proof,  it will not be printed on the actual paper stock you’ve selected for your print  project.&nbsp;&nbsp; </u><br>
+                              Ordering a  proof gives you peace of mind (last review before the project goes to press)  and the confidence knowing that your art files have been reviewed by our  professional prepress team and state-of-the-art preflight software. It also  gives you the opportunity to cancel your order as per our terms and conditions.  To access our complete terms and conditions, please scroll to the bottom of any  James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com screen view and click on the link "Terms &amp; Conditions".  The specific section regarding proofs (PDF or Hard Copy) and no proofs (No  Proof - Proceed As Is) and our cancellation policy is stated below: <br>
+                              Prior to  proof approval, James Programming, Printing, and Media Solutions (AKA: JPPM Solutions) and/or any of its subdivisions, including but not limited to MyPrintingDeals.com allows customers to cancel orders.  Cancellation requests should be submitted through "My Account". We  will inform you of any charges depending on the stage of the order. <br>
+                              Orders  placed without proofs cannot be cancelled once the order has been processed  through Pre-press and the order status of Approved Work in Progress (WIP) has  been posted. The order is then "<em>Ready  to Schedule for Printing</em>" and our automated order processing system  cannot accept any changes. </p>
+                            Cancellation fees will be calculated based on the age  of the order and whether a proof was created. Age will be calculated in  calendar days from the date the order was placed<br><br>Important Note: Hard copy Epson proofs are always printed on a specialty paper with a satin finish called "Oris Select Proof" paper stock. This proof paper is used for all hard copy Epson proofs regardless of the paper selected for your print project.  This is a standard and accepted print industry policy and procedure. If you order an Epson hard copy proof, it will not be printed on the actual paper stock you’ve selected for your print project.  
+                            
+                             
+                            <table class="shop_table">
+                            <tbody><tr><th>Age in Calendar Days</th><th>Fee</th></tr>    
+                            <tr><td align="center">0-30 days</td><td align="center">10%</td></tr>
+                            <tr><td align="center">31-60 days</td><td align="center">25%</td></tr>     
+                            <tr><td align="center">61-90 days</td><td align="center">50%</td></tr>     
+                            <tr><td align="center">91+ days</td><td align="center">No Refund</td></tr>
+                            </tbody></table>
+                            
+                            <a name="11">
+                            <h2>Coating: </h2>
+                            </a>
+                            
+                            The specific standard coating and coating options for your chosen project will be listed in the Coating Drop Down Option Menu.  The standard coating that will be on your print project will show as $0.00 and as the default on the menu.  All optional coatings, when chosen, will be listed in your order summary with an option surcharge amount.  If a specific coating or no coating is required on your project and not shown as standard or optional in the coating drop down menu, it is not available via online order.  We may be able to quote your project through our custom services department (offline) to meet your specific coating or no coating requirements.  The specific meanings of our coatings as abbreviated in the coatings drop down menu (standard or optional) are listed below:  
+                            <ul>
+                            <li><b>0</b>  = No Coating
+                            </li><li><b>AG</b>  = Aqueous Gloss Coating
+                            </li><li><b>AM</b>  = Aqueous Matte Coating
+                            </li><li><b>AS</b>  = Aqueous Satin Coating
+                            </li><li><b>UV</b>  = Ultraviolet High Gloss Coating
+                            </li></ul>
+                            
+                            The coatings are listed in the coating drop down similar to the following example:
+                            
+                            <p>AG/AG - Translates to Aqueous Gloss Coating on front and Aqueous Gloss Coating on back.  The first abbreviation is the front coating; the second is the back coating.  
+                            
+                            </p><p>For more specific details on coatings, please scroll to the bottom of any screen view and click on the link "Glossary" for a definition on all coating options.  
+                            
+                            </p><h2>WHY MATTE AQUEOUS COATING?</h2>
+                            While Aqueous Gloss and Satin finishes are fantastic, Matte is one of our favorites! It is pencil and pen receptive, yields a smoother finish and adds a high-class, luxurious quality to every printed piece!
+                            
+                            <a name="10">
+                            <h2>Custom Cutting:</h2>
+                            </a>
+                            <p>We provide custom  cutting on most products. Custom cutting refers to rectangular cuts only. <u>It  does not refer to angular, circular or any other special cut that is not  rectangular.</u> The custom cutting option requests a standard size to be cut  to a custom size. For example: Your finished piece needs to be 8" x  10". You have ordered an 8.5" x 11" standard size. You then  select custom cutting in the options section. In this example; you would choose  "1 Out Custom Cutting ". You will then be asked to enter the exact  finished size your one out custom cut needs to be, in this example, 8" x  10". <br>
+                              <br>
+                              The custom  cutting option can also be used for multiple Cut - Outs (Outs meaning number  up, for example 2 cut-outs of 7" x 5" on an 8.5" x 11"  standard size). If you ordered a quantity of 500 - 8.5" x 11" sheets  with a 2-Out custom cut of 7" x 5", you would receive 1,000 - 7"  x 5" finished pieces. <br>
+                              <br>
+                            Custom  cuts, from 1 - Out up to 12 - Out, may be available and the added charge for  these cut-outs will be shown as an option line item price in the <em>Product Overview</em>.</p>
+                            <strong>Useful Tip:</strong> Using custom cuts can often help you achieve finished piece quantity totals  outside the standard quantities offered. For example, by ordering a 3 - Out  custom cut on a larger sheet at an order quantity of 2,500, you would yield  7,500 finished pieces. If the standard quantity break for an exact specific  size and quantity is goes from 5,000 to 10,000, you might check to see if ordering  a 3 - Out custom cut on a larger sheet size might be a more cost effective way  to reach your needed quantity. 
+                            
+                            <a name="19">
+                            <h2>Round Cornering:</h2>
+                            </a>
+                            
+                            Many of our card stock products offer round cornering as an option.  You can select round cornering for 1 corner, 2 corners, 3 corners or all 4 corners.  Some products may only offer a 4 round corner option. The round corner cut is a ¼" round corner cut.  The art file you submit must show the location of the corner cuts and it's important not to place text or logo art near the corners being cut.  
+                            
+                            <p><b>Quick Tip:</b> Business cards are the most commonly ordered product specified with rounded corners.  You can scroll to the bottom of any screen view and you will see a link to "Graphic Guidelines".  Click the link and you will be redirected to a "Need Help? page.  Click on the link "PrintingTechSupport.com" and you will be redirected to a page showing links to our preformatted downloadable templates (for all our online products).  You will find templates there for rounded corner business cards.</p>  
+                            
+                            <a name="7">
+                            </a><h2><a name="7">Drilling:</a></h2><a name="7">
+                            </a>
+                            
+                            Many card stock products and our full size catalogs are offered with a drill hole option.  The card stocks offer a one-hole drill option.  The size of the drill hole is 1/8".  Full size catalog orders offer the option of a three hole binder style or five hole automotive style drill.  The size of the binder style three hole drill is 1/4". The size of the automotive five hole drill is the standard auto industry catalog drill formation for a desk top multiple catalog rack.  
+                            
+                            <p>It's important that file(s) you submit for card stock projects (those that offer the single drill hole option) have the specific drill hole location clearly identified in the art file(s).  Art files for catalogs ordered with a three hole or five hole auto drill option should be designed so the drill holes do not cut into essential text copy or graphics.  Art files submitted for orders requesting a single drill hole option that do not identify the drill hole location will be rejected and a new re-submitted art file may be requested.  There is a fee for re-submitting art files different from the originally submitted order art files.   
+                            
+                            </p><p><b>Quick Tip:</b>  A standard business card or custom cut (to a smaller net size) business card ordered with a single drill hole options makes a great clothing or  product brand ID or price tag!
+                            
+                            <a name="1">
+                            </a></p><h2><a name="1">Shrink Wrapping: </a></h2><a name="1">
+                            </a>
+                            
+                            Shrink wrapping is available as an option on many products.  Depending on the product, you can choose from shrink wrapped bundles of 25, 50 or 100 pieces.
+                            Shrink wrapping makes it easier for end user distribution of small, medium and larger print runs.  Shrink wrapping also keeps the printed materials clean and provides moisture protection.  Shrink wrapping also adds protection from dog-earring of the literature corners, keeping them in good condition in brief cases, catalog cases, cars, trucks and other storage containers.
+                            
+                            <a name="14">
+                            <h2>Samples: </h2>
+                            </a>
+                            
+                            We offer you a drop ship sample option.  It's always a good idea to keep samples of all your printed work.  Keeping a few samples in your files is smart too!  Ordering samples for your personal portfolio might help you remember a specific print project when it comes time to place a new order.  If your order is shipping to a location other than your home or office, you may want to have a small portion sent directly to you for your records. Note: There is a charge for this option and the sample quantity is typically 10 pieces.
+                            
+                            <a name="15">
+                            <h2>Save Files:</h2>
+                            </a>
+                            
+                            For a small fee, we will archive your print ready art files.  This is especially convenient when you are placing regular orders, week in, week out or month in, month out, for the same exact printed piece (business cards, brochures, flyers, etc.).  We will archive your art files for these types of projects for a period of 6 months.  This can save you time and energy as you will not have to locate and upload these repeat order art files each time you place an order.  If you travel or work from a remote office or varying locations, this is a great option.  Say you are traveling in LA but need to order business cards for your office in New York for meeting when you get home. By saving the art files in our system, you do not have to be at your office or home computer to upload the art files and get your order placed and moving.  You can access this web site from any computer, anywhere, 24/7 and have instant access to your repeat order art files. If you're mobile or global, archived art files for repeat orders, archived on our site, can be a great asset. Note: There is a charge for this option.
+                            
+                            
+                            <a name="2">
+                            <h2>Folding</h2>
+                            </a>
+                            
+                            Brochures and flyers offer a number of folding options.  The specific folding options for the brochure or flyer you've selected are shown here.  If you are unsure which specific folding option your project requires, please contact our customer service department for assistance.  
+                            
+                            <p>If you know your required folding pattern but you do not see it here as available online, your project may need to be ordered through our custom services department.  Although our online folding options feature the most common fold patterns, our custom services department has a wider range of options for less common, unusual or custom folding patterns.  
+                            
+                            </p><p><b>Quick Tip:</b> Scroll to the bottom of any screen view and you will see a link to "Graphic Guidelines".  Click the link and you will be redirected to a "Need Help? page.  Click on the link "PrintingTechSupport.com" and you will be redirected to a page showing links to our preformatted downloadable templates (for all our online products) with specific folding patterns for brochures and flyers.
+                            These templates will assist you in designing your folded piece and they are available in PDF or native file formats for easy download.
+                            
+                            
+                            
+                            <a name="16">
+                            </a></p><h2><a name="16">Tabbing:</a></h2><a name="16">
+                            </a>
+                            
+                            Clear, round wafer tabs are often used for holding together folded brochures, flyers and catalogs to retain their integrity for long term storage or mailing purposes.  They can also be used to seal in loose inserts placed inside brochures or catalogs.  The clear 1" round wafer tabs are perforated for easy separation when needed.  Choose from one or two tab options.  Smaller folded brochures, mini catalogs or low page count full size catalogs may only require one wafer seal tab, while larger brochures or catalogs may require two wafer tabs.  If you are unsure whether your project needs a wafer tab, please contact our customer service department for assistance.  
+                            
+                            
+                            
+                            <a name="9">
+                            <h2>Scoring:</h2>
+                            </a>
+                            
+                            If the horizontal or vertical scoring option (or both) are shown on the option menu for your print order, your project is most likely being produced on a medium to heavy weight card stock which may or may not require the piece to be produced flat with a score for manual folding later.  Our greeting cards, for instance, come with a standard score included in the print price.  Scoring a card weight paper stock helps to preserve the integrity and straightness of the manual fold and allows the card stock to easily lie flat when closed.  As an example, if you were to attempt to fold a piece of card board in half and you tried to fold it without scoring it first (say using your finger nail or a coin) the odds of it folding exactly in half in a clean, straight line would be low.  If you are unsure whether your project needs scoring, please contact our customer service department for assistance.  
+                            
+                            
+                            <a name="21">
+                            <h2>Perforations:</h2>
+                            </a>
+                            
+                            Many of our products offer a vertical or horizontal perforation option.  If you've clicked on this "learn more" button, than more than likely the product you're in the middle of ordering offers this option.  The vertical or horizontal perforation option is basically a straight line perforation designed for pieces that require an easy manual tear-off of a rectangular portion of the printed product.   For example, you've ordered a tri-fold brochure and one of the panels (left or right) of the brochure need to be perforated as it is meant to be separated and used as a Business Reply Card (BRC).  A perforation will make it easy to cleanly tear it off and mail it.  It could also be a coupon, sample swatch, etc. or anything that was meant to be separated from the larger printed piece with ease.
+                            
+                            
+                            
+                            <a name="promotion_code">
+                            <h2>Promotion Code: </h2>
+                            </a>
+                            
+                            Current, applicable promotional discount codes can be applied here to reflect your net check out cost total after the discount.  Promotion code discounts will be subject to specific promotion expiration dates.  If a quote is saved and converted to an order (at some later date), after the promotion code expiration date, the promotion code discount may not be honored and will not be reflected in your net cost summary at check out.  If you are unsure about a specific promotional code or "Promo Code" as they are also known as, please contact customer service for assistance.  Only one promotion code can be used per order and most  promotion codes are not valid on Super Savings Specials, "Wait &amp; Save" priced products, and Print &amp; Mail packages.  Some promotion codes may void an order from receiving Rewards Points under our Rewards Program.  See Rewards Tab for more details.
+                            
+                            
+                            <a name="job_name">
+                            <h2>Job Name</h2>
+                            </a>
+                            
+                            Use this area to identify your job for easier reference.
+                            
+                            
+                            <a name="job_notes">
+                            <h2>Job Notes</h2>
+                            <h3>IMPORTANT MUST READ JOB NOTE GUIDELINES!</h3>
+                            </a>
+                            
+                            The Job Notes area is specifically for your personal use only.  The notes you enter here will not be read or implemented by our customer service or production staff.  For example: You may enter PO Numbers (for your reference only), job names or references (ex; Tom Smith's rush order), ABC Co. Letterhead for Tanya, version codes, mark-up notes, etc.  You may not enter information relating to specific manufacturing requests, finishing options, shipping instructions, or any other prepress, production or shipping issues.  For example: "Split ship 500 to Los Angeles and 500 to Milwaukee", "Add right angle perforation", "Package only 200 per box", "Add a spot PMS of 2210", "Shrink art file to match product order size", "Package all jobs in one box", etc.  Requests of this nature must be communicated directly to our customer service staff by phone and may require additional charges or fees.  We will not be held responsible for completing any type of order manipulation requests entered in the Job Notes area as per this policy guideline.              </div>
+                                </div>
+                                <div id="bottom_column_2_1" class="bottom_content bottom_column_2">
+                                  <div id="bottom_left_column_2_1" class="bottom_content_left bottom_left_column_2 bottom_left_color_column_2">
+                                     
+                                  </div>
+                                  <div id="bottom_right_column_2_1" class="bottom_content_right bottom_right_column_2  bottom_right_color_column_2">
+                                          </div>          
+                                </div>
+                                    
+                                <div id="spacer_column_2_1" class="spacer_content spacer_column_2"></div>
+                                <!-- End of Column 2 Item 1 -->
+                                
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Glossary of Terms Section --> 
+                <div class="modal fade" id="glossary-of-terms-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="center aligned row">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>
+                          <h1>Glossary of Terms</h1>
+                        </div>
+                        <div class="modal-body">
+                          <div id="column_content_2" class="content_column content_column_2 content_column_2_of_2">
+
+                                <!-- Start Of Column 2 Item 1 -->
+                              <div id="content_background_column_2_1" class="content_background content_background_column_2">
+                                <div class="content_content content_column_2 content_color_column_2">
+                          <div id="glossary_links">
+                          <span class="col-xs-8 col-sm-12 col-md-12 col-lg-12 well">
+                              <a href="#no">#</a> | 
+                              <a href="#A">A</a> | 
+                              <a href="#B">B</a> | 
+                              <a href="#C">C</a> | 
+                              <a href="#D">D</a> | 
+                              <a href="#E">E</a> | 
+                              <a href="#F">F</a> | 
+                              <a href="#G">G</a> | 
+                              <a href="#H">H</a> | 
+                              <a href="#I">I</a> | 
+                              <a href="#J">J</a> | 
+                              <a href="#K">K</a> | 
+                              <a href="#L">L</a> | 
+                              <a href="#M">M</a> | 
+                              <a href="#N">N</a> | 
+                              <a href="#O">O</a> | 
+                              <a href="#P">P</a> | 
+                              <a href="#Q">Q</a> | 
+                              <a href="#R">R</a> | 
+                              <a href="#S">S</a> | 
+                              <a href="#T">T</a> | 
+                              <a href="#U">U</a> | 
+                              <a href="#V">V</a> | 
+                              <a href="#W">W</a> | 
+                              <a href="#X">X</a> | 
+                              <a href="#Y">Y</a> | 
+                              <a href="#Z">Z</a>
+                          </span>
+                          </div>
+                          
+                          <h3 class="glossary_h3"><a name="no">#</a></h3>
+                          <div class="glossary_topic">4 Color Process</div>
+                          <div class="glossary_description">Printing using Cyan, Magenta, Yellow and Black to produce a full color image.</div>
+                          <div class="glossary_topic">4/0</div>
+                          <div class="glossary_description">Full Color on one side, Blank Back</div>
+                          <div class="glossary_topic">4/1</div>
+                          <div class="glossary_description">Full Color on one side, Black Ink on Back</div>
+                          <div class="glossary_topic">4/4</div>
+                          <div class="glossary_description">Full Color on all Sides</div>
+                          
+                          <h3 class="glossary_h3"><a name="A">A</a></h3>
+                          <div class="glossary_topic">AQ</div>
+                          <div class="glossary_description">Abbreviation for Aqueous Coating: A clear water based coating used to seal and protect the printed sheet. This is available in gloss, satin (gloss + matte) and matte finishes.</div>
+                          <div class="glossary_topic">Aqueous Coating</div>
+                          <div class="glossary_description">A clear water based coating used to seal and protect the printed sheet. This is available in gloss, satin and matte finishes.</div>
+                          <div class="glossary_topic">Artwork</div>
+                          <div class="glossary_description">All computer files including layout, images and fonts needed to produce the final printed product.</div>
+                          <div class="glossary_topic">ASCII Text File (.TXT)</div>
+                          <div class="glossary_description">ASCII text file or .TXT is a file format is commonly used by clients to store mail list data.</div>
+                          
+                          <h3 class="glossary_h3"><a name="B">B</a></h3>
+                          <div class="glossary_topic">Bindery</div>
+                          <div class="glossary_description">All options available to a product after it has completed printing. This includes cutting, folding, drilling, etc.</div>
+                          <div class="glossary_topic">Bitmap Images</div>
+                          <div class="glossary_description">Bitmap images, or raster images, use pixels to represent images.</div>
+                          <div class="glossary_topic">Bleed</div>
+                          <div class="glossary_description">Artwork extended 1/8" on all 4 sides to allow for cutter variance.</div>
+                          <div class="glossary_topic">Blind embossing</div>
+                          <div class="glossary_description">An image pressed into a sheet without ink or foil.</div>
+                          <div class="glossary_topic">Bond</div>
+                          <div class="glossary_description">Paper grade used for letterhead and forms.</div>
+                          <div class="glossary_topic">Book</div>
+                          <div class="glossary_description">Medium weight paper used for fliers, posters and inside pages of books. Available in both coated and uncoated finishes.</div>
+                          <div class="glossary_topic">Brightness</div>
+                          <div class="glossary_description">The brilliance, or "whiteness" of a paper. The higher the number, the brighter the sheet.</div>
+                          
+                          
+                          <h3 class="glossary_h3"><a name="C">C</a></h3>
+                          <div class="glossary_topic">C</div>
+                          <div class="glossary_description">Cyan: One of four colors used in Full Color Printing.</div>
+                          <div class="glossary_topic">C1S</div>
+                          <div class="glossary_description">Coated One Side: Sheet is glossy on front, flat with no coating on back.</div>
+                          <div class="glossary_topic">C2S</div>
+                          <div class="glossary_description">Coated Two Sides: Sheet is glossy on both sides</div>
+                          <div class="glossary_topic">Caliper</div>
+                          <div class="glossary_description">The thickness of paper measured in 1/1000".</div>
+                          <div class="glossary_topic">CMYK</div>
+                          <div class="glossary_description">Cyan, Magenta, Yellow, and Black: The four colors used in full color printing.</div>
+                          <div class="glossary_topic">Coated paper</div>
+                          <div class="glossary_description">Smooth finish paper with a Matte or Glossy finish. Available in Book and Cover.</div>
+                          <div class="glossary_topic">Color Correct</div>
+                          <div class="glossary_description">To adjust the values of process colors to achieve the desired overall color.</div>
+                          <div class="glossary_topic">Cover</div>
+                          <div class="glossary_description">Heavy weight paper used for book covers, postcards, folders, etc.</div>
+                          <div class="glossary_topic">Coverage</div>
+                          <div class="glossary_description">Coverage is the total amount of ink per sheet side, usually given in percentages.</div>
+                          <div class="glossary_topic">Crop</div>
+                          <div class="glossary_description">To cut off parts of a picture or image.</div>
+                          <div class="glossary_topic">Crop marks</div>
+                          <div class="glossary_description">Printed lines showing the edges for trimming.</div>
+                          <div class="glossary_topic">Crossover</div>
+                          <div class="glossary_description">Printing across the gutter or from one page to the facing page in booklets or other multi-page documents.</div>
+                          <div class="glossary_topic">CSV</div>
+                          <div class="glossary_description">Comma separated values or tab-delimited is a text file format that contains information separated by commas or tabs. This format is commonly used to store mail list data.</div>
+                          <div class="glossary_topic">Cure</div>
+                          <div class="glossary_description">To dry inks and coatings after printing to ensure good adhesion.</div>
+                          
+                          <h3 class="glossary_h3"><a name="D">D</a></h3>
+                          <div class="glossary_topic">Deboss</div>
+                          <div class="glossary_description">Deboss means to press an image into paper so it lies below the surface.</div>
+                          <div class="glossary_topic">Density</div>
+                          <div class="glossary_description">The degree of color in an image or photograph.</div>
+                          <div class="glossary_topic">Die</div>
+                          <div class="glossary_description">Device made out of sharp steel that is used to cut irregular shapes,or to score, foil stamp, or emboss.</div>
+                          <div class="glossary_topic">Die Cut</div>
+                          <div class="glossary_description">To cut irregular shapes using a die.</div>
+                          <div class="glossary_topic">Direct to Plate</div>
+                          <div class="glossary_description">The transfer of information from a file directly to the plate, producing high-quality printed pieces.</div>
+                          <div class="glossary_topic">DPI</div>
+                          <div class="glossary_description">Dots Per Inch: Term used in describing Resolution. Suggested image resolution for best print quality is 300 dpi.</div>
+                          <div class="glossary_topic">Drill</div>
+                          <div class="glossary_description">To punch holes in the printed sheet.</div>
+                          
+                          <h3 class="glossary_h3"><a name="E">E</a></h3>
+                          <div class="glossary_topic">Emboss</div>
+                          <div class="glossary_description">Pressing an image into paper to create a raised image.</div>
+                          <div class="glossary_topic">Estimate</div>
+                          <div class="glossary_description">Cost of producing a custom printing order.</div>
+                          <div class="glossary_topic">Excel Spreadsheet (.XLS)</div>
+                          <div class="glossary_description">Excel spreadsheet or .XLS is a file format commonly used by clients to store mail list data.</div>
+                          
+                          
+                          <h3 class="glossary_h3"><a name="F">F</a></h3>
+                          <div class="glossary_topic">File Extensions</div>
+                          <div class="glossary_description">File extensions are three-digit codes at the end of a file name that indicate what format the file has been saved in.</div>
+                          <div class="glossary_topic">Finished Size</div>
+                          <div class="glossary_description">Size of product after completion of all bindery options.</div>
+                          <div class="glossary_topic">Flat Size</div>
+                          <div class="glossary_description">Size of product after printing and trimming, but before all other bindery options.</div>
+                          <div class="glossary_topic">Foil emboss</div>
+                          <div class="glossary_description">The combination of foil stamping and embossing.</div>
+                          <div class="glossary_topic">Foil stamping</div>
+                          <div class="glossary_description">Using a die to place an opaque metallic image on paper.</div>
+                          <div class="glossary_topic">Four Color Printing</div>
+                          <div class="glossary_description">The process of combining four basic colors to create a printed color picture or colors composed from the basic four colors.</div>
+                          
+                          
+                          <h3 class="glossary_h3"><a name="G">G</a></h3>
+                          <div class="glossary_topic">Gang Printing</div>
+                          <div class="glossary_description">The process of combining multiple print orders on one press run to minimize cost.</div>
+                          <div class="glossary_topic">Gloss</div>
+                          <div class="glossary_description">Paper type with a shiny surface; best used with images.</div>
+                          <div class="glossary_topic">Grain</div>
+                          <div class="glossary_description">The direction in which the paper fiber lie.</div>
+                          <div class="glossary_topic">Grayscale</div>
+                          <div class="glossary_description">Grayscale is a strip of 256 gray values ranging from white to black.</div>
+                          
+                          
+                          <h3 class="glossary_h3"><a name="H">H</a></h3>
+                          <div class="glossary_topic">Halftone</div>
+                          <div class="glossary_description">An image or other continuos tone that has been converted to dots for printing.</div>
+                          <div class="glossary_topic">Hickey</div>
+                          <div class="glossary_description">Spots that appear in the printed image from dust or lint on blanket or plate.</div>
+                          <div class="glossary_topic">High Res (Resolution)</div>
+                          <div class="glossary_description">Images with a resolution of 300 dpi or greater.</div>
+                          
+                          
+                          <h3 class="glossary_h3"><a name="I">I</a></h3>
+                          <div class="glossary_topic">Image</div>
+                          <div class="glossary_description">An Image is a computerized representation of a picture or graphic.</div>
+                          
+                          
+                          </a><h3 class="glossary_h3"><a name="J">J</a></h3>
+                          <div class="glossary_topic">JPEG</div>
+                          <div class="glossary_description">File format used for images requiring less storage space than needed for other file formats. Please supply uncompressed for printing.</div>
+                          
+                          <h3 class="glossary_h3"><a name="K">K</a></h3>
+                          <div class="glossary_topic">K</div>
+                          <div class="glossary_description">Black: One of four colors used in Full Color Printing</div>
+                          
+                          <h3 class="glossary_h3"><a name="L">L</a></h3>
+                          <div class="glossary_topic">Linen Finish</div>
+                          <div class="glossary_description">Paper finish that simulates a linen cloth.</div>
+                          <div class="glossary_topic">Low Res (Resolution)</div>
+                          <div class="glossary_description">Images with a resolution less than 250 dpi.</div>
+                          
+                          <h3 class="glossary_h3"><a name="M">M</a></h3>
+                          <div class="glossary_topic">M</div>
+                          <div class="glossary_description">Magenta: One of four colors used in Full Color Printing.</div>
+                          <div class="glossary_topic">Matte</div>
+                          <div class="glossary_description">Paper type with a dull surface; best used with heavy text, and some images.</div>
+                          <div class="glossary_topic">Micrometer</div>
+                          <div class="glossary_description">Instrument used to measure the thickness of paper.</div>
+                          
+                          <h3 class="glossary_h3"><a name="O">O</a></h3>
+                          <div class="glossary_topic">Offset paper</div>
+                          <div class="glossary_description">Basic uncoated book grade of paper.</div>
+                          <div class="glossary_topic">Offset Printing</div>
+                          <div class="glossary_description">Main printing techinique used on products offered on our site.</div>
+                          <div class="glossary_topic">Offsetting</div>
+                          <div class="glossary_description">Images of one sheet transferring to sheet below it.</div>
+                          <div class="glossary_topic">Opacity</div>
+                          <div class="glossary_description">The amount of show-through on a printed sheet.</div>
+                          <div class="glossary_topic">Overprint</div>
+                          <div class="glossary_description">To print one image over another image, such as printing type over a screen background image.</div>
+                          
+                          <h3 class="glossary_h3"><a name="P">P</a></h3>
+                          <div class="glossary_topic">Page</div>
+                          <div class="glossary_description">One side of a sheet.</div>
+                          <div class="glossary_topic">Page count</div>
+                          <div class="glossary_description">Total number of pages in a book.</div>
+                          <div class="glossary_topic">PDF</div>
+                          <div class="glossary_description">Portable Document Format is a file format developed by Adobe Systems to preserve all fonts, formatting, graphics, and colors of the native file into a universal document.</div>
+                          <div class="glossary_topic">Perfecting press</div>
+                          <div class="glossary_description">A sheet fed printing press that prints both sides of a sheet in one pass.</div>
+                          <div class="glossary_topic">Perforation</div>
+                          <div class="glossary_description">A line of small dotted holes for the purpose of tearing-off a part of a printed matter.</div>
+                          <div class="glossary_topic">PMS</div>
+                          <div class="glossary_description">Pantone matching systems or PMS is a mixture of inks that will provide a specific color. This is used only on our 1/0 and 2/0 products.</div>
+                          <div class="glossary_topic">Point</div>
+                          <div class="glossary_description">In paper, a unit of thickness equating 1/1000 inch.</div>
+                          <div class="glossary_topic">Print Ready Files</div>
+                          <div class="glossary_description">Print-Ready files are digital artwork files that are 100% ready to print, requiring no adjustments.</div>
+                          <div class="glossary_topic">Process Color</div>
+                          <div class="glossary_description">The process of combining four basic colors to create a printed color picture or colors composed from the basic four colors.</div>
+                          <div class="glossary_topic">Proof</div>
+                          <div class="glossary_description">A PDF or Hard Copy showing a preview of art files submitted.</div>
+                          
+                          <h3 class="glossary_h3"><a name="Q">Q</a></h3>
+                          <div class="glossary_topic">Quotation</div>
+                          <div class="glossary_description">Cost of producing a custom printing order.</div>
+                          
+                          <h3 class="glossary_h3"><a name="R">R</a></h3>
+                          <div class="glossary_topic">Recycled Paper</div>
+                          <div class="glossary_description">Paper made entirely or in part from old paper.</div>
+                          <div class="glossary_topic">Register Marks</div>
+                          <div class="glossary_description">Position marks on artwork to help keep printing in register.</div>
+                          <div class="glossary_topic">RGB</div>
+                          <div class="glossary_description">Abbreviation for red, green, blue, the color mode used for viewing on monitors and screens.</div>
+                          
+                          <h3 class="glossary_h3"><a name="S">S</a></h3>
+                          <div class="glossary_topic">Saddle stitch</div>
+                          <div class="glossary_description">Binding a booklet or magazine with staples in the seam where it folds.</div>
+                          <div class="glossary_topic">Score</div>
+                          <div class="glossary_description">To pre-crease paper along a straight line so it folds more easily and accurately.</div>
+                          <div class="glossary_topic">Self Cover</div>
+                          <div class="glossary_description">A book where all pages are made of the same stock.</div>
+                          <div class="glossary_topic">Sheetfed Press</div>
+                          <div class="glossary_description">Press that prints sheets of paper, as compared to a web press.</div>
+                          
+                          <h3 class="glossary_h3"><a name="T">T</a></h3>
+                          <div class="glossary_topic">Tab Delimited</div>
+                          <div class="glossary_description">Comma separated values or tab-delimited is a text file format that contains information separated by commas or tabs. This format is commonly used to store mail list data.</div>
+                          <div class="glossary_topic">Testing website</div>
+                          <div class="glossary_description">Test The website</div>
+                          <div class="glossary_topic">TIFF</div>
+                          <div class="glossary_description">Computer file format used to store images.</div>
+                          <div class="glossary_topic">Trim marks</div>
+                          <div class="glossary_description">Printed lines showing the edges for trimming.</div>
+                          <div class="glossary_topic">Trim size</div>
+                          <div class="glossary_description">Size of product after printing and trimming, but before all other bindery options.</div>
+                          <div class="glossary_topic">TXT</div>
+                          <div class="glossary_description">ASCII text file or .TXT is a file format is commonly used by clients to store mail list data.</div>
+                          
+                          <h3 class="glossary_h3"><a name="U">U</a></h3>
+                          <div class="glossary_topic">Uncoated Paper</div>
+                          <div class="glossary_description">Paper without clay coating applied.</div>
+                          <div class="glossary_topic">Up</div>
+                          <div class="glossary_description">Printing multiple copies of same artwork on one sheet.</div>
+                          <div class="glossary_topic">UV Coating</div>
+                          <div class="glossary_description">Liquid applied to a printed sheet, then bonded and cured with ultraviolet light.</div>
+                          
+                          <h3 class="glossary_h3"><a name="W">W</a></h3>
+                          <div class="glossary_topic">Watermark</div>
+                          <div class="glossary_description">An image created in paper at the time of manufacture that can be seen by holding the paper up to a light.</div>
+                          <div class="glossary_topic">Wove paper</div>
+                          <div class="glossary_description">Bond paper with a smooth finish.</div>              </div>
+                              </div>
+                              <div id="bottom_column_2_1" class="bottom_content bottom_column_2">
+                                <div id="bottom_left_column_2_1" class="bottom_content_left bottom_left_column_2 bottom_left_color_column_2">
+                                   
+                                </div>
+                                <div id="bottom_right_column_2_1" class="bottom_content_right bottom_right_column_2  bottom_right_color_column_2">
+                                        </div>          
+                              </div>
+                                  
+                              <div id="spacer_column_2_1" class="spacer_content spacer_column_2"></div>
+                              <!-- End of Column 2 Item 1 -->
+                              
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Graphic Guidelines Section --> 
+                <div class="modal fade" id="graphic-guidelines-section" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="center aligned row">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="btn btn-default pull-right alert-danger" data-dismiss="modal">X</button>
+                          <h1>Graphic Guidelines</h1>
+                        </div>
+                        <div class="modal-body">
+                          <p align="center" class="MainContentText">Graphic Submission Guidelines </p>
+                          <p class="MainContentText"><br />
+                              <strong>Platform:</strong> PC or MAC<br />
+                              <strong>Acceptable File Types:   Prefered Format:</strong> PDF (Please follow our <a href="/contact"><em>PDF Guide</em></a> to correctly convert your files into PDF format)<br />
+                              <strong>Image Mode:</strong> CMYK<br />
+                              <strong>Additionally: </strong></p>
+                          <ul>
+                            <li class="MainContentText">All images need to be 300 dpi or higher at size (100%)</li>
+                            <li class="MainContentText">All fonts must be included or saved as curves/outlines</li>
+                            <li class="MainContentText">Bleed Margin needs to be 1/8&quot; larger than trim size on all sides</li>
+                          </ul>
+                          <p align="center" class="MainContentText"><br />
+                            Please use our <!-- <a href="#" class="item" data-toggle="modal" data-target="#template-download-section"> --> <label class="label label-info">Download Templates</label> <!-- </a> --> for file accucary.<br />
+                          </p>
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="panel panel-info">
+                              <div class="panel-heading">Product Dimensions</div>
+                       
+                              <span style="font-weight: bold;"><span class="col-md-4">Product</span><span class="col-md-4">Bleed Size</span><span class="col-md-4">Trim Size</span></span>
+                              <div class="panel-body">
+                              <div class="col-sm-4 col-md-4 col-lg-4">
+                                <span style="font-weight: bold;">Business Cards</span><br/>
+                                <span style="font-weight: bold;">Postcards</span><br/>
+                                <br/>
+                                <span style="font-weight: bold;">Flyers</span>
+                              </div>
+                              <div class="col-sm-4 col-md-4 col-lg-4">
+                                <span>3.75&quot; x 2.25&quot;</span><br/>
+                                <span>4.5&quot; x 6.25&quot;</span><br/>
+                                <span>5.75&quot; x 8.75&quot;</span><br/>
+                                <span>8.75&quot; x 11.25&quot;</span>
+                              </div>
+                              <div class="col-sm-4 col-md-4 col-lg-4">
+                                <span>3.5&quot; x 2&quot;</span><br/>
+                                <span>4.25&quot; x 6&quot;</span><br/>
+                                <span>5.5&quot; x 8.5&quot;</span><br/>
+                                <span>8.5&quot; x 11&quot;</span>
+                              </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+                          <p align="center">&nbsp;</p>
+                          <p align="center" class="MainContentText">NOTE: If you need a custom quote for sizes or printing options not listed, <a href="/contact">Contact Us</a>.<strong><br />
+                            If you can dream it, we can print it!</strong></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  <!-- Modal Content End -->
+<!-- Content END -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-inverse" id="footer-container">
+                <div class="ui inverted vertical footer segment">
+                  <div class="ui container">
+                    <div class="ui stackable inverted divided equal height stackable grid">
+                      <div class="three wide column">
+                        <h4 class="ui inverted header">About</h4>
+                        <div class="ui inverted link list">
+                          <a href="#" class="item" data-toggle="modal" data-target="#company-section">Company</a>
+                          {{!--<a href="#" class="item" data-toggle="modal" data-target="#customer-testimonial-section">Customer Testimonials</a>--}}
+                          <a href="#" class="item" data-toggle="modal" data-target="#graphic-guidelines-section">Graphic Guidelines</a>
+                          <a href="#" class="item" data-toggle="modal" data-target="#glossary-of-terms-section">Glossary of Terms</a>
+                          <a href="#" class="item" data-toggle="modal" data-target="#additional-printing-details-section">Additional Printing Details</a>
+                        </div>
+                      </div>
+                      <div class="three wide column">
+                        <h4 class="ui inverted header">Resources</h4>
+                        <div class="ui inverted link list">
+                          <a href="#" class="item" data-toggle="modal" data-target="#privacy-security-section">Privacy & Security</a>
+                          <a href="#" class="item" data-toggle="modal" data-target="#terms-and-conditions-section">Terms & Conditions</a>
+                          <a href="/templatedownload" class="item">Download Templates</a>
+                          <a href="#" class="item" data-toggle="modal" data-target="#turn-around-time-section">Turn Around Times</a>
+                          <a href="/contact" class="item">Contact Us</a>
+                        </div>
+                      </div>
+                      <div class="seven wide column">
+                        <h4 class="ui inverted header">MyPrintingDeals.com</h4>
+                        <p>If you can dream it, We can print it!</p>
+                        <p style="text-align:center;" id="copyright">&copy; <span id="copyrightDate"></span> MyPrintingDeals.com - All Rights Reserved</p>
+                        <script>
+                          var d = new Date();
+                          document.getElementById("copyrightDate").innerHTML = d.getFullYear();
+                        </script>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+</body>
+</html>
