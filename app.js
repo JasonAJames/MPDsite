@@ -41,11 +41,13 @@ mongoose.connect('mongodb://mpd_admin:Jay030107@ds157298.mlab.com:57298/shopping
 require('./config/passport');
 
 // view engine setup
-// app.set('view engine', 'html');
-// app.engine('html', require('hbs').__express);
+//Angular
+app.set('view engine', 'html');
+app.engine('html', require('hbs').__express);
 
-app.engine('.hbs'||'.html', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
-app.set('view engine', '.hbs');
+// HandlebarsJS
+// app.engine('.hbs'||'.html', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
+// app.set('view engine', '.hbs');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
