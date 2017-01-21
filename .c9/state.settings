@@ -72,14 +72,14 @@
             "@ace": 1,
             "@acestatus": 1,
             "@divider": 4,
-            "@document": 16,
+            "@document": 18,
             "@form": 5,
             "@menu": 5,
             "@menuitem": 13,
             "@pane": 2,
-            "@session": 15,
-            "@tab": 16,
-            "@undoManager": 16,
+            "@session": 17,
+            "@tab": 18,
+            "@undoManager": 18,
             "@welcome": 1
         }
     },
@@ -97,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab13",
+            "tab5",
             "tab1"
         ]
     },
@@ -129,7 +129,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": 508,
+        "@scrollpos": 341,
         "@showfs": true,
         "expanded": {
             "json()": [
@@ -148,17 +148,19 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/views/partials/header.hbs",
+            "focus": "/views/shop/templatedownload.hbs",
             "meta": {
                 "accessList": [
+                    "tab5",
+                    "tab11",
+                    "tab17",
+                    "tab16",
                     "tab13",
                     "tab15",
                     "tab4",
-                    "tab11",
                     "tab3",
                     "tab8",
                     "tab9",
-                    "tab5",
                     "tab6",
                     "tab7"
                 ]
@@ -208,44 +210,23 @@
                 {
                     "type": "tab",
                     "name": "tab5",
-                    "path": "/views/shop/templatedownload.html",
+                    "path": "/views/shop/templatedownload.hbs",
                     "className": [
-                        "tab5"
+                        "tab5",
+                        "focus"
                     ],
                     "document": {
-                        "filter": true,
-                        "title": "templatedownload.html",
-                        "tooltip": "/views/shop/templatedownload.html",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 38263.5,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 2402,
-                                    "column": 78
-                                },
-                                "end": {
-                                    "row": 2402,
-                                    "column": 78
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": 0
-                        },
-                        "hash": "1062fc2002427ff49b44feeb17dace015dd45fe3",
+                        "changed": false,
                         "meta": {
-                            "timestamp": 1484338187000
+                            "timestamp": 1484962385274
                         },
-                        "changed": false
+                        "filter": true,
+                        "title": "templatedownload.hbs",
+                        "tooltip": "/views/shop/templatedownload.hbs",
+                        "ace": {}
                     },
                     "editorType": "ace",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "tab",
@@ -403,13 +384,12 @@
                     "name": "tab13",
                     "path": "/views/partials/header.hbs",
                     "className": [
-                        "tab13",
-                        "focus"
+                        "tab13"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1481672682000
+                            "timestamp": 1484960760531
                         },
                         "filter": true,
                         "title": "header.hbs",
@@ -417,7 +397,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "tab",
@@ -438,6 +418,46 @@
                     },
                     "editorType": "ace",
                     "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab16",
+                    "path": "/views/partials/footer.hbs",
+                    "className": [
+                        "tab16"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1484961880165
+                        },
+                        "filter": true,
+                        "title": "footer.hbs",
+                        "tooltip": "/views/partials/footer.hbs",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab17",
+                    "path": "/views/partials/modals.hbs",
+                    "className": [
+                        "tab17"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1480564175000
+                        },
+                        "filter": true,
+                        "title": "modals.hbs",
+                        "tooltip": "/views/partials/modals.hbs",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
                 }
             ],
             "skin": "editor_tab",
@@ -447,7 +467,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/views/sitedown.html"
+            "/views/shop/templatedownload.html"
         ]
     }
 }
