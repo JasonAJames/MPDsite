@@ -467,7 +467,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/views/shop/templatedownload.html"
+            "/views/shop/templatedownload.hbs"
         ]
     }
 }
