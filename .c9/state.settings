@@ -97,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab17",
+            "tab15",
             "tab1"
         ]
     },
@@ -148,15 +148,15 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/views/partials/modals.hbs",
+            "focus": "/views/sitedown.html",
             "meta": {
                 "accessList": [
+                    "tab15",
                     "tab17",
                     "tab5",
                     "tab11",
                     "tab16",
                     "tab13",
-                    "tab15",
                     "tab4",
                     "tab3",
                     "tab8",
@@ -403,7 +403,8 @@
                     "name": "tab15",
                     "path": "/views/sitedown.html",
                     "className": [
-                        "tab15"
+                        "tab15",
+                        "focus"
                     ],
                     "document": {
                         "changed": false,
@@ -416,7 +417,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "tab",
@@ -443,13 +444,12 @@
                     "name": "tab17",
                     "path": "/views/partials/modals.hbs",
                     "className": [
-                        "tab17",
-                        "focus"
+                        "tab17"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1480564175000
+                            "timestamp": 1484963732390
                         },
                         "filter": true,
                         "title": "modals.hbs",
@@ -457,7 +457,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 }
             ],
             "skin": "editor_tab",
