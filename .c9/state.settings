@@ -97,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab10",
+            "tab8",
             "tab1"
         ]
     },
@@ -147,11 +147,11 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/public/partials/header.html",
+            "focus": "/views/shop/store.html",
             "meta": {
                 "accessList": [
-                    "tab10",
                     "tab8",
+                    "tab10",
                     "tab3",
                     "tab9",
                     "tab4",
@@ -340,7 +340,8 @@
                     "name": "tab8",
                     "path": "/views/shop/store.html",
                     "className": [
-                        "tab8"
+                        "tab8",
+                        "focus"
                     ],
                     "document": {
                         "changed": false,
@@ -353,7 +354,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "tab",
@@ -380,13 +381,12 @@
                     "name": "tab10",
                     "path": "/public/partials/header.html",
                     "className": [
-                        "tab10",
-                        "focus"
+                        "tab10"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484956540787
+                            "timestamp": 1484957831098
                         },
                         "filter": true,
                         "title": "header.html",
@@ -394,7 +394,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 }
             ],
             "skin": "editor_tab",
