@@ -97,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab8",
+            "tab3",
             "tab1"
         ]
     },
@@ -129,7 +129,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": 417,
+        "@scrollpos": 501,
         "@showfs": true,
         "expanded": {
             "json()": [
@@ -147,12 +147,12 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/views/shop/store.html",
+            "focus": "/app.js",
             "meta": {
                 "accessList": [
+                    "tab3",
                     "tab8",
                     "tab10",
-                    "tab3",
                     "tab9",
                     "tab4",
                     "tab5",
@@ -167,7 +167,8 @@
                     "name": "tab3",
                     "path": "/app.js",
                     "className": [
-                        "tab3"
+                        "tab3",
+                        "focus"
                     ],
                     "document": {
                         "changed": false,
@@ -180,7 +181,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "tab",
@@ -340,13 +341,12 @@
                     "name": "tab8",
                     "path": "/views/shop/store.html",
                     "className": [
-                        "tab8",
-                        "focus"
+                        "tab8"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484956547572
+                            "timestamp": 1484957857004
                         },
                         "filter": true,
                         "title": "store.html",
@@ -354,7 +354,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "tab",
