@@ -426,7 +426,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/views/sitedown.html"
+            "/views/sitedown.hbs"
         ]
     }
 }
