@@ -97,7 +97,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab5",
+            "tab17",
             "tab1"
         ]
     },
@@ -148,12 +148,12 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/views/shop/templatedownload.hbs",
+            "focus": "/views/partials/modals.hbs",
             "meta": {
                 "accessList": [
+                    "tab17",
                     "tab5",
                     "tab11",
-                    "tab17",
                     "tab16",
                     "tab13",
                     "tab15",
@@ -212,13 +212,12 @@
                     "name": "tab5",
                     "path": "/views/shop/templatedownload.hbs",
                     "className": [
-                        "tab5",
-                        "focus"
+                        "tab5"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1484962385274
+                            "timestamp": 1484963053919
                         },
                         "filter": true,
                         "title": "templatedownload.hbs",
@@ -226,7 +225,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "tab",
@@ -444,7 +443,8 @@
                     "name": "tab17",
                     "path": "/views/partials/modals.hbs",
                     "className": [
-                        "tab17"
+                        "tab17",
+                        "focus"
                     ],
                     "document": {
                         "changed": false,
@@ -457,7 +457,7 @@
                         "ace": {}
                     },
                     "editorType": "ace",
-                    "active": false
+                    "active": true
                 }
             ],
             "skin": "editor_tab",
@@ -467,7 +467,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/views/shop/templatedownload.hbs"
+            "/views/partials/modals.hbs"
         ]
     }
 }
