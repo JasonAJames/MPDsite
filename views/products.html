@@ -277,6 +277,16 @@
     <a class="item" href="#templatedownload">Download Templates</a>
     <a class="item" href="#company-section">Company</a>
   </div>
+<!-- Modal Content -->
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('id01').style.display='none'">&times;</span>
+        <p>Starting at:</p>
+        <p>$93.28</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Content Start -->
   <div class="pusher" ng-app="">
@@ -293,7 +303,7 @@
 		</ul>
 		<h3>Majestic</h3>
 		<ul style="text-decoration-style: none;">
-        	<li>Akuafoil</li>
+        	<li><button onclick="document.getElementById('id01').style.display='block'" >Akuafoil</button></li> 
 			<li>Brown Kraft Cards</li>
 			<li>EDGE Cards</li>
 			<li>Foil Worx</li>
