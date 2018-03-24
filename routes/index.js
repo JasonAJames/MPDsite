@@ -57,6 +57,18 @@ router.get('/', function(req, res, next) {
   }); 
 });
 
+/* GET Locations page. */
+router.get('/locations', function(req, res, next) {
+  Product.find(function(err, docs){
+    var productChunks = [];
+    var chunkSize = 3;
+    for (var i = 0; i < docs.length; i+= chunkSize) {
+      productChunks.push(docs.slice(i, i + chunkSize));
+    }
+    res.render('ourLocations', { title: 'MyPrintingDeals.com - Locations', products: productChunks });
+  }); 
+});
+
 /* GET products page. */
 router.get('/printproducts', function(req, res, next) {
   Product.find(function(err, docs){

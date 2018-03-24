@@ -34,6 +34,30 @@
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
 	<style type="text/css">
+		#hero {
+			padding-bottom: 1em;
+			background-color: #333333;
+			
+			border-radius: 3px;
+		}
+		.contactinfo {
+			padding-bottom: 1em;
+			padding-top: 2em;
+		}
+		.col-md-12 {
+			background-color:rgb(34,34,34);opacity:0.9;
+		}
+		.topH2 {
+			padding-top: 3em;
+		}
+		.row {
+			background-color: #333333;
+		}
+
+		.ui.huge.primary.button {
+			padding-bottom: 1em;
+		}
+
 		.ui-menu { width: 180px; }
 		
 		.glossary_topic {
@@ -56,7 +80,7 @@
 			margin-left: 0.5em;
 		}
 		.masthead h1.ui.header {
-			margin-top: 4em;
+			margin-top: 1em;
 			margin-bottom: 0em;
 			font-size: 4em;
 			font-weight: normal;
@@ -118,10 +142,10 @@
 			}
 			.masthead h1.ui.header {
 				font-size: 2em;
-				margin-top: 1.5em;
+				margin-top: 0em;
 			}
 			.masthead h2 {
-				margin-top: 0.5em;
+				margin-top: 0em;
 				font-size: 1.5em;
 			}
 		}
@@ -173,7 +197,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 </head>
 <body>
-<!-- Start Header --> 
+<!-- Start Header -->	
 <nav class="navbar navbar-inverse" id="header-container">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -191,7 +215,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       
       <ul class="nav navbar-nav">
-        <li class="item"><a href="/printproducts" class="item">Our Printing Products</a></li>
+      	<li class="item"><a href="/printproducts" class="item">Our Printing Products</a></li>
         <li class="item"><a href="/templatedownload" class="item">Download Templates</a></li>
         <li class="item"><a href="http://www.appandwebdevelopers.com" class="item">App &amp; Website Development</a></li>
       </ul>
@@ -228,11 +252,11 @@
 {{!--    <a href="/user/signup">Sign Up</a>--}}
 {{!--  </div>--}}
 <!-- END Header -->
-  <div class="ui vertical">
-    <div>
-      <div class="row">
-        <div>
-          <div id="homeTop"></div>
+	<div class="ui vertical">
+		<div>
+			<div class="row">
+				<div>
+					<div id="homeTop"></div>
   <!-- Following Menu -->
   
 <div class="ui large top fixed hidden menu">
@@ -253,42 +277,72 @@
     <a class="item" href="#templatedownload">Download Templates</a>
     <a class="item" href="#company-section">Company</a>
   </div>
-<!-- End Header -->
-<!-- Start Main Content -->
-	<div class="ui vertical">
-		<div>
-			<div class="row">
-				<div>
-					<div id="homeTop"></div>
-  <!-- Following Menu -->
-  
-<div class="ui large top fixed hidden menu">
-    <div class="ui container">
+<!-- Modal Content -->
 
-      <a class="active item" href="#homeTop">Home</a>
-      <a class="item" href="#templatedownload">Download Templates</a>
-      <a class="item" href="#company-section">Company</a>
-      <a class="item">Careers</a>
-    </div>
-  </div>
-
-<!--   Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-    <a class="active item" href="#homeTop">Home</a>
-    <a class="item" href="#templatedownload">Download Templates</a>
-    <a class="item" href="#company-section">Company</a>
-  </div>
 
   <!-- Content Start -->
   <div class="pusher" ng-app="">
     <div id="hero" class="ui inverted masthead vertical center aligned segment">
-      <div class="ui text container">
-        <h1 class="ui inverted header">
-          MyPrintingDeals.com
-        </h1>
-        <h2>If you can dream it,<br/>We can print it!</h2>
-        <a href="/contact"><div class="ui huge primary button"><i class="left phone icon"></i>Get your Custom Quote</div></a>
+      <div class="ui text col-md-12">
+        <h2 class="topH2">Our Printing Locations</h2>
+		<p>With our 20 Printing Facilities accross the United States &amp; Canada, and more on the way... We are here to provide you the highest quality printing products available to date with the fastest turnaround times available. We acomplish this monumental task due to the strategic planning of our printing facility locations throughout the USA and Canada, fully avilable to service you, no matter the size of print job, location, or turnaround time desired! Let <a href="http://www.MyPrintingDeals.com">www.MyPrintingDeals.com</a> take the pain out of your printing headaches today!</p>
+		<div class="col-md-12">
+		<ul style="text-decoration-style: none;">
+		
+		<div class="col-md-6">
+		<h3>Our Locations</h3>
+			<li>Boston, MA</li>
+			<li>Phoenix, AZ</li>
+			<li>Los Angeles, CA</li>
+			<li>San Jose, CA</li>
+			<li>Miami Gardens, FL</li>
+			<li>Orlando, FL</li>
+			<li>Tampa, FL</li>
+			<li>Chicago, IL</li>
+			<li>Moonachie, NJ</li>
+			<li>Dayton, OH</li>
+			<li>Philadelphia, PA</li>
+			<li>Arlington, TX</li>
+			<li>Houston, TX</li>
+			<li>Seattle, WA</li>
+			<li>Toronto, CAN</li>
+			<li>Las Vegas, NV</li>
+			<li>Washington D.C</li>
+			<li>Salt Lake City, UT</li>
+			<li>Raleigh, NC</li>
+			<li>Atlanta, GA</li>
+		</div>
+		<div class="col-md-6">
+		<h3>Locations Coming Soon...</h3>
+			<li>Detroit, MI</li>
+			<li>Austin/San Antonio, TX</li>
+			<li>St. Louis, MO</li>
+			<li>Denver, CO</li>
+			<li>Minneapolis, MN</li>
+			<li>St. Paul, MN</li>
+			<li>Pittsburgh, PA</li>
+		</div>
+		</ul>
+		</div>
+		<br/>
+        <br/>
+        <a href="/contact" class="col-md-10"><div class="ui huge primary button"><i class="left phone icon"></i>Get your Custom Quote</div></a>
+        <ul style="text-decoration-style: none;" class="col-md-10 contactinfo">
+		<li>
+          <h3 id="contact-title">Didn't Find What you needed?<br/>Give us a call, or Email us. We're happy to help!</h3>
+          <span id="contact-description" class="pull-right"><span class="btn btn-primary btn-lg"><i class="left phone icon"></i> (951) 444-1288</span><br/>
+          <span style="padding: 3em;">Or <a href="mailto:myprintingdeals@gmail.com"><i class="glyphicon glyphicon-envelope"></i> Email Us</a></span></span>
+<span id="contact-description">Our Business Hours:<br/>Monday-Friday 9am-5pm<br/>
+Saturday 10am-2pm</span> 
+        </li>
+        <li>
+        <br/><br/>
+        <h2>At<br/><a href="http://www.myprintingdeals.com">www.MyPrintingDeals.com</a><br/>If you can dream it,<br/>We can print it!</h2>
+        </li>
+      </ul>
+            
       </div>
+
     </div> 
   </div>
   <!-- Modal Content -->
@@ -1406,6 +1460,7 @@
                         <div class="ui inverted link list">
                           <a href="#" class="item" data-toggle="modal" data-target="#company-section">Company</a>
                           <a href="/locations" class="item">Our Locations</a>
+                          <a href="/printproducts" class="item">Our Printing Products</a>
                           {{!--<a href="#" class="item" data-toggle="modal" data-target="#customer-testimonial-section">Customer Testimonials</a>--}}
                           <a href="#" class="item" data-toggle="modal" data-target="#graphic-guidelines-section">Graphic Guidelines</a>
                           <a href="#" class="item" data-toggle="modal" data-target="#glossary-of-terms-section">Glossary of Terms</a>
@@ -1415,8 +1470,8 @@
                       <div class="three wide column">
                         <h4 class="ui inverted header">Resources</h4>
                         <div class="ui inverted link list">
-                          <a href="#" class="item" data-toggle="modal" data-target="#privacy-security-section">Privacy & Security</a>
-                          <a href="#" class="item" data-toggle="modal" data-target="#terms-and-conditions-section">Terms & Conditions</a>
+                          <a href="#" class="item" data-toggle="modal" data-target="#privacy-security-section">Privacy &amp; Security</a>
+                          <a href="#" class="item" data-toggle="modal" data-target="#terms-and-conditions-section">Terms &amp; Conditions</a>
                           <a href="/templatedownload" class="item">Download Templates</a>
                           <a href="#" class="item" data-toggle="modal" data-target="#turn-around-time-section">Turn Around Times</a>
                           <a href="/contact" class="item">Contact Us</a>
