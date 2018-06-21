@@ -93,6 +93,11 @@ router.get('/customquote', function(req, res, next) {
   }); 
 });
 
+/* GET store-redirect page */
+router.get('/order-printing-products', function(req, res, next) {
+    res.render('shop/store-redirect', { title: 'MyPrintingDeals.com - Products'});
+  });
+
 /* GET contact page */
 router.get('/contact', function(req, res, next) {
   res.render('shop/contact', { title: 'MyPrintingDeals.com - Contact'});
