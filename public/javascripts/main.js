@@ -49,9 +49,6 @@ app1.controller('ctrl1', function($scope) {
 	};
 });
 
-<!-- AngularJS Project Name input for PayPal Checkout -->
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-	<script>
 	var customInterpolationApp = angular.module('MyApp', [])
   .controller("MyController", function($scope) {
   $scope.fontSize = "1em";
@@ -71,4 +68,3 @@ app1.controller('ctrl1', function($scope) {
     $interpolateProvider.startSymbol('{[{');
     $interpolateProvider.endSymbol('}]}');
   });
-</script>
