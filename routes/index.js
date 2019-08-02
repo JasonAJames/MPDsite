@@ -81,6 +81,18 @@ router.get('/printproducts', function(req, res, next) {
   }); 
 });
 
+/* GET promotions page. */
+router.get('/promo', function(req, res, next) {
+  Product.find(function(err, docs){
+    var productChunks = [];
+    var chunkSize = 3;
+    for (var i = 0; i < docs.length; i+= chunkSize) {
+      productChunks.push(docs.slice(i, i + chunkSize));
+    }
+    res.render('promotion', { title: 'MyPrintingDeals.com - Promos', products: productChunks });
+  }); 
+});
+
 /* GET quote page */
 router.get('/customquote', function(req, res, next) {
   Product.find(function(err, docs){
